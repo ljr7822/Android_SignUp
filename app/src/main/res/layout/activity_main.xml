@@ -11,7 +11,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
-        android:background="@mipmap/bg_src_morning"
+        android:background="@mipmap/bg_src_yun"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
         tools:targetApi="lollipop">
@@ -66,16 +66,16 @@
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
         android:id="@+id/btn_action"
-        android:layout_width="@dimen/len_52"
-        android:layout_height="@dimen/len_52"
+        android:layout_width="@dimen/len_60"
+        android:layout_height="@dimen/len_60"
         android:layout_marginEnd="@dimen/len_16"
-        android:layout_marginBottom="@dimen/len_68"
+        android:layout_marginBottom="@dimen/len_64"
         android:padding="@dimen/len_20"
-        android:src="@drawable/ic_group_add"
+        android:src="@drawable/ic_sign_in"
         android:tint="@color/white"
-        app:gBackgroundColor="@color/colorAccent"
+        app:gBackgroundColor="@color/cornflowerblue"
         app:layout_anchor="@id/lay_container"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|center" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
