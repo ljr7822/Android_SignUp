@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.widget.PortraitView;
+import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-
+        AccountActivity.show(this);
     }
 
     boolean isFirst = true;

@@ -83,7 +83,7 @@ public abstract class BaseFragment extends androidx.fragment.app.Fragment {
      * 初始化控件
      */
     protected void initWidget(View view) {
-        mRootUnBinder = ButterKnife.bind(this,mRoot);
+        mRootUnBinder = ButterKnife.bind(this,view);
     }
     //初始化数据
     protected void initData() {
