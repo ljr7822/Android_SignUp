@@ -5,12 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.HomeFragment">
 
-    <TextView
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/textAccent"
+    <com.example.iwen.common.widget.GalleryView
+        android:id="@+id/galleryView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="首页" />
+        android:padding="1dp"/>
 
 </FrameLayout>
