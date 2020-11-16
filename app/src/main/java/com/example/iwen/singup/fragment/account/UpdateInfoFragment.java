@@ -8,11 +8,14 @@ package com.example.iwen.singup.fragment.account;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.widget.PortraitView;
+import com.example.iwen.factory.Factory;
+import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.media.GalleryFragment;
 import com.yalantis.ucrop.UCrop;
@@ -47,7 +50,7 @@ public class UpdateInfoFragment extends BaseFragment {
      * 头像点击事件
      */
     @OnClick(R.id.im_portrait)
-    void onPortraitViewClick(){
+    void onPortraitViewClick() {
         new GalleryFragment().setListener(new GalleryFragment.OnSelectedListener() {
             @Override
             public void onSelectedImage(String path) {
@@ -59,14 +62,15 @@ public class UpdateInfoFragment extends BaseFragment {
                 // 得到头像缓存地址
                 File dPath = Application.getAvatarTempFile();
                 // 发起剪切
-                UCrop.of(Uri.fromFile(new File(path)),Uri.fromFile(dPath))
-                        .withAspectRatio(1,1) // 1:1比例
-                        .withMaxResultSize(520,520) // 最大尺寸
+                UCrop.of(Uri.fromFile(new File(path)), Uri.fromFile(dPath))
+                        .withAspectRatio(1, 1) // 1:1比例
+                        .withMaxResultSize(520, 520) // 最大尺寸
                         .withOptions(options)
                         .start(getActivity());
             }
-        }).show(getChildFragmentManager(),GalleryFragment.class.getName());
+        }).show(getChildFragmentManager(), GalleryFragment.class.getName());
     }
+
     // 收到从Activity传过来的回调，取出其中的值进行图片加载
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -74,7 +78,7 @@ public class UpdateInfoFragment extends BaseFragment {
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             // 获取uri进行加载
             final Uri resultUri = UCrop.getOutput(data);
-            if (resultUri!=null){
+            if (resultUri != null) {
                 loadAvatar(resultUri);
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
@@ -95,5 +99,18 @@ public class UpdateInfoFragment extends BaseFragment {
                 .load(uri)
                 .centerCrop()
                 .into(mPortraitView);
+
+        // 拿到本地文件地址
+        final String localPath = uri.getPath();
+        Log.e("TAG", "localPath" + localPath);
+
+        // 使用线程池，将图片上传到oss文件夹
+        Factory.runOnAsync(new Runnable() {
+            @Override
+            public void run() {
+                String url = UploadHelper.uploadAvatar(localPath);
+                Log.e("TAG", "url" + url);
+            }
+        });
     }
 }

@@ -1,4 +1,4 @@
-package com.example.iwen.factory.net;
+package com.example.iwen.factory;
 
 import com.example.iwen.common.app.Application;
 
