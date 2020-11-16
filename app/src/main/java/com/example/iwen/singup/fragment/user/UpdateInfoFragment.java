@@ -1,4 +1,4 @@
-package com.example.iwen.singup.fragment.account;
+package com.example.iwen.singup.fragment.user;
 
 /**
  * author : Iwen大大怪
