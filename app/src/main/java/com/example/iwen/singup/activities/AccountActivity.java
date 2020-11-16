@@ -2,13 +2,30 @@ package com.example.iwen.singup.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.request.target.CustomViewTarget;
+import com.bumptech.glide.request.target.ViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.account.AccountTrigger;
 import com.example.iwen.singup.fragment.account.LoginFragment;
 import com.example.iwen.singup.fragment.account.RegisterFragment;
+
+import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
+
+import butterknife.BindView;
 
 /**
  * author : Iwen大大怪
@@ -18,6 +35,9 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
     private BaseFragment mFragment;
     private BaseFragment mLoginFragment;
     private BaseFragment mRegisterFragment;
+
+    @BindView(R.id.im_bg)
+    ImageView mBg;
 
     /**
      * 账户Activity的显示入口
@@ -42,6 +62,32 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
                 .beginTransaction()
                 .add(R.id.lay_container, mFragment)
                 .commit();
+        // 初始化背景
+        Glide.with(this)
+                .load(R.mipmap.bg_src_tianjin)
+                .centerCrop()
+                .into(new CustomViewTarget<ImageView, Drawable>(mBg) {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        // 拿到glide的drawable
+                        Drawable drawable = resource.getCurrent();
+                        // 使用适配包包装
+                        drawable = DrawableCompat.wrap(drawable);
+                        drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
+                                PorterDuff.Mode.SCREEN); // 设置着色效果
+                        this.view.setImageDrawable(drawable);
+                    }
+
+                    @Override
+                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
     }
 
     /**
