@@ -1,5 +1,11 @@
 package com.example.iwen.common.app;
 
+import android.widget.Toast;
+
+import androidx.annotation.StringRes;
+
+import net.qiujuer.genius.kit.handler.Run;
+
 import java.io.File;
 
 /**
@@ -52,6 +58,30 @@ public class Application extends android.app.Application {
         //返回一个当前时间戳的目录文件地址
         File path = new File(dir, System.currentTimeMillis() + "jpg");
         return path.getAbsoluteFile();
+    }
+
+    /**
+     * 显示一个Toast
+     *
+     * @param msg 字符串
+     */
+    public static void showToast(final String msg) {
+        // Toast 只能在主线程中显示，所有需要进行线程转换，
+        // 保证一定是在主线程进行的show操作
+        Run.onUiAsync(() -> {
+            // 这里进行回调的时候一定就是主线程状态了
+            Toast.makeText(instance, msg, Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    /**
+     * 显示一个Toast
+     *
+     * @param msgId 传递的是字符串的资源
+     */
+    public static void showToast(@StringRes int msgId) {
+        showToast(instance.getString(msgId));
     }
 }
 

@@ -1,8 +1,10 @@
-package com.example.iwen.singup;
+package com.example.iwen.singup.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.widget.PortraitView;
+import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
@@ -52,6 +55,14 @@ public class MainActivity extends BaseActivity
     FloatActionButton mAction;
 
     private NavHelper<Integer> mNavHelper;
+
+    /**
+     * mainActivity显示入口
+     * @param context 上下文
+     */
+    public static void show(Context context){
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
 
     @Override
     protected int getContentLayoutId() {
