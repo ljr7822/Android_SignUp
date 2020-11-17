@@ -1,10 +1,12 @@
 package com.example.iwen.singup.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,9 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.widget.PortraitView;
 import com.example.iwen.singup.R;
@@ -79,6 +84,27 @@ public class MainActivity extends BaseActivity
                 .add(R.id.action_contact,new NavHelper.Tab<>(ContactFragment.class,R.string.title_content));
         // 添加对底部导航按钮的监听
         mNavigation.setOnNavigationItemSelectedListener(this);
+
+        // 给appbar设置背景图片
+        Glide.with(this)
+                .load(R.mipmap.bg_src_morning)
+                .centerCrop()
+                .into(new CustomViewTarget<View, Drawable>(mLayAppbar) {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        this.view.setBackground(resource.getCurrent());
+                    }
+
+                    @Override
+                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
     }
 
     @Override
