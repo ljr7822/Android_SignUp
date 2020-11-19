@@ -3,12 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.example.iwen.common.widget.GalleryView
-        android:id="@+id/galleryView"
+<!--    <com.example.iwen.common.widget.GalleryView-->
+<!--        android:id="@+id/galleryView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:padding="1dp"/>-->
+
+    <com.youth.banner.Banner
+        xmlns:banner="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="1dp"/>
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        banner:banner_radius="5dp"
+        banner:banner_indicator_normal_color="@android:color/white"
+        banner:banner_indicator_selected_color="@color/colorPrimary" />
 
 </FrameLayout>

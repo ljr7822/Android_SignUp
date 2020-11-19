@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -122,9 +123,15 @@ public class MainActivity extends BaseActivity
 
     }
 
+    /**
+     * 打卡按钮，跳转到打卡界面
+     */
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        AccountActivity.show(this);
+        // 跳到用户界面
+        // AccountActivity.show(this);
+        // 跳到打卡界面
+        SignActivity.show(this);
     }
 
     boolean isFirst = true;

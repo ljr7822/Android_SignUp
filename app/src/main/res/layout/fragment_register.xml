@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     tools:background="@mipmap/bg_src_tianjin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".fragment.account.RegisterFragment">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"

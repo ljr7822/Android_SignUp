@@ -42,8 +42,11 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     // For control over item selection of both touch and mouse driven selection
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
+    // 轮播图
+    implementation 'com.github.zhpanvip:BannerViewPager:3.2.0'
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+    implementation 'com.youth.banner:banner:2.1.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
 }

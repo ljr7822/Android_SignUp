@@ -20,6 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        main{
+            //说明so的路径为该libs路径
+            jniLibs.srcDir 'libs'
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,6 +49,12 @@ dependencies {
     implementation "com.github.yalantis:ucrop:2.2.3"
     // 动态权限-对Android M或更高版本的基本系统权限逻辑
     implementation "pub.devrel:easypermissions:3.0.0"
+    // 个推框架
+//    implementation "com.getui:sdk:2.13.3.0"
+    // 轮播图
+    implementation 'com.github.zhpanvip:BannerViewPager:3.2.0'
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+    implementation 'com.youth.banner:banner:2.1.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation project(path: ':lang')
     implementation project(path: ':factory')
@@ -54,4 +66,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    // 百度定位api
+    api files('libs/BaiduLBS_Android.jar')
 }

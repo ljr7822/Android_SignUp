@@ -80,6 +80,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         root.findViewById(R.id.im_state_permission_read).setVisibility(haveReadPerm(context) ? View.VISIBLE : View.GONE);
         root.findViewById(R.id.im_state_permission_write).setVisibility(haveWritePerm(context) ? View.VISIBLE : View.GONE);
         root.findViewById(R.id.im_state_permission_record_audio).setVisibility(haveRecordAudioPerm(context) ? View.VISIBLE : View.GONE);
+        root.findViewById(R.id.im_state_permission_access).setVisibility(haveAccessPerm(context) ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -141,6 +142,20 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     }
 
     /**
+     * 获取是否有定位权限
+     *
+     * @param context 上下文
+     * @return true代表有
+     */
+    private static boolean haveAccessPerm(Context context) {
+        // 需要检测的权限
+        String[] perms = new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+        return EasyPermissions.hasPermissions(context, perms);
+    }
+
+    /**
      * 私有的show方法
      *
      * @param manager
@@ -160,7 +175,11 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
      */
     public static boolean haveAll(Context context, FragmentManager manager) {
         // 检测是否具有所有权限
-        boolean haveAll = haveNetwork(context) && haveReadPerm(context) && haveWritePerm(context) && haveRecordAudioPerm(context);
+        boolean haveAll = haveNetwork(context)
+                && haveReadPerm(context)
+                && haveWritePerm(context)
+                && haveRecordAudioPerm(context)
+                && haveAccessPerm(context);
         // 没有则显示当前申请权限的界面
         if (!haveAll) {
             show(manager);
@@ -179,7 +198,8 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.ACCESS_WIFI_STATE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_FINE_LOCATION
 
         };
         if (EasyPermissions.hasPermissions(getContext(), perms)) {

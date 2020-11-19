@@ -8,14 +8,18 @@
     <string name="label_permission_write_desc">用于OSS日志存储</string>
     <string name="label_permission_record_audio">麦克风</string>
     <string name="label_permission_record_audio_desc">用于音频聊天</string>
+    <string name="label_permission_access">定位</string>
+    <string name="label_permission_access_desc">用于获取位置信息</string>
     <string name="label_permission_submit">授权</string>
     <string name="label_permission_ok">授权成功！</string>
 
     <string name="label_update_info_tips">仅差一步了</string>
     <string name="label_login_welcome">登录</string>
+    <string name="label_sign_up_title">打卡</string>
     <string name="label_submit">提交</string>
     <string name="label_login">登录</string>
     <string name="label_phone">电话</string>
+    <string name="label_work_id">工号</string>
     <string name="label_register_welcome">欢迎您!</string>
     <string name="label_register">注册</string>
     <string name="label_password">密码</string>

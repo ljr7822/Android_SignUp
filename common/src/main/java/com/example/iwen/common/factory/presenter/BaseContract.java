@@ -3,7 +3,7 @@ package com.example.iwen.common.factory.presenter;
 import androidx.annotation.StringRes;
 
 /**
- * Mvp模式公共的基本契约
+ * Mvp模式公用的基本契约
  * author : Iwen大大怪
  * create : 2020/11/16 20:27
  */
