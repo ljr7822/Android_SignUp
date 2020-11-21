@@ -12,6 +12,7 @@ import com.example.iwen.common.Common;
 import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.PresenterFragment;
 import com.example.iwen.common.utils.HashUtil;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.factory.model.api.account.LoginModel;
 import com.example.iwen.factory.okhttp.OkHttpSSH;
 import com.example.iwen.factory.presenter.account.LoginContract;
@@ -83,7 +84,7 @@ public class LoginFragment
         String password = mPassword.getText().toString();
         // 调用p层进行登录
         // TODO 登录逻辑入口
-        mPresenter.login(workId, password);
+        mPresenter.login(workId, password, (String) SPUtils.get(getContext(),"DeviceId","aaaa"));
         // TODO 测试
         // MainActivity.show(getContext());
         //PostLogin(workId, password);

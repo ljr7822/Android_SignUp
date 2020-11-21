@@ -29,9 +29,10 @@ public class LoginPresenter
      *
      * @param workId   工号
      * @param password 密码
+     * @param deviceId 设备识别码
      */
     @Override
-    public void login(String workId, String password) {
+    public void login(String workId, String password,String deviceId) {
         // 调用start方法，默认启动了Loading
         start();
         // 得到View接口
@@ -47,7 +48,7 @@ public class LoginPresenter
             // 进行网络请求
 
             // 构造model进行请求调用
-            LoginModel model = new LoginModel(workId, password);
+            LoginModel model = new LoginModel(workId, password,deviceId);
             // 进行网络请求，并设置回送接口为自己
             AccountHelper.login(model, this);
         }
@@ -87,4 +88,5 @@ public class LoginPresenter
             }
         });
     }
+
 }

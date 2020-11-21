@@ -9,17 +9,17 @@ public class LoginModel {
 
     private String workId; // 工号
     private String password; // 密码
-    private String mac; // MAC地址
+    private String deviceId; // MAC地址
 
     public LoginModel(String workId, String password) {
         this.workId = workId;
         this.password = password;
     }
 
-    public LoginModel(String workId, String password, String mac) {
+    public LoginModel(String workId, String password, String deviceId) {
         this.workId = workId;
         this.password = password;
-        this.mac = mac;
+        this.deviceId = deviceId;
     }
 
     public String getWorkId() {
@@ -38,11 +38,11 @@ public class LoginModel {
         this.password = password;
     }
 
-    public String getMac() {
-        return mac;
+    public String getDeviceId() {
+        return deviceId;
     }
 
-    public void setMac(String mac) {
-        this.mac = mac;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

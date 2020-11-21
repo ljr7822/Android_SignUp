@@ -2,6 +2,7 @@ package com.example.iwen.common.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.util.Log;
@@ -23,7 +24,10 @@ import com.lxj.xpopupext.popup.TimePickerPopup;
 import net.qiujuer.genius.kit.handler.Run;
 
 import java.io.File;
+import java.net.NetworkInterface;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.UUID;
 
 /**
  * author : Iwen大大怪

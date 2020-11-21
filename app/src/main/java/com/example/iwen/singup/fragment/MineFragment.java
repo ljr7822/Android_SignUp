@@ -1,6 +1,7 @@
 package com.example.iwen.singup.fragment;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -8,6 +9,8 @@ import androidx.annotation.RequiresApi;
 
 import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.BaseFragment;
+import com.example.iwen.common.utils.DeviceIdUtil;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.singup.R;
 
 import butterknife.BindView;
@@ -33,7 +36,9 @@ public class MineFragment extends BaseFragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Application.showCityPickerPopup(getActivity());
+//                String deviceId = DeviceIdUtil.getDeviceId(getContext());
+//                Log.e("ljr","deviceId:"+deviceId);
+//                SPUtils.put(getContext(),"deviceId",deviceId);
             }
         });
     }

@@ -1,6 +1,8 @@
 package com.example.iwen.singup;
 
 import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.utils.DeviceIdUtil;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.assist.PermissionsFragment;
@@ -25,5 +27,12 @@ public class LaunchActivity extends BaseActivity {
             // MainActivity.show(this);
             finish();
         }
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        // 手机一启动九立马获取DeviceId并保存到手机中
+        SPUtils.put(this,"DeviceId", DeviceIdUtil.getDeviceId(this));
     }
 }
