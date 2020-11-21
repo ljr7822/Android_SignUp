@@ -5,6 +5,7 @@ import com.example.iwen.common.factory.presenter.BasePresenter;
 import com.example.iwen.factory.R;
 import com.example.iwen.factory.data.helper.AccountHelper;
 import com.example.iwen.factory.model.api.account.LoginModel;
+import com.example.iwen.factory.model.api.account.UserRspModel;
 import com.example.iwen.factory.model.db.User;
 
 import net.qiujuer.genius.kit.handler.Run;
@@ -17,7 +18,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
  */
 public class LoginPresenter
         extends BasePresenter<LoginContract.View>
-        implements LoginContract.Presenter, DataSource.Callback<User> {
+        implements LoginContract.Presenter, DataSource.Callback<UserRspModel> {
 
     public LoginPresenter(LoginContract.View view) {
         super(view);
@@ -36,7 +37,7 @@ public class LoginPresenter
         // 得到View接口
         LoginContract.View view = getView();
         // 校验
-        if (workId.length()<6) {
+        if (workId.length() < 6) {
             // 工号号不合法
             view.showError(R.string.data_account_login_invalid_parameter_work_id);
         } else if (password.length() < 6) {
@@ -46,18 +47,18 @@ public class LoginPresenter
             // 进行网络请求
 
             // 构造model进行请求调用
-            LoginModel model = new LoginModel(workId,password);
+            LoginModel model = new LoginModel(workId, password);
             // 进行网络请求，并设置回送接口为自己
-            AccountHelper.login(model,this);
+            AccountHelper.login(model, this);
         }
     }
 
     @Override
-    public void onDataLoaded(User user) {
-        // 当网络请求成功，注册好了，回送一个用户信息来
-        // 告知界面注册成功
-        final LoginContract.View view =  getView();
-        if (view==null)
+    public void onDataLoaded(UserRspModel userRspModel) {
+        // 当网络请求成功，登录好了，回送一个用户信息来
+        // 告知界面登录成功
+        final LoginContract.View view = getView();
+        if (view == null)
             return;
         // 此时是网络回送回来的，并不保证处于主线程状态
         // 强制进行线程切换
@@ -72,9 +73,9 @@ public class LoginPresenter
 
     @Override
     public void onDataNotAvailable(final int strRes) {
-        // 网络请求告知注册失败
+        // 网络请求告知登录失败
         final LoginContract.View view = getView();
-        if (view==null)
+        if (view == null)
             return;
         // 此时是网络回送回来的，并不保证处于主线程状态
         // 强制进行线程切换

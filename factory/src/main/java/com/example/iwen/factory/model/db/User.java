@@ -1,7 +1,5 @@
 package com.example.iwen.factory.model.db;
 
-import java.util.Date;
-
 /**
  * 用户信息
  * author : Iwen大大怪
@@ -14,7 +12,7 @@ public class User {
     private String departmentName; // 部门名称
     private String departmentId; // 部门id
     private String icon; // 头像
-    private int phoneNumber; // 手机号
+    private String phoneNumber; // 手机号
 
     public String getName() {
         return name;
@@ -56,11 +54,11 @@ public class User {
         this.icon = icon;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

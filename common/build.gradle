@@ -46,7 +46,15 @@ dependencies {
     implementation 'com.github.zhpanvip:BannerViewPager:3.2.0'
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
     implementation 'com.youth.banner:banner:2.1.0'
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // 弹窗
+    // implementation 'com.irozon.sneaker:sneaker:2.0.0'
+    implementation 'com.tapadoo.android:alerter:3.0.0'
+    implementation 'com.lxj:xpopup:2.2.1'
+    // 时间日历选择
+    implementation 'com.lxj:xpopup-ext:0.0.3'
 }

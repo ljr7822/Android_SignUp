@@ -30,6 +30,7 @@ public interface RemoteService {
 
     /**
      * 登录的网络请求接口
+     *
      * @param model 传入的是LoginModel
      * @return 返回的是Data<UserInfo>
      */

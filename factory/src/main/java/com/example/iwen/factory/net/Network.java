@@ -2,6 +2,7 @@ package com.example.iwen.factory.net;
 
 import com.example.iwen.common.Common;
 import com.example.iwen.factory.Factory;
+import com.example.iwen.factory.okhttp.OkHttpSSH;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -19,7 +20,9 @@ public class Network {
      */
     public static Retrofit getRetrofit(){
         // 得到一个OkHttpClient
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .sslSocketFactory(OkHttpSSH.createSSLSocketFactory(), new OkHttpSSH.TrustAllCerts())
+                .build();
         Retrofit.Builder builder = new Retrofit.Builder();
 
         // 设置连接电脑

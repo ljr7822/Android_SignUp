@@ -28,6 +28,7 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 import butterknife.BindView;
 
 /**
+ * 账户的Activity
  * author : Iwen大大怪
  * create : 2020/11/15 9:27
  */
@@ -56,7 +57,7 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
     @Override
     protected void initWidget() {
         super.initWidget();
-        // 初始化Fragment
+        // 初始化Fragment，默认的为登录
         mFragment = mLoginFragment = new LoginFragment();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -80,6 +81,7 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
                         drawable = DrawableCompat.wrap(drawable);
                         drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
                                 PorterDuff.Mode.SCREEN); // 设置着色效果
+                        // 设置给ImageView
                         this.view.setImageDrawable(drawable);
                     }
 
@@ -92,6 +94,7 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
 
     /**
      * 切换具体的fragment
+     * 登录、注册相互切换
      */
     @Override
     public void triggerView() {

@@ -3,28 +3,19 @@ package com.example.iwen.factory.model.api.account;
 import com.example.iwen.factory.model.db.User;
 
 /**
- * 接收到的数据实体类
+ * 用户登录返回
+ * 接口请求后接收到的数据实体类
  * author : Iwen大大怪
  * create : 11-18 018 8:53
  */
 public class UserRspModel {
-    // 用户基本信息
-    private User user;
-    private String name;
-    private String workId;
-    private String departmentName;
-    private String departmentId;
-    private String icon;
-    private String phoneNumber;
-    private String roleName;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private String name; // 姓名
+    private String workId; // 工号
+    private String departmentName; // 部门名称
+    private String departmentId; // 部门id
+    private String icon; // 头像url
+    private String phoneNumber; // 电话号码
+    private String roleName; // 角色
 
     public String getName() {
         return name;

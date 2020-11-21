@@ -3,7 +3,7 @@
     <!--基础主色-->
     <color name="colorPrimary">#31373d</color>
     <color name="colorPrimaryDark">#31373d</color>
-    <color name="colorAccent">#12EDBA</color>
+    <color name="colorAccent">#24F4C4</color>
     <color name="colorLight">@color/white</color>
     <color name="colorDark">@color/black</color>
     <color name="colorAccentAlpha">#04745A</color>
@@ -176,4 +176,6 @@
     <color name="black">#000000</color><!--黑色 -->
     <color name="qqgreen">#10d5ba</color><!--qq浅绿色 -->
     <color name="qqyellow">#ffe554</color><!--qq黄色 -->
+    <color name="qianlans">#2d8cf0</color><!--浅蓝色 -->
+
 </resources>

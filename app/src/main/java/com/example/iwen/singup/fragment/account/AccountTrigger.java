@@ -1,7 +1,8 @@
 package com.example.iwen.singup.fragment.account;
 
 /**
- * 切换布局
+ * 登录和注册切换布局的接口
+ * <p>
  * author : Iwen大大怪
  * create : 2020/11/16 17:05
  */

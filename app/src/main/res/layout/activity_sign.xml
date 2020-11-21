@@ -140,7 +140,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88">
+            app:layout_constraintVertical_bias="0.39">
 
             <net.qiujuer.genius.ui.widget.FloatActionButton
                 android:id="@+id/btn_action_sign_in"
@@ -149,15 +149,15 @@
                 android:padding="@dimen/len_28"
                 android:src="@drawable/ic_sign"
                 android:tint="@color/white"
-                app:gBackgroundColor="@color/cornflowerblue"
+                app:gBackgroundColor="@color/qianlans"
                 app:layout_anchorGravity="bottom|center" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="获取位置"
-                android:textColor="@color/textPrimary" />
+                android:text="点击获取位置"
+                android:textColor="@color/textSecond" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
@@ -172,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="445dp" />
+            app:layout_constraintGuide_begin="193dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

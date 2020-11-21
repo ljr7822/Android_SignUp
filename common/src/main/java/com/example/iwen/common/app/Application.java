@@ -1,12 +1,29 @@
 package com.example.iwen.common.app;
 
+import android.app.Activity;
+import android.content.Context;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
+
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.OnInputConfirmListener;
+import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopupext.listener.CityPickerListener;
+import com.lxj.xpopupext.listener.TimePickerListener;
+import com.lxj.xpopupext.popup.CityPickerPopup;
+import com.lxj.xpopupext.popup.TimePickerPopup;
 
 import net.qiujuer.genius.kit.handler.Run;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * author : Iwen大大怪
@@ -32,9 +49,10 @@ public class Application extends android.app.Application {
 
     /**
      * 获取缓存文件夹地址
+     *
      * @return 当前App的缓存文件夹地址
      */
-    public static File getCacheDirFile(){
+    public static File getCacheDirFile() {
         return instance.getCacheDir();
     }
 
@@ -82,6 +100,144 @@ public class Application extends android.app.Application {
      */
     public static void showToast(@StringRes int msgId) {
         showToast(instance.getString(msgId));
+    }
+
+    /**
+     * 显示中间弹出的列表弹窗
+     *
+     * @param context 上下文
+     * @param strings 选择列表
+     */
+    public static void showXPopupSelectList(Context context, String[] strings) {
+        new XPopup.Builder(context)
+                //.maxWidth(600)
+                // new String[]{"条目1", "条目2", "条目3", "条目4"}
+                .asCenterList("请选择一项", strings, new OnSelectListener() {
+                    @Override
+                    public void onSelect(int position, String text) {
+                        // TODO 执行选择操作
+                        Toast.makeText(instance, "选择了" + text, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 显示从底部弹出的列表弹窗
+     *
+     * @param context 上下文
+     * @param strings 选择列表
+     */
+    public static void showXPopupSelectBottomList(Context context, String[] strings) {
+        // 这种弹窗从 1.0.0版本开始实现了优雅的手势交互和智能嵌套滚动
+        new XPopup.Builder(context)
+                // new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"}
+                .asBottomList("请选择一项", strings,
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                // TODO 执行选择操作
+                                Toast.makeText(instance, "选择了" + text, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                .show();
+    }
+
+    /**
+     * 显示带输入框的确认和取消对话框
+     *
+     * @param context 上下文
+     * @param title   弹窗标题
+     * @param content 弹窗内容
+     */
+    public static void showXPopupInputSelect(Context context, String title, String content) {
+        new XPopup.Builder(context).asInputConfirm(title, content,
+                new OnInputConfirmListener() {
+                    @Override
+                    public void onConfirm(String text) {
+                        // TODO 执行选择操作
+                        Toast.makeText(instance, "输入了：" + text, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 显示确认和取消对话框
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public static void showXPopupSelect(Context context, String title, String content) {
+        new XPopup.Builder(context).asConfirm(title, content,
+                new OnConfirmListener() {
+                    @Override
+                    public void onConfirm() {
+                        // TODO 执行选择操作
+                        Toast.makeText(instance, "输入了：", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 时间选择器TimerPickerPopup弹窗
+     *
+     * @param activity activity
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void showTimePickerPopup(Activity activity) {
+        Calendar date = Calendar.getInstance();
+        date.set(2000, 5, 1);
+        Calendar date2 = Calendar.getInstance();
+        date2.set(2020, 5, 1);
+        TimePickerPopup popup = new TimePickerPopup(activity)
+//                        .setDefaultDate(date)  //设置默认选中日期
+//                        .setYearRange(1990, 1999) //设置年份范围
+//                        .setDateRang(date, date2) //设置日期范围
+                .setTimePickerListener(new TimePickerListener() {
+                    @Override
+                    public void onTimeChanged(Date date) {
+                        //时间改变
+                    }
+
+                    @Override
+                    public void onTimeConfirm(Date date, View view) {
+                        // 点击确认时间
+                        // TODO 执行选择操作
+                        Toast.makeText(instance, "选择的时间：" + date.toLocaleString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        new XPopup.Builder(activity)
+                .asCustom(popup)
+                .show();
+    }
+
+    /**
+     * 城市选择器
+     *
+     * @param activity Activity
+     */
+    public static void showCityPickerPopup(Activity activity) {
+        CityPickerPopup popup = new CityPickerPopup(activity);
+        popup.setCityPickerListener(new CityPickerListener() {
+            @Override
+            public void onCityConfirm(String province, String city, String area, View v) {
+                Log.e("tag", province + " - " + city + " - " + area);
+                Toast.makeText(instance, province + " - " + city + " - " + area, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCityChange(String province, String city, String area) {
+                Log.e("tag", province + " - " + city + " - " + area);
+                Toast.makeText(instance, province + " - " + city + " - " + area, Toast.LENGTH_SHORT).show();
+            }
+        });
+        new XPopup.Builder(activity)
+                .asCustom(popup)
+                .show();
     }
 }
 

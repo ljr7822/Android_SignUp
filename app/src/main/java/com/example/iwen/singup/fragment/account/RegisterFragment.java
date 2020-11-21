@@ -52,6 +52,10 @@ public class RegisterFragment
         // Required empty public constructor
     }
 
+    /**
+     * 正真的切换两个Fragment显示
+     * @param context 上下文
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -76,7 +80,8 @@ public class RegisterFragment
         String name = mName.getText().toString();
         String password = mPassword.getText().toString();
         // 调用p层进行注册
-        mPresenter.register(phone, name, password);
+        // TODO 注册网络请求逻辑
+        // mPresenter.register(phone, name, password);
     }
 
     // 跳转至登录界面

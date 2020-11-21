@@ -72,7 +72,7 @@
         android:padding="@dimen/len_20"
         android:src="@drawable/ic_sign_in"
         android:tint="@color/white"
-        app:gBackgroundColor="@color/cornflowerblue"
+        app:gBackgroundColor="@color/qianlans"
         app:layout_anchor="@id/lay_container"
         app:layout_anchorGravity="bottom|center" />
 
