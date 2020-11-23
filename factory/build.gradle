@@ -38,5 +38,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.9.5'
-
+    // Toast提示
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+    //基础工具库
+    implementation 'com.github.tamsiree.RxTool:RxKit:2.6.2'
+    //UI库
+    implementation 'com.github.tamsiree.RxTool:RxUI:2.6.2'
+    //相机库
+    implementation 'com.github.tamsiree.RxTool:RxCamera:2.6.2'
 }

@@ -3,6 +3,7 @@
     <string name="title_home">首页</string>
     <string name="title_content">消息</string>
     <string name="title_mine">我的</string>
+    <string name="title_mine_top">个人中心</string>
 
     <string name="title_search">搜索</string>
     <string name="title_search_user">搜索用户</string>

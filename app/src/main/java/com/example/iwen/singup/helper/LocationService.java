@@ -7,6 +7,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 /**
+ * 百度地图定位
  * author : Iwen大大怪
  * create : 2020/11/14 17:48
  */

@@ -57,4 +57,18 @@ dependencies {
     implementation 'com.lxj:xpopup:2.2.1'
     // 时间日历选择
     implementation 'com.lxj:xpopup-ext:0.0.3'
+    // Toast提示
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+    //基础工具库
+    implementation 'com.github.tamsiree.RxTool:RxKit:2.6.2'
+    //UI库
+    implementation 'com.github.tamsiree.RxTool:RxUI:2.6.2'
+    //相机库
+    implementation 'com.github.tamsiree.RxTool:RxCamera:2.6.2'
+    // 自定义圆头像
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    // 侧滑
+    implementation 'com.github.Andy671:Dachshund-Tab-Layout:v0.3.3'
+    // 时间轴
+    implementation 'com.github.vipulasri:timelineview:1.0.6'
 }

@@ -23,6 +23,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.helper.LocationService;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnCancelListener;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
@@ -33,6 +36,8 @@ import butterknife.OnClick;
  * 打卡界面Activity
  */
 public class SignActivity extends BaseActivity {
+    private static LocationService locationService;
+    private boolean isClickAction = false;
     @BindView(R.id.lay_main)
     LinearLayout mLaymali;
     // 标题
@@ -44,8 +49,6 @@ public class SignActivity extends BaseActivity {
     // 按钮
     @BindView(R.id.btn_action_sign_in)
     FloatActionButton mAction;
-
-    private LocationService locationService;
 
 
     /**
@@ -95,14 +98,20 @@ public class SignActivity extends BaseActivity {
     // 获取定位
     @OnClick(R.id.btn_action_sign_in)
     void onSignInClick() {
-        locationService.start();
+        if (isClickAction){
+            locationService.stop();
+            showXPopupRightLocation(this,"重新定位","是否重新获取当前位置?");
+        }else {
+            showXPopupRightLocation(this,"确认","是否获取当前位置?");
+        }
     }
 
+    // 销毁定位
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
+        locationService.unregisterListener(mListener); // 注销掉监听
+        locationService.stop(); // 停止定位服务
     }
 
     /*****
@@ -219,5 +228,34 @@ public class SignActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 再次确认用户是否获取定位
+     * 显示确认和取消对话框
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showXPopupRightLocation(Context context, String title, String content) {
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asConfirm(title, content,
+                        "取消",
+                        "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                locationService.start();
+                                isClickAction =!isClickAction;
+                            }
+                        },
+                        new OnCancelListener() {
+                            @Override
+                            public void onCancel() {
+                            }
+                        }, false)
+                .show();
     }
 }

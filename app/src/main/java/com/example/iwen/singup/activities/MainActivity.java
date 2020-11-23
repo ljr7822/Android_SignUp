@@ -26,6 +26,7 @@ import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
+import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.example.iwen.singup.helper.NavHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,13 +40,13 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
-        NavHelper.OnTabChangedListener<Integer>{
+        NavHelper.OnTabChangedListener<Integer> {
     // 标题
     @BindView(R.id.appbar)
     View mLayAppbar;
-    // 头像
-    @BindView(R.id.im_portrait)
-    PortraitView mPortrait;
+//    // 头像
+//    @BindView(R.id.im_portrait)
+//    PortraitView mPortrait;
     // 居中的文字
     @BindView(R.id.txt_title)
     TextView mTitle;
@@ -64,10 +65,16 @@ public class MainActivity extends BaseActivity
 
     /**
      * mainActivity显示入口
+     *
      * @param context 上下文
      */
-    public static void show(Context context){
-        context.startActivity(new Intent(context,MainActivity.class));
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        return super.initArgs(bundle);
     }
 
     @Override
@@ -80,15 +87,15 @@ public class MainActivity extends BaseActivity
         super.initWidget();
         // 初始化底部辅助工具类
         mNavHelper = new NavHelper<Integer>(this, R.id.lay_container, getSupportFragmentManager(), this);
-        mNavHelper.add(R.id.action_home,new NavHelper.Tab<>(HomeFragment.class,R.string.title_home))
-                .add(R.id.action_me,new NavHelper.Tab<>(MineFragment.class,R.string.title_mine))
-                .add(R.id.action_contact,new NavHelper.Tab<>(ContactFragment.class,R.string.title_content));
+        mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(HomeFragment.class, R.string.title_home))
+                .add(R.id.action_me, new NavHelper.Tab<>(MineFragment.class, R.string.title_mine_top))
+                .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_content));
         // 添加对底部导航按钮的监听
         mNavigation.setOnNavigationItemSelectedListener(this);
 
         // 给appbar设置背景图片
         Glide.with(this)
-                .load(R.mipmap.bg_src_morning)
+                .load(R.mipmap.top_bg)
                 .centerCrop()
                 .into(new CustomViewTarget<View, Drawable>(mLayAppbar) {
                     @Override
@@ -115,7 +122,7 @@ public class MainActivity extends BaseActivity
         // 从底部导航接管Menu，进行手动触发第一次点击
         Menu menu = mNavigation.getMenu();
         // 触发首次选中home
-        menu.performIdentifierAction(R.id.action_home,0);
+        menu.performIdentifierAction(R.id.action_home, 0);
     }
 
     @OnClick(R.id.im_search)
@@ -129,9 +136,10 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.btn_action)
     void onActionClick() {
         // 跳到用户界面
-        // AccountActivity.show(this);
+        //AccountActivity.show(this);
         // 跳到打卡界面
         SignActivity.show(this);
+
     }
 
     boolean isFirst = true;
@@ -150,6 +158,7 @@ public class MainActivity extends BaseActivity
 
     /**
      * navHelper处理后回调的方法
+     *
      * @param newTab 新Tab
      * @param oldTab 旧Tab
      */
@@ -161,21 +170,21 @@ public class MainActivity extends BaseActivity
         // 对浮动按钮进行隐藏、显示
         float transY = 0;
         float rotation = 0;
-        if (Objects.equals(newTab.extra,R.string.title_home)){
+        if (Objects.equals(newTab.extra, R.string.title_home)) {
 
             // transY = Ui.dipToPx(getResources(),86);
             mAction.setImageResource(R.drawable.ic_sign_in);
             rotation = -360;
-        }else {
+        } else {
             // 消息
-            if (Objects.equals(newTab.extra,R.string.title_content)){
+            if (Objects.equals(newTab.extra, R.string.title_content)) {
                 mAction.setImageResource(R.drawable.ic_sign_in);
                 rotation = 360;
-            }else{
+            } else {
                 // 我的界面时隐藏
 //                mAction.setImageResource(R.drawable.ic_sign_in);
 //                rotation = 360;
-                transY = Ui.dipToPx(getResources(),86);
+                transY = Ui.dipToPx(getResources(), 86);
             }
         }
         // 开始动画

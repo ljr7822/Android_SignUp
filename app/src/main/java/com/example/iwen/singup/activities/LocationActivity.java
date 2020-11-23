@@ -15,7 +15,7 @@ import com.example.iwen.singup.R;
 import com.example.iwen.singup.helper.LocationService;
 
 /**
- * 定位
+ * 百度地图定位
  * author : Iwen大大怪
  * create : 2020/11/14 17:49
  */
@@ -29,20 +29,20 @@ public class LocationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
-        mTextView = findViewById(R.id.textview);
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (button.getText().toString().equals("打开定位")) {
-                    locationService.start();
-                } else {
-                    locationService.stop();
-                    button.setText("打开定位");
-                    mTextView.setText("");
-                }
-            }
-        });
+//        mTextView = findViewById(R.id.textview);
+//        button = findViewById(R.id.button);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (button.getText().toString().equals("打开定位")) {
+//                    locationService.start();
+//                } else {
+//                    locationService.stop();
+//                    button.setText("打开定位");
+//                    mTextView.setText("");
+//                }
+//            }
+//        });
 
         locationService = new LocationService(this);
 //        多个activity

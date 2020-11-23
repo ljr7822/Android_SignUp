@@ -1,48 +1,24 @@
 package com.example.iwen.singup.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.BaseFragment;
-import com.example.iwen.common.widget.GalleryView;
+
 import com.example.iwen.common.widget.banner.DataBean;
 import com.example.iwen.common.widget.banner.ImageAdapter;
 import com.example.iwen.singup.R;
-import com.google.android.material.snackbar.Snackbar;
+
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnCancelListener;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.youth.banner.Banner;
-import com.youth.banner.adapter.BannerImageAdapter;
-import com.youth.banner.config.BannerConfig;
-import com.youth.banner.config.IndicatorConfig;
-import com.youth.banner.holder.BannerImageHolder;
+
 import com.youth.banner.indicator.CircleIndicator;
-import com.youth.banner.indicator.RectangleIndicator;
-import com.youth.banner.indicator.RoundLinesIndicator;
-import com.youth.banner.transformer.AlphaPageTransformer;
-import com.youth.banner.transformer.DepthPageTransformer;
-import com.youth.banner.transformer.RotateDownPageTransformer;
-import com.youth.banner.transformer.RotateUpPageTransformer;
+
 import com.youth.banner.transformer.RotateYTransformer;
-import com.youth.banner.transformer.ScaleInTransformer;
-import com.youth.banner.transformer.ZoomOutPageTransformer;
-import com.youth.banner.util.LogUtils;
-import com.zhouwei.mzbanner.MZBannerView;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
-import com.zhouwei.mzbanner.holder.MZViewHolder;
-import com.zhpan.bannerview.utils.BannerUtils;
 
 import butterknife.BindView;
-import butterknife.OnClick;
+
 
 public class HomeFragment extends BaseFragment {
     // 轮播图控件
@@ -70,7 +46,35 @@ public class HomeFragment extends BaseFragment {
                 .setIndicator(new CircleIndicator(getContext()))// 设置指示器
                 .setPageTransformer(new RotateYTransformer()) // 切换效果
                 .setOnBannerListener((data, position) -> { // 点击事件
-                    Application.showToast(((DataBean) data).title.toString());
+                    showXPopupSelect(getContext(), "公告", "打了么App，欢迎您！\n " + ((DataBean) data).title.toString());
                 });
+    }
+
+    /**
+     * 显示确认和取消对话框
+     * 公告栏
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public static void showXPopupSelect(Context context, String title, String content) {
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asConfirm(title, content,
+                        "我知道了",
+                        "查看详情",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                // TODO 跳转公告
+                            }
+                        },
+                        new OnCancelListener() {
+                            @Override
+                            public void onCancel() {
+                            }
+                        }, false)
+                .show();
     }
 }

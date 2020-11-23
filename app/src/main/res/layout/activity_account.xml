@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
         android:foreground="@color/maskChatHeader"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <FrameLayout
         android:id="@+id/lay_container"

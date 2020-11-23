@@ -9,6 +9,7 @@
     <string name="data_account_update_invalid_parameter">头像和描述不能为空!</string>
     <string name="data_network_error">网络错误！</string>
     <string name="data_upload_error">上传失败！</string>
+    <string name="bulletin_board">公告栏</string>
 
 
     <string name="data_rsp_error_unknown">未知错误(ρ_・).。</string>

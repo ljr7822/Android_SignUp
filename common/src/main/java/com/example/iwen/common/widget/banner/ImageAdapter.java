@@ -11,6 +11,8 @@ import com.youth.banner.adapter.BannerAdapter;
 import java.util.List;
 
 /**
+ * 轮播图适配器
+ *
  * author : Iwen大大怪
  * create : 11-19 019 13:34
  */

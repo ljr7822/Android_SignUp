@@ -108,7 +108,7 @@ public class UpdateInfoFragment extends BaseFragment {
         Factory.runOnAsync(new Runnable() {
             @Override
             public void run() {
-                String url = UploadHelper.uploadAvatar(localPath);
+                String url = UploadHelper.uploadImage(localPath);
                 Log.e("TAG", "url" + url);
             }
         });

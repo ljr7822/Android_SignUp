@@ -67,6 +67,9 @@ public class AccountHelper {
                     Log.e("ljr","第二层"+rspModel.getData());
                     // 回调一个用户数据
                     callback.onDataLoaded(userRspModel);
+                }else {
+                    // TODO 对返回的RspModel中的失败的code进行解析，解析到对应的String资源中
+                    // callback.onDataNotAvailable();
                 }
             }
             @Override

@@ -44,6 +44,8 @@
     <color name="bisque">#ffe4c4</color><!--桔黄色 -->
     <color name="moccasin">#ffe4b5</color><!--鹿皮色 -->
     <color name="navajowhite">#ffdead</color><!--纳瓦白 -->
+    <color name="black_semi">#3B3B3B</color>
+    <color name="half_black">#808080</color>
     <color name="peachpuff">#ffdab9</color><!--桃色 -->
     <color name="gold">#ffd700</color><!--金色 -->
     <color name="pink">#ffc0cb</color><!--粉红色 -->
@@ -147,6 +149,7 @@
     <color name="mediumturquoise">#48d1cc</color><!--中绿宝石 -->
     <color name="darkslateblue">#483d8b</color><!--暗灰蓝色 -->
     <color name="steelblue">#4682b4</color><!--钢兰色 -->
+
     <color name="royalblue">#4169e1</color><!--皇家蓝 -->
     <color name="turquoise">#40e0d0</color><!--青绿色 -->
     <color name="mediumseagreen">#3cb371</color><!--中海蓝 -->
@@ -177,5 +180,7 @@
     <color name="qqgreen">#10d5ba</color><!--qq浅绿色 -->
     <color name="qqyellow">#ffe554</color><!--qq黄色 -->
     <color name="qianlans">#2d8cf0</color><!--浅蓝色 -->
+    <color name="theme">#28d47e</color><!--浅蓝色 -->
+
 
 </resources>

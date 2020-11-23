@@ -63,33 +63,33 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
                 .beginTransaction()
                 .add(R.id.lay_container, mFragment)
                 .commit();
-        // 初始化背景
-        Glide.with(this)
-                .load(R.mipmap.bg_src_tianjin)
-                .centerCrop()
-                .into(new CustomViewTarget<ImageView, Drawable>(mBg) {
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        // 拿到glide的drawable
-                        Drawable drawable = resource.getCurrent();
-                        // 使用适配包包装
-                        drawable = DrawableCompat.wrap(drawable);
-                        drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
-                                PorterDuff.Mode.SCREEN); // 设置着色效果
-                        // 设置给ImageView
-                        this.view.setImageDrawable(drawable);
-                    }
-
-                    @Override
-                    protected void onResourceCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+//        // 初始化背景
+//        Glide.with(this)
+//                .load(R.mipmap.bg_src_login)
+//                .centerCrop()
+//                .into(new CustomViewTarget<ImageView, Drawable>(mBg) {
+//                    @Override
+//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+//                        // 拿到glide的drawable
+//                        Drawable drawable = resource.getCurrent();
+//                        // 使用适配包包装
+//                        drawable = DrawableCompat.wrap(drawable);
+//                        drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
+//                                PorterDuff.Mode.SCREEN); // 设置着色效果
+//                        // 设置给ImageView
+//                        this.view.setImageDrawable(drawable);
+//                    }
+//
+//                    @Override
+//                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+//
+//                    }
+//                });
     }
 
     /**

@@ -26,7 +26,7 @@
             android:src="@drawable/ic_sign_in"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:tint="@color/white" />
+            app:tint="@color/black" />
         <!--        app:layout_constraintBottom_toTopOf="@+id/guide1"-->
     </FrameLayout>
 

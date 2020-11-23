@@ -12,7 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
+import com.example.iwen.common.R;
+import com.example.iwen.common.widget.QQMsgPopup;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -28,6 +31,8 @@ import java.net.NetworkInterface;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.UUID;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * author : Iwen大大怪
@@ -92,7 +97,7 @@ public class Application extends android.app.Application {
         // 保证一定是在主线程进行的show操作
         Run.onUiAsync(() -> {
             // 这里进行回调的时候一定就是主线程状态了
-            Toast.makeText(instance, msg, Toast.LENGTH_SHORT).show();
+            Toasty.info(instance, msg, Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -155,7 +160,9 @@ public class Application extends android.app.Application {
      * @param content 弹窗内容
      */
     public static void showXPopupInputSelect(Context context, String title, String content) {
-        new XPopup.Builder(context).asInputConfirm(title, content,
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asInputConfirm(title, content,
                 new OnInputConfirmListener() {
                     @Override
                     public void onConfirm(String text) {
@@ -174,7 +181,9 @@ public class Application extends android.app.Application {
      * @param content 内容
      */
     public static void showXPopupSelect(Context context, String title, String content) {
-        new XPopup.Builder(context).asConfirm(title, content,
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asConfirm(title, content,
                 new OnConfirmListener() {
                     @Override
                     public void onConfirm() {
@@ -241,6 +250,21 @@ public class Application extends android.app.Application {
         });
         new XPopup.Builder(activity)
                 .asCustom(popup)
+                .show();
+    }
+
+    /**
+     * 自定义Position弹窗
+     *
+     * @param context 上下文
+     */
+    public static void showPosition(Context context) {
+        new XPopup.Builder(context)
+                .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
+                .isCenterHorizontal(true)
+                .offsetY(200)
+                .hasBlurBg(true)
+                .asCustom(new QQMsgPopup(context))
                 .show();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.iwen.factory.presenter.account;
 
+import android.widget.Toast;
+
 import com.example.iwen.common.factory.data.DataSource;
 import com.example.iwen.common.factory.presenter.BasePresenter;
 import com.example.iwen.factory.R;
@@ -10,6 +12,8 @@ import com.example.iwen.factory.model.db.User;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * 登录部分实现类

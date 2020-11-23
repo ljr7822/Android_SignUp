@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -203,7 +205,8 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
 
         };
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            Application.showToast(R.string.label_permission_ok);
+            Toasty.success(getContext(), R.string.label_permission_ok, Toast.LENGTH_SHORT, true).show();
+            // Application.showToast(R.string.label_permission_ok);
             // Fragment 中调度getView得到根布局，前提是在onCreateView方法之后
             refreshState(getView());
         } else {

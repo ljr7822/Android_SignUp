@@ -17,7 +17,8 @@ import java.util.Date;
 /**
  * 上传工具类
  * 上传任意文件到阿里云oss存储
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 13:37
  */
 public class UploadHelper {
@@ -33,16 +34,16 @@ public class UploadHelper {
     private static OSS getClient() {
         // 在移动端建议使用STS的方式初始化OSSClient。
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(
-                "LTAI4GEZaRvceAnaRYccDXBh",
-                "AYiuu0PhVjgXU5qIWAcYTPSG8l7WXN");
+                "LTAI4G7qeeWttgB6YC2KGXNf",
+                "bCJ9ILXJtevcfLrTy5iY9aBE8R40e5");
         return new OSSClient(Factory.app(), ENDPOINT, credentialProvider);
     }
 
     /**
      * 上传文件，成功后返回一个路径
      *
-     * @param objKey  上传后在服务器上独立的key
-     * @param path 需要上传的文件的路径
+     * @param objKey 上传后在服务器上独立的key
+     * @param path   需要上传的文件的路径
      * @return 存储的地址
      */
     private static String upload(String objKey, String path) {

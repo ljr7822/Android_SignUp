@@ -22,12 +22,12 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        // 初始化Fragment
-        mFragment = new UpdateInfoFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.lay_container,mFragment)
-                .commit();
+//        // 初始化Fragment
+//        mFragment = new UpdateInfoFragment();
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.lay_container,mFragment)
+//                .commit();
     }
 
     // 收到从Activity传过来的回调，取出其中的值进行图片加载

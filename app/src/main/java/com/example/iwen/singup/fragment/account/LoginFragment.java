@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -31,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -56,9 +59,19 @@ public class LoginFragment
     // 加载
     @BindView(R.id.loading)
     Loading mLoading;
-    // 按钮
+    // 登录按钮
     @BindView(R.id.btn_submit)
     Button mSubmit;
+    // 第三方qq登录
+    @BindView(R.id.im_qq_icon)
+    ImageView mQqIcon;
+    // 第三方微信登录
+    @BindView(R.id.im_wechar_icon)
+    ImageView mWeCharIcon;
+    // 第三方微博登录
+    @BindView(R.id.im_weibo_icon)
+    ImageView mWeiBoIcon;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -89,6 +102,21 @@ public class LoginFragment
         // MainActivity.show(getContext());
         //PostLogin(workId, password);
 
+    }
+    // qq登录按钮点击事件
+    @OnClick(R.id.im_qq_icon)
+    void onQqClick(){
+        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+    }
+    // 微信登录按钮点击事件
+    @OnClick(R.id.im_wechar_icon)
+    void onWeCharClick(){
+        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+    }
+    // 微博登录按钮点击事件
+    @OnClick(R.id.im_weibo_icon)
+    void onWeiBoClick(){
+        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
 
     // 跳转至注册界面
