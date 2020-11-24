@@ -16,8 +16,10 @@
     <string name="label_update_info_tips">仅差一步了</string>
     <string name="label_login_welcome">登 录</string>
     <string name="label_sign_up_title">打卡</string>
-    <string name="label_submit">提交</string>
+    <string name="label_submit">提     交</string>
+    <string name="label_quxiao">取     消</string>
     <string name="label_login">登     录</string>
+    <string name="label_logout">退出登录</string>
     <string name="label_phone">电话</string>
     <string name="label_work_id">请输入您的账号</string>
     <string name="label_register_welcome">欢迎您!</string>

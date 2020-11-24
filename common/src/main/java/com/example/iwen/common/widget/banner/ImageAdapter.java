@@ -23,7 +23,7 @@ public class ImageAdapter extends BannerAdapter<DataBean, ImageAdapter.BannerVie
         super(mDatas);
     }
 
-    //创建ViewHolder，可以用viewType这个字段来区分不同的ViewHolder
+    // 创建ViewHolder，可以用viewType这个字段来区分不同的ViewHolder
     @Override
     public BannerViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         ImageView imageView = new ImageView(parent.getContext());

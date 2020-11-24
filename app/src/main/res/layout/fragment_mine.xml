@@ -1,77 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipChildren="false"
     android:background="@mipmap/mine_bg"
-    android:clipToPadding="true">
+    android:clipChildren="false"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/user_app_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:fitsSystemWindows="true"-->
-<!--        android:layout_height="332dp"-->
-<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">-->
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        android:id="@+id/user_app_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:fitsSystemWindows="true"-->
+    <!--        android:layout_height="332dp"-->
+    <!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">-->
 
-<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--            android:id="@+id/toolbar_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:fitsSystemWindows="true"-->
-<!--            android:theme="@style/AppTheme.TransStatusBar"-->
-<!--            app:contentScrim="@color/white"-->
-<!--            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">-->
+    <!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+    <!--            android:id="@+id/toolbar_layout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:fitsSystemWindows="true"-->
+    <!--            android:theme="@style/AppTheme.TransStatusBar"-->
+    <!--            app:contentScrim="@color/white"-->
+    <!--            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="342dp"-->
-<!--                android:orientation="vertical"-->
-<!--                app:layout_collapseMode="pin"-->
-<!--                app:layout_collapseParallaxMultiplier="0.7">-->
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="342dp"-->
+    <!--                android:orientation="vertical"-->
+    <!--                app:layout_collapseMode="pin"-->
+    <!--                app:layout_collapseParallaxMultiplier="0.7">-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/top_bg"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    android:src="@mipmap/bg_src_morning" />-->
-<!--            </LinearLayout>-->
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/top_bg"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:scaleType="centerCrop"-->
+    <!--                    android:src="@mipmap/bg_src_morning" />-->
+    <!--            </LinearLayout>-->
 
-<!--            <include-->
-<!--                android:id="@+id/include3"-->
-<!--                layout="@layout/layout_uc_head_middle"/>-->
+    <!--            <include-->
+    <!--                android:id="@+id/include3"-->
+    <!--                layout="@layout/layout_uc_head_middle"/>-->
 
-<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-<!--    <include-->
-<!--        android:id="@+id/include2"-->
-<!--        layout="@layout/content_user_data"/>-->
+    <!--    <include-->
+    <!--        android:id="@+id/include2"-->
+    <!--        layout="@layout/content_user_data"/>-->
 
-<!--    <com.example.iwen.common.widget.PortraitView-->
-<!--        android:id="@+id/im_portrait_mine"-->
-<!--        android:layout_width="90dp"-->
-<!--        android:layout_height="90dp"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@color/colorAccent"-->
-<!--        app:layout_anchor="@+id/include3"-->
-<!--        app:layout_anchorGravity="left|top" />-->
+    <!--    <com.example.iwen.common.widget.PortraitView-->
+    <!--        android:id="@+id/im_portrait_mine"-->
+    <!--        android:layout_width="90dp"-->
+    <!--        android:layout_height="90dp"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@color/colorAccent"-->
+    <!--        app:layout_anchor="@+id/include3"-->
+    <!--        app:layout_anchorGravity="left|top" />-->
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/user_edit"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:backgroundTint="@color/qianlans"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:src="@drawable/edit"-->
-<!--        app:elevation="0dp"-->
-<!--        app:layout_anchor="@+id/user_app_bar"-->
-<!--        app:layout_anchorGravity="right|bottom"/>-->
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/user_edit"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:backgroundTint="@color/qianlans"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:src="@drawable/edit"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:layout_anchor="@+id/user_app_bar"-->
+    <!--        app:layout_anchorGravity="right|bottom"/>-->
+
+    <LinearLayout
+        android:id="@+id/user_cary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65999997">
+
+        <com.example.iwen.common.widget.PortraitView
+            android:id="@+id/im_portrait"
+            android:layout_width="@dimen/len_72"
+            android:layout_height="@dimen/len_72"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_7" />
+
+        <LinearLayout
+            android:id="@+id/user_neme_and_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/len_36"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_8"
+                android:text="iwen大大怪"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_20"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/user_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_8"
+                android:text="人事部"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="138dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_utils_lay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4">
+
+        <LinearLayout
+            android:id="@+id/sign_record"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/statistical"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_record" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_4"
+                android:text="签到记录"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/statistical"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/sign_record"
+            app:layout_constraintEnd_toStartOf="@+id/task"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sign_record"
+            app:layout_constraintTop_toTopOf="@+id/sign_record">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_statistical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_4"
+                android:text="统计信息"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/statistical"
+            app:layout_constraintEnd_toStartOf="@+id/seeting"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/statistical"
+            app:layout_constraintTop_toTopOf="@+id/statistical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_task" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_4"
+                android:text="任务中心"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seeting"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/task"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/task"
+            app:layout_constraintTop_toTopOf="@+id/task">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_seeting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_4"
+                android:text="设置"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="278dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="378dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="396dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="684dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

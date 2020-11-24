@@ -1,6 +1,7 @@
 package com.example.iwen.common.utils;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -22,6 +23,24 @@ import static com.example.iwen.common.utils.StreamUtil.close;
  * create : 2020/11/15 2:38
  */
 public final class BitmapUtil {
+
+    /**
+     *  压缩图片，防止内存溢出
+     *  @param context
+     *  @param resId
+     *  @return
+     */
+    public static Bitmap readBitMap(Context context, int resId){
+        BitmapFactory.Options opt = new  BitmapFactory.Options();
+        opt.inPreferredConfig =  Bitmap.Config.RGB_565;
+        opt.inPurgeable = true;
+        opt.inInputShareable = true;
+        //  获取资源图片
+        InputStream is =  context.getResources().openRawResource(resId);
+        return  BitmapFactory.decodeStream(is, null, opt);
+
+    }
+
     /**
      * A default size to use to increase hit rates when the required size isn't defined.
      * Currently 64KB.

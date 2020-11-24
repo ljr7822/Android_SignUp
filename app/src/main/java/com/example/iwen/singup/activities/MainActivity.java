@@ -2,9 +2,7 @@ package com.example.iwen.singup.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -14,19 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
-import com.example.iwen.common.widget.PortraitView;
 import com.example.iwen.singup.R;
-import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
-import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.example.iwen.singup.helper.NavHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -44,12 +40,15 @@ public class MainActivity extends BaseActivity
     // 标题
     @BindView(R.id.appbar)
     View mLayAppbar;
-//    // 头像
+    //    // 头像
 //    @BindView(R.id.im_portrait)
 //    PortraitView mPortrait;
     // 居中的文字
     @BindView(R.id.txt_title)
     TextView mTitle;
+    // 设置
+    @BindView(R.id.im_setting)
+    ImageView mSetting;
     // 中间部分内容
     @BindView(R.id.lay_container)
     FrameLayout mContainer;
@@ -125,11 +124,6 @@ public class MainActivity extends BaseActivity
         menu.performIdentifierAction(R.id.action_home, 0);
     }
 
-    @OnClick(R.id.im_search)
-    void onSearchMenuClick() {
-
-    }
-
     /**
      * 打卡按钮，跳转到打卡界面
      */
@@ -140,6 +134,14 @@ public class MainActivity extends BaseActivity
         // 跳到打卡界面
         SignActivity.show(this);
 
+    }
+
+    /**
+     * 设置跳转
+     */
+    @OnClick(R.id.im_setting)
+    void inSettingClick() {
+        SettingActivity.show(this);
     }
 
     boolean isFirst = true;

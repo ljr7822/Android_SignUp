@@ -7,4 +7,59 @@
     tools:context="com.example.iwen.singup.activities.UserActivity"
     android:background="@mipmap/mine_bg">
 
+    <LinearLayout
+        android:id="@+id/user_cary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65">
+
+        <com.example.iwen.common.widget.PortraitView
+            android:id="@+id/im_portrait"
+            android:layout_width="@dimen/len_64"
+            android:layout_height="@dimen/len_64"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_7" />
+
+        <LinearLayout
+            android:id="@+id/user_neme_and_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/len_36"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_8"
+                android:text="IWEN大大怪"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_18" />
+
+            <TextView
+                android:id="@+id/user_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_8"
+                android:text="人事部"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="138dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

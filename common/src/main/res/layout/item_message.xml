@@ -70,13 +70,14 @@
                 tools:text="Description" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/isRepeat"
+                android:id="@+id/isTag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="right"
-                tools:text="单次"
-                tools:textSize="8sp"/>
+                tools:text="已签到"
+                android:textColor="@color/grey"
+                tools:textSize="12sp"/>
 
         </LinearLayout>
 

@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,12 +44,24 @@ public class SignActivity extends BaseActivity {
     // 标题
     @BindView(R.id.appbar)
     View mLayAppbar;
+    // 返回按钮
+    @BindView(R.id.im_sign_back)
+    ImageView mSignBack;
     // 文本显示框
     @BindView(R.id.tx_address)
-    TextView mTextView;
+    TextView mTextViewAddress;
+    // 详情地址显示
+    @BindView(R.id.sign_address_content)
+    TextView mTextViewAddressTo;
     // 按钮
     @BindView(R.id.btn_action_sign_in)
     FloatActionButton mAction;
+    // 背景
+    @BindView(R.id.lay)
+    ConstraintLayout mLayout;
+    // 获取定位的标题
+    @BindView(R.id.tv_location)
+    TextView mTextViewLocation;
 
 
     /**
@@ -69,9 +82,29 @@ public class SignActivity extends BaseActivity {
         super.initWidget();
         // 给内容部分设置背景图片
         Glide.with(this)
-                .load(R.mipmap.bg_src_tianjin)
+                .load(R.mipmap.top_bg)
                 .centerCrop()
                 .into(new CustomViewTarget<View, Drawable>(mLayAppbar) {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        this.view.setBackground(resource.getCurrent());
+                    }
+
+                    @Override
+                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+        // 给界面设置背景
+        Glide.with(this)
+                .load(R.mipmap.bg_src_play)
+                .centerCrop()
+                .into(new CustomViewTarget<ConstraintLayout,Drawable>(mLayout) {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
 
@@ -120,18 +153,17 @@ public class SignActivity extends BaseActivity {
      *
      */
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
-
         @Override
         public void onReceiveLocation(BDLocation location) {
             // TODO Auto-generated method stub
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 StringBuilder sb = new StringBuilder(256);
-                sb.append("time : ");
+                //sb.append("time : ");
                 /**
                  * 时间也可以使用systemClock.elapsedRealtime()方法 获取的是自从开机以来，每次回调的时间；
                  * location.getTime() 是指服务端出本次结果的时间，如果位置不发生变化，则时间不变
                  */
-                sb.append(location.getTime());
+                //sb.append(location.getTime());
                 //sb.append("\nlocType : ");// 定位类型
                 //sb.append(location.getLocType());
                 //sb.append("\nlocType description : ");// *****对应的定位类型说明*****
@@ -154,7 +186,7 @@ public class SignActivity extends BaseActivity {
                 //sb.append(location.getDistrict());
                 //sb.append("\nStreet : ");// 街道
                 //sb.append(location.getStreet());
-                sb.append("\naddr : ");// 地址信息
+                //sb.append("\naddr : ");// 地址信息
                 sb.append(location.getAddrStr());
                 //sb.append("\nUserIndoorState: ");// *****返回用户室内外判断结果*****
                 //sb.append(location.getUserIndoorState());
@@ -169,44 +201,43 @@ public class SignActivity extends BaseActivity {
 //                        sb.append(poi.getName() + ";");
 //                    }
 //                }
-                if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
-                    sb.append("\nspeed : ");
-                    sb.append(location.getSpeed());// 速度 单位：km/h
-                    sb.append("\nsatellite : ");
-                    sb.append(location.getSatelliteNumber());// 卫星数目
-                    sb.append("\nheight : ");
-                    sb.append(location.getAltitude());// 海拔高度 单位：米
-                    sb.append("\ngps status : ");
-                    sb.append(location.getGpsAccuracyStatus());// *****gps质量判断*****
-                    sb.append("\ndescribe : ");
-                    sb.append("gps定位成功");
-                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
-                    // 运营商信息
-                    if (location.hasAltitude()) {// *****如果有海拔高度*****
-                        sb.append("\nheight : ");
-                        sb.append(location.getAltitude());// 单位：米
-                    }
-                    sb.append("\noperationers : ");// 运营商信息
-                    sb.append(location.getOperators());
-                    sb.append("\ndescribe : ");
-                    sb.append("网络定位成功");
-                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
-                    sb.append("\ndescribe : ");
-                    sb.append("离线定位成功，离线定位结果也是有效的");
-                } else if (location.getLocType() == BDLocation.TypeServerError) {
-                    sb.append("\ndescribe : ");
-                    sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
-                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                    sb.append("\ndescribe : ");
-                    sb.append("网络不同导致定位失败，请检查网络是否通畅");
-                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                    sb.append("\ndescribe : ");
-                    sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-                }
+//                if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
+//                    sb.append("\nspeed : ");
+//                    sb.append(location.getSpeed());// 速度 单位：km/h
+//                    sb.append("\nsatellite : ");
+//                    sb.append(location.getSatelliteNumber());// 卫星数目
+//                    sb.append("\nheight : ");
+//                    sb.append(location.getAltitude());// 海拔高度 单位：米
+//                    sb.append("\ngps status : ");
+//                    sb.append(location.getGpsAccuracyStatus());// *****gps质量判断*****
+//                    sb.append("\ndescribe : ");
+//                    sb.append("gps定位成功");
+//                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
+//                    // 运营商信息
+//                    if (location.hasAltitude()) {// *****如果有海拔高度*****
+//                        sb.append("\nheight : ");
+//                        sb.append(location.getAltitude());// 单位：米
+//                    }
+//                    sb.append("\noperationers : ");// 运营商信息
+//                    sb.append(location.getOperators());
+//                    sb.append("\ndescribe : ");
+//                    sb.append("网络定位成功");
+//                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
+//                    sb.append("\ndescribe : ");
+//                    sb.append("离线定位成功，离线定位结果也是有效的");
+//                } else if (location.getLocType() == BDLocation.TypeServerError) {
+//                    sb.append("\ndescribe : ");
+//                    sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
+//                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+//                    sb.append("\ndescribe : ");
+//                    sb.append("网络不同导致定位失败，请检查网络是否通畅");
+//                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+//                    sb.append("\ndescribe : ");
+//                    sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+//                }
                 logMsg(sb.toString());
             }
         }
-
     };
 
     /**
@@ -217,10 +248,17 @@ public class SignActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mTextView.post(new Runnable() {
+                    mTextViewAddress.post(new Runnable() {
                         @Override
                         public void run() {
-                            mTextView.setText(str);
+                            mTextViewAddress.setText(str);
+
+                        }
+                    });
+                    mTextViewAddressTo.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewAddressTo.setText(str);
                         }
                     });
                 }
@@ -228,6 +266,7 @@ public class SignActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -248,7 +287,8 @@ public class SignActivity extends BaseActivity {
                             @Override
                             public void onConfirm() {
                                 locationService.start();
-                                isClickAction =!isClickAction;
+                                isClickAction =true;
+                                mTextViewLocation.setText("定位获取成功");
                             }
                         },
                         new OnCancelListener() {
@@ -257,5 +297,41 @@ public class SignActivity extends BaseActivity {
                             }
                         }, false)
                 .show();
+    }
+
+    /**
+     * 确认用户是否退出定位
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showXPopupRightBack(Context context, String title, String content) {
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asConfirm(title, content,
+                        "取消",
+                        "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                finish();
+                                locationService.stop();
+                            }
+                        },
+                        new OnCancelListener() {
+                            @Override
+                            public void onCancel() {
+                            }
+                        }, false)
+                .show();
+    }
+
+    /**
+     * 返回按钮
+     */
+    @OnClick(R.id.im_sign_back)
+    void onSignBackClick(){
+        showXPopupRightBack(this,"确认","是否退出签到页面？退出后将自动关闭定位！");
     }
 }

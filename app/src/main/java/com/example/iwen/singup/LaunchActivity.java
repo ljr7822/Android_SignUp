@@ -80,7 +80,7 @@ public class LaunchActivity extends BaseActivity {
     private void startAnim(float endProgress, final Runnable endCallback) {
         // 获取最终的颜色
         // int finalColor = Resource.Color.WHITE;
-        int finalColor = UiCompat.getColor(getResources(),R.color.qqgreen);
+        int finalColor = UiCompat.getColor(getResources(),R.color.theme);
         // 运算但钱进度的颜色
         ArgbEvaluator evaluator = new ArgbEvaluator();
         int endColor = (int) evaluator.evaluate(endProgress,mBgDrawable.getColor(),finalColor);
