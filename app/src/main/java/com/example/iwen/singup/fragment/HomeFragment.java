@@ -48,6 +48,8 @@ public class HomeFragment extends BaseFragment {
     private ImageAdapter mImageAdapter;
     private Banner mBanner;
 
+
+
     public HomeFragment() {
         // Required empty public constructor
     }

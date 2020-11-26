@@ -8,6 +8,7 @@ import com.example.iwen.factory.R;
 import com.example.iwen.factory.data.helper.AccountHelper;
 import com.example.iwen.factory.model.api.account.LoginModel;
 import com.example.iwen.factory.model.api.account.UserRspModel;
+import com.example.iwen.factory.model.db.LoginRspModel;
 import com.example.iwen.factory.model.db.User;
 
 import net.qiujuer.genius.kit.handler.Run;
@@ -22,7 +23,7 @@ import es.dmoral.toasty.Toasty;
  */
 public class LoginPresenter
         extends BasePresenter<LoginContract.View>
-        implements LoginContract.Presenter, DataSource.Callback<UserRspModel> {
+        implements LoginContract.Presenter, DataSource.Callback<LoginRspModel> {
 
     public LoginPresenter(LoginContract.View view) {
         super(view);
@@ -59,7 +60,7 @@ public class LoginPresenter
     }
 
     @Override
-    public void onDataLoaded(UserRspModel userRspModel) {
+    public void onDataLoaded(LoginRspModel userRspModel) {
         // 当网络请求成功，登录好了，回送一个用户信息来
         // 告知界面登录成功
         final LoginContract.View view = getView();

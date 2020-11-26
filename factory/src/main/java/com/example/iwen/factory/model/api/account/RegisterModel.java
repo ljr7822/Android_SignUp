@@ -2,42 +2,39 @@ package com.example.iwen.factory.model.api.account;
 
 /**
  * 注册使用的请求model
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/17 11:16
  */
 public class RegisterModel {
-    private String account;
-    private String password;
+    /*
+        departmentId    String
+        name    String
+        roleId    String
+        password  String  //前端将6个8通过md5加密后 将加密后的密码发过去{}
+     */
+    private String departmentId;
     private String name;
-    private String pushId;
+    private String roleId;
+    private String password;
 
-    public RegisterModel(String account, String password, String name) {
-        this.account = account;
-        this.password = password;
+    public RegisterModel(String departmentId, String name, String roleId, String password) {
+        this.departmentId = departmentId;
         this.name = name;
-    }
-
-    public RegisterModel(String account, String password, String name, String pushId) {
-        this.account = account;
+        this.roleId = roleId;
         this.password = password;
-        this.name = name;
-        this.pushId = pushId;
     }
 
-    public String getAccount() {
-        return account;
+    public RegisterModel(String phone, String password, String name) {
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+
+    public String getDepartmentId() {
+        return departmentId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getName() {
@@ -48,11 +45,19 @@ public class RegisterModel {
         this.name = name;
     }
 
-    public String getPushId() {
-        return pushId;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setPushId(String pushId) {
-        this.pushId = pushId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

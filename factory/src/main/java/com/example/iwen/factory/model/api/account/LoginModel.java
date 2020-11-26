@@ -2,14 +2,15 @@ package com.example.iwen.factory.model.api.account;
 
 /**
  * 登录使用的请求model
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 11-18 018 8:55
  */
 public class LoginModel {
 
     private String workId; // 工号
     private String password; // 密码
-    private String deviceId; // MAC地址
+    private String deviceId; // 手机序列码
 
     public LoginModel(String workId, String password) {
         this.workId = workId;

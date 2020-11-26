@@ -19,6 +19,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.utils.DateTimeUtil;
+import com.example.iwen.factory.model.db.LoginRspModel;
+import com.example.iwen.factory.presenter.location.LocationContract;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
@@ -61,6 +64,9 @@ public class MainActivity extends BaseActivity
     FloatActionButton mAction;
 
     private NavHelper<Integer> mNavHelper;
+
+    protected LocationContract.Presenter mPresenter;
+    private LoginRspModel mLoginRspModel;
 
     /**
      * mainActivity显示入口
@@ -133,6 +139,11 @@ public class MainActivity extends BaseActivity
         //AccountActivity.show(this);
         // 跳到打卡界面
         SignActivity.show(this);
+
+//        DateTimeUtil dateTimeUtil = new DateTimeUtil();
+//        String time = dateTimeUtil.getTime();
+//        String timedate = time.split(" ")[0].trim();
+//        mPresenter.getPerson(mLoginRspModel.getWorkId(),timedate);
 
     }
 

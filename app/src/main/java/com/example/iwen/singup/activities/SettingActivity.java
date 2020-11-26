@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
@@ -36,6 +37,9 @@ public class SettingActivity extends BaseActivity {
     // 退出登录按钮
     @BindView(R.id.btn_logout)
     Button mLogoutButton;
+    // 关于我们
+    @BindView(R.id.setting_about)
+    LinearLayout mSettingAboutLayout;
 
     /**
      * 打卡Activity显示入口
@@ -89,6 +93,14 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.btn_logout)
     void onLogoutClick(){
         showXPopupLogout(this,"确认","退出后将断开定位服务，确认退出？");
+    }
+
+    /**
+     * 关于我们
+     */
+    @OnClick(R.id.setting_about)
+    void onAboutClick(){
+        AboutActivity.show(this);
     }
 
     /**

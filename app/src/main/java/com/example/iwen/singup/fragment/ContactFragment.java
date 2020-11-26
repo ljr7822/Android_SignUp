@@ -6,15 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.iwen.common.utils.DateTimeUtil;
 import com.example.iwen.common.widget.MessageItemTouchHelperCallback;
 import com.example.iwen.common.widget.SpacesItemDecoration;
 import com.example.iwen.common.widget.message.MessageAdapter;
 import com.example.iwen.common.widget.message.Messages;
+import com.example.iwen.factory.model.db.LoginRspModel;
+import com.example.iwen.factory.presenter.location.LocationContract;
 import com.example.iwen.singup.R;
 
 import java.util.ArrayList;
@@ -29,6 +33,10 @@ public class ContactFragment extends Fragment {
     private List<Messages> mMessagesListList = new ArrayList<>();
     private MessageAdapter mMessageAdapter;
     private ItemTouchHelper mItemTouchHelper;
+
+    protected LocationContract.Presenter mPresenter;
+
+    private LoginRspModel mLoginRspModel;
 
     public ContactFragment() {
     }
@@ -49,6 +57,12 @@ public class ContactFragment extends Fragment {
         recyclerView.setAdapter(mMessageAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     // 模拟数据

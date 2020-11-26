@@ -52,4 +52,20 @@
     <string name="toast_audio_record_time_short_error">录音时间太短!</string>
 
     <string name="toast_download_error">下载失败!</string>
+
+    <string name="about_app">这是一个基于Material Design规范的任务打卡App
+        \n提供用户注册、登录、公告展示、定位、数据同步、数据统计等功能
+         </string>
+    <string name="about_function"> - 待办事项：精美的待办卡片，提供到点提醒，重复提醒等功能。
+        \n\n - 番茄时钟：极简的界面，基于番茄工作法，设定每25分钟为一个任务区间，专注于学习和工作，提高效率。
+        \n\n - 白噪音：在您的番茄时钟工作时，可以选择开启是自然纯音乐，帮助您更愉悦的工作，更舒适的睡眠。
+        \n\n - 专注模式：打开专注模式之后，会阻止其他App打开，让您更加专注于学习和工作。
+        \n\n - 云同步：云端+本地双重备份，保证数据不丢失，在登录状态下实时同步数据到云端。
+        \n\n - 数据统计：实时统计用户的番茄钟数据。
+        \n\n - 用户排行：根据番茄钟累计时间展示所有用户排行。
+    </string>
+    <string name="about_feedback">- 请联系：
+    \n\n - QQ：1816807688
+    \n\n - Email：ljr7822@163.com
+    </string>
 </resources>

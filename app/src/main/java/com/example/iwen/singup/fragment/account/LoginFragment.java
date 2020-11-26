@@ -99,7 +99,7 @@ public class LoginFragment
         // TODO 登录逻辑入口
         mPresenter.login(workId, password, (String) SPUtils.get(getContext(),"DeviceId","aaaa"));
         // TODO 测试
-        // MainActivity.show(getContext());
+        //MainActivity.show(getContext());
         //PostLogin(workId, password);
 
     }
@@ -123,7 +123,8 @@ public class LoginFragment
     @OnClick(R.id.tv_go_register)
     void onShowLoginClick() {
         // 让AccountTrigger进行界面切换
-        mAccountTrigger.triggerView();
+        //mAccountTrigger.triggerView();
+        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
 
     /**

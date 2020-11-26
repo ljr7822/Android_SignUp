@@ -25,11 +25,11 @@
 
             <ImageView
                 android:id="@+id/im_sign_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:backgroundTint="@color/white"
                 android:background="@drawable/icon_back"
-                android:layout_marginTop="@dimen/len_4"/>
+                android:layout_marginTop="@dimen/len_12"/>
 
             <TextView
                 android:id="@+id/txt_title"
@@ -217,7 +217,7 @@
                         android:id="@+id/sign_send_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="艾常鹏 000001 人事部"
+                        android:text="艾常鹏 18信管1班  000001"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
@@ -247,7 +247,7 @@
                         android:id="@+id/sign_user_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="李俊然 000003 人事部"
+                        android:text="李俊然 18信管1班  000002"
                         android:textColor="@color/black" />
 
                 </LinearLayout>
