@@ -29,7 +29,8 @@ import butterknife.BindView;
 
 /**
  * 账户的Activity
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 9:27
  */
 public class AccountActivity extends BaseActivity implements AccountTrigger {
@@ -46,7 +47,9 @@ public class AccountActivity extends BaseActivity implements AccountTrigger {
      * @param context 上下文
      */
     public static void show(Context context) {
-        context.startActivity(new Intent(context, AccountActivity.class));
+        Intent intent = new Intent(context,AccountActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override

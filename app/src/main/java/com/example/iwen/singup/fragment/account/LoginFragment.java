@@ -1,46 +1,31 @@
 package com.example.iwen.singup.fragment.account;
 
 import android.content.Context;
-
-import android.util.Log;
+import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
-import com.example.iwen.common.Common;
-import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.PresenterFragment;
 import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.common.utils.SPUtils;
-import com.example.iwen.factory.model.api.account.LoginModel;
-import com.example.iwen.factory.okhttp.OkHttpSSH;
+import com.example.iwen.factory.model.db.account.LoginRspModel;
 import com.example.iwen.factory.presenter.account.LoginContract;
 import com.example.iwen.factory.presenter.account.LoginPresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.MainActivity;
-import com.google.gson.Gson;
 
 import net.qiujuer.genius.ui.widget.Loading;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * 登录的Fragment
@@ -48,7 +33,12 @@ import okhttp3.Response;
 public class LoginFragment
         extends PresenterFragment<LoginContract.Presenter>
         implements LoginContract.View {
+
     private AccountTrigger mAccountTrigger;
+    // 用户信息
+    private String workId;
+    private String passwordMd5;
+    private String mac;
 
     // 工号
     @BindView(R.id.edt_workid)
@@ -91,51 +81,58 @@ public class LoginFragment
     }
 
     // 登录按钮点击事件
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @OnClick(R.id.btn_submit)
     void onSubmitClick() {
-        String workId = mWorkId.getText().toString();
+        workId = mWorkId.getText().toString();
         String password = mPassword.getText().toString();
+        passwordMd5 = passwordToMd5(password);
+        mac = (String) SPUtils.get(Objects.requireNonNull(getContext()), "DeviceId", "mac");
         // 调用p层进行登录
-        // TODO 登录逻辑入口
-        mPresenter.login(workId, password, (String) SPUtils.get(getContext(),"DeviceId","aaaa"));
-        // TODO 测试
-        //MainActivity.show(getContext());
-        //PostLogin(workId, password);
-
+        mPresenter.login(workId, password, mac);
     }
+
+    /**
+     * 密码MD5加密
+     *
+     * @param password 原文
+     * @return 密文
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static String passwordToMd5(String password) {
+        // 去除首尾空格
+        password = password.trim();
+        // 进行MD5加密
+        password = HashUtil.getMD5String(password);
+        // 在进行一次Base64加密
+        return HashUtil.encodeBase64(password);
+    }
+
     // qq登录按钮点击事件
     @OnClick(R.id.im_qq_icon)
-    void onQqClick(){
-        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+    void onQqClick() {
+        Toasty.warning(Objects.requireNonNull(getContext()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
+
     // 微信登录按钮点击事件
     @OnClick(R.id.im_wechar_icon)
-    void onWeCharClick(){
-        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+    void onWeCharClick() {
+        Toasty.warning(Objects.requireNonNull(getContext()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
+
     // 微博登录按钮点击事件
     @OnClick(R.id.im_weibo_icon)
-    void onWeiBoClick(){
-        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+    void onWeiBoClick() {
+        Toasty.warning(Objects.requireNonNull(getContext()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
 
     // 跳转至注册界面
     @OnClick(R.id.tv_go_register)
     void onShowLoginClick() {
         // 让AccountTrigger进行界面切换
-        //mAccountTrigger.triggerView();
-        Toasty.warning(getContext(), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+        // mAccountTrigger.triggerView();
+        Toasty.warning(Objects.requireNonNull(getContext()), "暂无权限，请先登录>._.< ", Toast.LENGTH_SHORT, true).show();
     }
-
-    /**
-     * 进行一次切换
-     * 这个方法在哪个Fragment里面复写，接切换到另一个fragment
-     */
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mAccountTrigger.triggerView();
-//    }
 
     @Override
     public void showError(int str) {
@@ -168,76 +165,19 @@ public class LoginFragment
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(LoginRspModel loginRspModel) {
         // 注册成功，这时账户已经登录，进行跳转到MainActivity界面
         MainActivity.show(getContext());
+        // 进行数据持久化，将数据保存到Xml文件中
+        SPUtils.put(Objects.requireNonNull(getContext()), "workId", workId);
+        SPUtils.put(Objects.requireNonNull(getContext()), "password", passwordMd5);
+        SPUtils.put(Objects.requireNonNull(getContext()), "isLogin", true);
+        SPUtils.put(Objects.requireNonNull(getContext()), "name", loginRspModel.getName());
+        //SPUtils.put(Objects.requireNonNull(getContext()), "departmentName", loginRspModel.getDepartmentName());
+        SPUtils.put(Objects.requireNonNull(getContext()), "departmentId", loginRspModel.getDepartmentId());
+        //SPUtils.put(Objects.requireNonNull(getContext()), "icon", loginRspModel.getIcon());
+        SPUtils.put(Objects.requireNonNull(getContext()), "phoneNumber", loginRspModel.getPhoneNumber());
         // 关闭当前界面
         getActivity().finish();
     }
-
-    /**
-     * 登录请求
-     *
-     * @param workId   工号
-     * @param password 密码
-     */
-    private void PostLogin(String workId, String password) {
-        // 将密码转化为MD5
-        String Md5Password = HashUtil.getMD5String(password);
-        Log.e("ljr", "MD5:" + Md5Password);
-        // 创建一个okhttp客户端
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(50000, TimeUnit.MILLISECONDS)
-                // 跳过https证书
-                .sslSocketFactory(OkHttpSSH.createSSLSocketFactory(), new OkHttpSSH.TrustAllCerts())
-                .build();
-        // 创建请求体model
-        LoginModel loginModel = new LoginModel(workId, password);
-        // 转化为json格式
-        Gson gson = new Gson();
-        String json = gson.toJson(loginModel);
-        // 设置mediaType
-        MediaType mediaType = MediaType.parse("application/json");
-        // 封装请求体
-        RequestBody requestBody = RequestBody.create(mediaType, json);
-        // 请求
-        Request request = new Request.Builder()
-                .addHeader("Connection", "close")
-                .post(requestBody)
-                .url(Common.Constance.API_URL)
-                .build();
-        // 发起请求
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Application.showToast("请求失败");
-                Log.e("ljr", "onResponse:" + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.e("ljr", "onResponse:" + response.code());
-                Log.e("ljr", "onResponse:" + response.body().string());
-            }
-        });
-    }
-
-    /**
-     * Map<String, String> map = new HashMap<>();
-     *         map.put("workId", workid);
-     *         map.put("password", password);
-     *         StringBuilder stringBuilder = new StringBuilder();
-     *         stringBuilder.append("?");
-     *         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-     *         while (iterator.hasNext()) {
-     *             Map.Entry<String, String> next = iterator.next();
-     *             stringBuilder.append(next.getKey());
-     *             stringBuilder.append("=");
-     *             stringBuilder.append(next.getValue());
-     *             if (iterator.hasNext()) {
-     *                 stringBuilder.append("&");
-     *             }
-     *         }
-     *         String str = stringBuilder.toString();
-     */
 }

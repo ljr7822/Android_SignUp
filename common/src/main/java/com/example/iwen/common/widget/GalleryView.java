@@ -31,7 +31,8 @@ import java.util.Objects;
 
 /**
  * 图片选择器类
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 9:10
  */
 public class GalleryView extends RecyclerView {

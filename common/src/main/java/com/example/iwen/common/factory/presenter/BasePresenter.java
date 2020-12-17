@@ -2,11 +2,11 @@ package com.example.iwen.common.factory.presenter;
 
 /**
  * Presenter基类
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/16 21:08
  */
-public class BasePresenter<T extends BaseContract.View>
-        implements BaseContract.Presenter {
+public class BasePresenter<T extends BaseContract.View> implements BaseContract.Presenter {
     protected T mView;
 
     public BasePresenter(T view) {
@@ -15,9 +15,10 @@ public class BasePresenter<T extends BaseContract.View>
 
     /**
      * 给子类使用的获取view的操作，子类可以复写完成
+     *
      * @return view
      */
-    protected final T getView(){
+    protected final T getView() {
         return mView;
     }
 
@@ -25,7 +26,7 @@ public class BasePresenter<T extends BaseContract.View>
      * 设置一个View，子类可以复写
      */
     @SuppressWarnings("unchecked")
-    protected void setView(T view){
+    protected void setView(T view) {
         this.mView = view;
         this.mView.setPresenter(this);
     }
@@ -34,7 +35,7 @@ public class BasePresenter<T extends BaseContract.View>
     public void start() {
         // 开始的时候进行Loading调用
         T view = mView;
-        if (view!=null){
+        if (view != null) {
             view.showLoading();
         }
     }
@@ -44,7 +45,7 @@ public class BasePresenter<T extends BaseContract.View>
     public void destroy() {
         T view = mView;
         mView = null;
-        if (view!= null){
+        if (view != null) {
             // 把Presenter设置为空
             view.setPresenter(null);
         }

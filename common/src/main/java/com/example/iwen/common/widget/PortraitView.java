@@ -7,7 +7,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 头像的view
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/12 15:05
  */
 public class PortraitView extends CircleImageView {

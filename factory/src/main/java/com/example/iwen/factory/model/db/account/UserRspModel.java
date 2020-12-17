@@ -1,21 +1,27 @@
-package com.example.iwen.factory.model.api.account;
-
-import com.example.iwen.factory.model.db.User;
+package com.example.iwen.factory.model.db.account;
 
 /**
  * 用户登录返回
  * 接口请求后接收到的数据实体类
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 11-18 018 8:53
  */
 public class UserRspModel {
+    /**
+     * name   String
+     * workId   String
+     * departmentName   String
+     * departmentId     String
+     * icon     String
+     * phoneNumber    String
+     */
     private String name; // 姓名
     private String workId; // 工号
     private String departmentName; // 部门名称
     private String departmentId; // 部门id
     private String icon; // 头像url
     private String phoneNumber; // 电话号码
-    private String roleName; // 角色
 
     public String getName() {
         return name;
@@ -65,14 +71,6 @@ public class UserRspModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
     @Override
     public String toString() {
         return "UserRspModel{" +
@@ -82,7 +80,6 @@ public class UserRspModel {
                 ", departmentId='" + departmentId + '\'' +
                 ", icon='" + icon + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", roleName='" + roleName + '\'' +
                 '}';
     }
 }

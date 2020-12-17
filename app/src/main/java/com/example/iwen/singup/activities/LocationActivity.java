@@ -16,7 +16,7 @@ import com.example.iwen.singup.helper.LocationService;
 
 /**
  * 百度地图定位
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 2020/11/14 17:49
  */
 public class LocationActivity extends Activity {
@@ -61,14 +61,12 @@ public class LocationActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
+        locationService.unregisterListener(mListener); // 注销掉监听
+        locationService.stop(); // 停止定位服务
     }
 
-    /*****
-     *
+    /**
      * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-     *
      */
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
 

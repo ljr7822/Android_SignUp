@@ -5,8 +5,8 @@ import androidx.annotation.StringRes;
 import com.example.iwen.common.factory.presenter.BaseContract;
 
 /**
- * 注册部分逻辑
- * author : Iwen大大怪
+ * 注册部分逻辑接口
+ * @author : Iwen大大怪
  * create : 2020/11/16 20:10
  */
 public interface RegisterContract {

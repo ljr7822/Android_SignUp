@@ -1,15 +1,21 @@
 package com.example.iwen.common.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * 对文件或者字符串进行Hash算法，返回MD5值
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 2:37
  */
 public class HashUtil {
@@ -78,5 +84,18 @@ public class HashUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 对一个字符串进行Base64编码
+     *
+     * @param str 原始字符串
+     * @return 进行Base64编码后的字符串
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String encodeBase64(String str) {
+        return Base64
+                .getEncoder()
+                .encodeToString(str.getBytes());
     }
 }

@@ -81,37 +81,4 @@ public class AboutActivity extends BaseActivity {
     void onBackClick(){
         finish();
     }
-
-//    @Override
-//    protected void onCreateHeader(@NonNull ImageView icon, @NonNull TextView slogan, @NonNull TextView version) {
-//        icon.setImageResource(R.mipmap.logo);
-//        slogan.setText("生命不息，奋斗不止");
-//        version.setText("v" + BuildConfig.VERSION_NAME);
-//    }
-//
-//    @Override
-//    protected void onItemsCreated(@NonNull Items items) {
-//        items.add(new Category("介绍"));
-//        items.add(new Card(getString(R.string.about_app)));
-//
-////        items.add(new Category("功能特性"));
-////        items.add(new Card(getString(R.string.about_function)));
-//
-//        items.add(new Category("意见反馈"));
-//        items.add(new Card(getString(R.string.about_feedback)));
-//
-//        items.add(new Category("开发者"));
-//        items.add(new Contributor(R.mipmap.designer5, "18信管1班 李俊然", "Developer & designer", "https://github.com/ljr7822"));
-//        items.add(new Category("开发者"));
-//        items.add(new Contributor(R.mipmap.designer4, "18信管1班 艾常鹏", "Developer & designer", "https://github.com/ljr7822"));
-//        items.add(new Category("开发者"));
-//        items.add(new Contributor(R.mipmap.designer3, "18信管1班 张曼洋", "Developer & designer", "https://github.com/ljr7822"));
-//        items.add(new Category("开发者"));
-//        items.add(new Contributor(R.mipmap.designer2, "18计科4班 陈敏", "Developer & designer", "https://github.com/ljr7822"));
-//        items.add(new Category("开发者"));
-//        items.add(new Contributor(R.mipmap.designer1, "20信管1班 雷鑫", "Developer & designer", "https://github.com/ljr7822"));
-//
-//        items.add(new Category("项目地址"));
-//        items.add(new Contributor(R.mipmap.github, "Github", "打了么", "https://github.com/ljr7822"));
-//    }
 }

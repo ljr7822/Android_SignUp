@@ -14,7 +14,7 @@ import butterknife.Unbinder;
 
 /**
  * Fragment基类
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 2020/11/11 14:35
  */
 public abstract class BaseFragment extends androidx.fragment.app.Fragment {
@@ -30,7 +30,9 @@ public abstract class BaseFragment extends androidx.fragment.app.Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         if (mRoot == null){
             // 初始化当前的根布局，但是不在创建时就添加到container里边
             int layId = getContentLayoutId();
@@ -73,11 +75,6 @@ public abstract class BaseFragment extends androidx.fragment.app.Fragment {
      * @return 资源文件id
      */
     protected abstract int getContentLayoutId();
-
-//    //初始化UI
-//    protected void initView(View view) {
-//        unbinder = ButterKnife.bind(this, view);
-//    }
 
     /**
      * 初始化控件

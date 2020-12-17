@@ -8,7 +8,7 @@ import com.example.iwen.common.R;
 import com.lxj.xpopup.core.PositionPopupView;
 
 /**
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 11-21 021 16:08
  */
 public class QQMsgPopup extends PositionPopupView {

@@ -188,7 +188,7 @@ public class Application extends android.app.Application {
                     @Override
                     public void onConfirm() {
                         // TODO 执行选择操作
-                        Toast.makeText(instance, "输入了：", Toast.LENGTH_SHORT).show();
+
                     }
                 })
                 .show();

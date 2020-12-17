@@ -1,26 +1,27 @@
-package com.example.iwen.factory.model.api.Location;
+package com.example.iwen.factory.model.db.sign;
 
 /**
+ * 签到返回的数据模型
+ *
  * @author : iwen大大怪
- * create : 11-26 026 11:49
+ * create : 11-29 029 15:12
  */
-public class LocationTaskList {
+public class SignRspModel {
     /**
-     * "signInId": "14486315",
-     * "collectId": "6575",
-     * "work": "陈晨(10010002)",
-     * "date": "2020-11-26",
-     * "time": null,
-     * "departmentId": "1001",
-     * "ifSignIn": null,
-     * "ifLate": null,
-     * "locationId": "6361",
-     * "info": null,
-     * "icon": null,
-     * "locationName": "重庆市荣昌区学院路160号",
-     * "departmentName": "销售部",
-     * "collectName": "1",
-     * "collectType": null
+     * signInId   String  // 记录id
+     * collectId   String  // 信息收集id
+     * collectName  String
+     * work    String //  员工信息（name(id)）
+     * date    String // 日期 格式（xxxx-xx-xx）
+     * time    String // 时间  格式(xx:xx)
+     * departmentId  String
+     * ifSigIn  String
+     * ifLate   String
+     * locationId  String
+     * info   String
+     * icon   String
+     * locationName   String
+     * department  String
      */
     private String signInId;
     private String collectId;
@@ -28,14 +29,13 @@ public class LocationTaskList {
     private String date;
     private String time;
     private String departmentId;
-    private String ifSignIn;
+    private String ifSigIn;
     private String ifLate;
     private String locationId;
     private String info;
     private String icon;
     private String locationName;
-    private String departmentName;
-    private String collectType;
+    private String department;
 
     public String getSignInId() {
         return signInId;
@@ -85,12 +85,12 @@ public class LocationTaskList {
         this.departmentId = departmentId;
     }
 
-    public String getIfSignIn() {
-        return ifSignIn;
+    public String getIfSigIn() {
+        return ifSigIn;
     }
 
-    public void setIfSignIn(String ifSignIn) {
-        this.ifSignIn = ifSignIn;
+    public void setIfSigIn(String ifSigIn) {
+        this.ifSigIn = ifSigIn;
     }
 
     public String getIfLate() {
@@ -133,19 +133,11 @@ public class LocationTaskList {
         this.locationName = locationName;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    public String getCollectType() {
-        return collectType;
-    }
-
-    public void setCollectType(String collectType) {
-        this.collectType = collectType;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

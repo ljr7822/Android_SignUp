@@ -27,15 +27,15 @@
         android:layout_gravity="center_vertical"
         android:clickable="true"
         android:focusable="true"
+        android:backgroundTint="@color/white"
         android:foreground = "?android:attr/selectableItemBackground"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        app:cardElevation="20dp">
 
         <ImageView
             android:id="@+id/card_bg"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:background="@drawable/img_4"
             android:alpha="0.8"
             android:scaleType="centerCrop"/>
 
@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:textColor="@color/grey"
                 tools:text="2020年4月8日"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -58,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/black_semi"
                 tools:text="Order Successfully Completed" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -66,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/black_semi"
+                android:textColor="@android:color/black"
                 tools:text="Description" />
 
             <androidx.appcompat.widget.AppCompatTextView

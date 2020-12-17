@@ -11,14 +11,14 @@ import butterknife.ButterKnife;
 
 /**
  * activity基类
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 2020/11/11 14:35
  */
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //在界面未初始化之前初始化窗口
+        // 在界面未初始化之前初始化窗口
         initWidows();
 
         if (initArgs(getIntent().getExtras())) {

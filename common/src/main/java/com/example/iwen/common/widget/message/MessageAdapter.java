@@ -24,7 +24,7 @@ import es.dmoral.toasty.Toasty;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 11-22 022 20:09
  */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> implements ItemTouchHelperAdapter {

@@ -19,6 +19,8 @@ import com.example.iwen.singup.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Objects;
+
 /**
  * 图片选择fragment
  */
@@ -33,7 +35,7 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // 先使用默认的
-        return new BottomSheetDialog(getContext());
+        return new BottomSheetDialog(Objects.requireNonNull(getContext()));
     }
 
     @Nullable

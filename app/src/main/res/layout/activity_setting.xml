@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="设置" />
 
         </FrameLayout>
@@ -55,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/len_8"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -96,7 +99,8 @@
             android:id="@+id/setting_account_and_safe"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -131,7 +135,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/len_8"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -172,7 +177,8 @@
             android:id="@+id/setting_map"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -207,7 +213,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/len_8"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -248,7 +255,8 @@
             android:id="@+id/setting_clear"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/white"
+            android:background="@drawable/ll_customer_selector"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView

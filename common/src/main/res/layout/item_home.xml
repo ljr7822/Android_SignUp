@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="@dimen/dp_90"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/white"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        app:cardElevation="20dp">
 
         <ImageView
             android:id="@+id/cement_card_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_img1"
-            android:scaleType="centerCrop"
-            android:alpha="0.9"/>
+            android:alpha="0.8"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,16 +43,17 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:backgroundTint="@color/theme"
-                    android:layout_marginEnd="@dimen/len_6"
                     android:layout_gravity="top"
-                    android:background="@drawable/icon_cement"/>
+                    android:layout_marginEnd="@dimen/len_6"
+                    android:background="@drawable/icon_cement"
+                    android:backgroundTint="@color/theme" />
+
                 <TextView
                     android:id="@+id/cement_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
                     android:layout_gravity="center"
+                    android:text="Title"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -63,18 +63,27 @@
                     android:layout_marginStart="@dimen/len_8"
                     android:gravity="start"
                     android:text="minutes"
-                    android:textColor="@color/grey"/>
+                    android:textColor="@color/grey" />
 
             </LinearLayout>
 
             <TextView
-                android:layout_marginTop="@dimen/len_4"
                 android:id="@+id/cement_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="gdjadhakdhshdakhksfaskfhakfasknffsjf"/>
+                android:layout_marginTop="@dimen/len_4"
+                android:text="gdjadhakdhshdakhksfaskfhakfasknffsjf"
+                android:textColor="@color/black" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:text="市场部"
+            android:layout_marginEnd="@dimen/len_10"
+            android:layout_marginBottom="@dimen/len_2"/>
 
     </androidx.cardview.widget.CardView>
 

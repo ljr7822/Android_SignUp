@@ -8,6 +8,7 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.example.iwen.common.Common;
 import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.factory.Factory;
 
@@ -28,14 +29,11 @@ public class UploadHelper {
     // oss存储桶名字
     private static final String BUCKET_NAME = "iwen-signup";
 
-    // secret: AYiuu0PhVjgXU5qIWAcYTPSG8l7WXN
-    // id:  LTAI4GEZaRvceAnaRYccDXBh
-
     private static OSS getClient() {
         // 在移动端建议使用STS的方式初始化OSSClient。
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(
-                "LTAI4G7qeeWttgB6YC2KGXNf",
-                "bCJ9ILXJtevcfLrTy5iY9aBE8R40e5");
+                Common.Constance.AccessKeyID,
+                Common.Constance.AccessKeySecret);
         return new OSSClient(Factory.app(), ENDPOINT, credentialProvider);
     }
 

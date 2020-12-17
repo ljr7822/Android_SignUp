@@ -17,12 +17,13 @@ import java.util.regex.Pattern;
 
 /**
  * 注册部分实现类
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/16 20:17
  */
 public class RegisterPresenter
         extends BasePresenter<RegisterContract.View>
-        implements RegisterContract.Presenter , DataSource.Callback<User> {
+        implements RegisterContract.Presenter, DataSource.Callback<User> {
 
     public RegisterPresenter(RegisterContract.View view) {
         super(view);
@@ -57,7 +58,7 @@ public class RegisterPresenter
             // 构造model进行请求调用
             RegisterModel model = new RegisterModel(phone, password, name);
             // 进行网络请求，并设置回送接口为自己
-            AccountHelper.register(model,this);
+            AccountHelper.register(model, this);
         }
     }
 
@@ -78,7 +79,7 @@ public class RegisterPresenter
         // 当网络请求成功，注册好了，回送一个用户信息来
         // 告知界面注册成功
         final RegisterContract.View view = getView();
-        if (view==null)
+        if (view == null)
             return;
         // 此时是网络回送回来的，并不保证处于主线程状态
         // 强制进行线程切换
@@ -95,7 +96,7 @@ public class RegisterPresenter
     public void onDataNotAvailable(final int strRes) {
         // 网络请求告知注册失败
         final RegisterContract.View view = getView();
-        if (view==null)
+        if (view == null)
             return;
         // 此时是网络回送回来的，并不保证处于主线程状态
         // 强制进行线程切换

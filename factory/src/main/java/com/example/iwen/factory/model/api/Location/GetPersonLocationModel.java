@@ -1,9 +1,5 @@
 package com.example.iwen.factory.model.api.Location;
 
-import com.example.iwen.common.utils.DateTimeUtil;
-
-import java.util.Date;
-
 /**
  * 获取定位任务的请求model
  *
@@ -12,11 +8,11 @@ import java.util.Date;
  */
 public class GetPersonLocationModel {
     private String workId;
-    private String mDate;
+    private String date;
 
     public GetPersonLocationModel(String workId, String date) {
         this.workId = workId;
-        mDate = date;
+        this.date = date;
     }
 
     public String getWorkId() {
@@ -28,10 +24,10 @@ public class GetPersonLocationModel {
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
     public void setDate(String date) {
-        mDate = date;
+        this.date = date;
     }
 }

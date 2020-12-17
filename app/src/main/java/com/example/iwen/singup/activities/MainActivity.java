@@ -19,9 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
-import com.example.iwen.common.utils.DateTimeUtil;
-import com.example.iwen.factory.model.db.LoginRspModel;
-import com.example.iwen.factory.presenter.location.LocationContract;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
@@ -34,47 +31,44 @@ import net.qiujuer.genius.ui.widget.FloatActionButton;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+public class MainActivity
+        extends BaseActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener, NavHelper.OnTabChangedListener<Integer> {
 
-public class MainActivity extends BaseActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener,
-        NavHelper.OnTabChangedListener<Integer> {
-    // 标题
-    @BindView(R.id.appbar)
-    View mLayAppbar;
-    //    // 头像
-//    @BindView(R.id.im_portrait)
-//    PortraitView mPortrait;
-    // 居中的文字
-    @BindView(R.id.txt_title)
-    TextView mTitle;
-    // 设置
-    @BindView(R.id.im_setting)
-    ImageView mSetting;
-    // 中间部分内容
-    @BindView(R.id.lay_container)
-    FrameLayout mContainer;
-    // 底部导航
-    @BindView(R.id.navigation)
-    BottomNavigationView mNavigation;
+    private View mLayAppbar;
+    private TextView mTitle;
+    private ImageView mSetting;
+    private FrameLayout mContainer;
+    private BottomNavigationView mNavigation;
+    private FloatActionButton mAction;
 
-    // 浮动按钮
-    @BindView(R.id.btn_action)
-    FloatActionButton mAction;
+    boolean isFirst = true;
 
     private NavHelper<Integer> mNavHelper;
 
-    protected LocationContract.Presenter mPresenter;
-    private LoginRspModel mLoginRspModel;
+
+    /**
+     * 绑定视图
+     */
+    private void initView() {
+        mLayAppbar = findViewById(R.id.appbar);
+        mTitle = findViewById(R.id.txt_title);
+        mSetting = findViewById(R.id.im_setting);
+        mContainer = findViewById(R.id.lay_container);
+        mNavigation = findViewById(R.id.navigation);
+        mAction = findViewById(R.id.btn_action);
+    }
 
     /**
      * mainActivity显示入口
+     * intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
      *
      * @param context 上下文
      */
     public static void show(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class));
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override
@@ -90,15 +84,15 @@ public class MainActivity extends BaseActivity
     @Override
     protected void initWidget() {
         super.initWidget();
-        // 初始化底部辅助工具类
+        initView();
+        // 初始化底部辅助工具类,添加底部导航
         mNavHelper = new NavHelper<Integer>(this, R.id.lay_container, getSupportFragmentManager(), this);
         mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(HomeFragment.class, R.string.title_home))
                 .add(R.id.action_me, new NavHelper.Tab<>(MineFragment.class, R.string.title_mine_top))
                 .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_content));
         // 添加对底部导航按钮的监听
         mNavigation.setOnNavigationItemSelectedListener(this);
-
-        // 给appbar设置背景图片
+        // 给顶部appbar设置背景图片
         Glide.with(this)
                 .load(R.mipmap.top_bg)
                 .centerCrop()
@@ -121,6 +115,29 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 打卡按钮，跳转到打卡界面
+        mAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SignActivity.class);
+                startActivity(intent);
+                // SignActivity.show(getApplicationContext(),null);
+            }
+        });
+        // 设置跳转按钮
+        mSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity.this,SettingActivity.class);
+                startActivity(intent1);
+                //SettingActivity.show(getApplicationContext());
+            }
+        });
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         // 第一次进去触发选择
@@ -129,33 +146,6 @@ public class MainActivity extends BaseActivity
         // 触发首次选中home
         menu.performIdentifierAction(R.id.action_home, 0);
     }
-
-    /**
-     * 打卡按钮，跳转到打卡界面
-     */
-    @OnClick(R.id.btn_action)
-    void onActionClick() {
-        // 跳到用户界面
-        //AccountActivity.show(this);
-        // 跳到打卡界面
-        SignActivity.show(this);
-
-//        DateTimeUtil dateTimeUtil = new DateTimeUtil();
-//        String time = dateTimeUtil.getTime();
-//        String timedate = time.split(" ")[0].trim();
-//        mPresenter.getPerson(mLoginRspModel.getWorkId(),timedate);
-
-    }
-
-    /**
-     * 设置跳转
-     */
-    @OnClick(R.id.im_setting)
-    void inSettingClick() {
-        SettingActivity.show(this);
-    }
-
-    boolean isFirst = true;
 
     /**
      * Navigation选中事件

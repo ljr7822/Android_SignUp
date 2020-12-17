@@ -1,4 +1,4 @@
-package com.example.iwen.factory.model.db;
+package com.example.iwen.factory.model.db.account;
 
 /**
  * 登录返回的数据模型

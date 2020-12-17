@@ -1,24 +1,19 @@
 package com.example.iwen.factory.presenter.account;
 
-import android.widget.Toast;
-
 import com.example.iwen.common.factory.data.DataSource;
 import com.example.iwen.common.factory.presenter.BasePresenter;
 import com.example.iwen.factory.R;
 import com.example.iwen.factory.data.helper.AccountHelper;
 import com.example.iwen.factory.model.api.account.LoginModel;
-import com.example.iwen.factory.model.api.account.UserRspModel;
-import com.example.iwen.factory.model.db.LoginRspModel;
-import com.example.iwen.factory.model.db.User;
+import com.example.iwen.factory.model.db.account.LoginRspModel;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * 登录部分实现类
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 11-18 018 9:31
  */
 public class LoginPresenter
@@ -37,7 +32,7 @@ public class LoginPresenter
      * @param deviceId 设备识别码
      */
     @Override
-    public void login(String workId, String password,String deviceId) {
+    public void login(String workId, String password, String deviceId) {
         // 调用start方法，默认启动了Loading
         start();
         // 得到View接口
@@ -53,14 +48,14 @@ public class LoginPresenter
             // 进行网络请求
 
             // 构造model进行请求调用
-            LoginModel model = new LoginModel(workId, password,deviceId);
+            LoginModel model = new LoginModel(workId, password, deviceId);
             // 进行网络请求，并设置回送接口为自己
             AccountHelper.login(model, this);
         }
     }
 
     @Override
-    public void onDataLoaded(LoginRspModel userRspModel) {
+    public void onDataLoaded(final LoginRspModel loginRspModel) {
         // 当网络请求成功，登录好了，回送一个用户信息来
         // 告知界面登录成功
         final LoginContract.View view = getView();
@@ -72,7 +67,7 @@ public class LoginPresenter
             @Override
             public void call() {
                 // 调用主界面注册成功
-                view.loginSuccess();
+                view.loginSuccess(loginRspModel);
             }
         });
     }
@@ -93,5 +88,4 @@ public class LoginPresenter
             }
         });
     }
-
 }

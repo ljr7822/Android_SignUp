@@ -28,6 +28,12 @@
         android:id="@+id/home_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#23E2E2E2"
         tools:listitem="@layout/item_home"/>
+    <com.example.iwen.common.widget.EmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </LinearLayout>

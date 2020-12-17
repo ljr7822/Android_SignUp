@@ -1,21 +1,20 @@
 package com.example.iwen.singup.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.singup.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.lxj.xpopup.XPopup;
@@ -43,10 +42,14 @@ public class SettingActivity extends BaseActivity {
 
     /**
      * 打卡Activity显示入口
+     * intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+     *
      * @param context 上下文
      */
-    public static void show(Context context){
-        context.startActivity(new Intent(context,SettingActivity.class));
+    public static void show(Context context) {
+        Intent intent = new Intent(context, SettingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override
@@ -83,7 +86,7 @@ public class SettingActivity extends BaseActivity {
      * 返回按钮
      */
     @OnClick(R.id.im_back)
-    void onBackClick(){
+    void onBackClick() {
         finish();
     }
 
@@ -91,15 +94,15 @@ public class SettingActivity extends BaseActivity {
      * 退登录按钮
      */
     @OnClick(R.id.btn_logout)
-    void onLogoutClick(){
-        showXPopupLogout(this,"确认","退出后将断开定位服务，确认退出？");
+    void onLogoutClick() {
+        showXPopupLogout(this, "确认", "退出后将断开定位服务，确认退出？");
     }
 
     /**
      * 关于我们
      */
     @OnClick(R.id.setting_about)
-    void onAboutClick(){
+    void onAboutClick() {
         AboutActivity.show(this);
     }
 
@@ -119,7 +122,7 @@ public class SettingActivity extends BaseActivity {
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
-                                // TODO 退出登录操作
+                                logout();
                                 finish();
                             }
                         },
@@ -129,5 +132,17 @@ public class SettingActivity extends BaseActivity {
                             }
                         }, false)
                 .show();
+    }
+
+    /**
+     * 退出登录方法
+     */
+    private void logout() {
+        // 清空持久化数据
+        SPUtils.remove(this, "isLogin");
+        SPUtils.remove(this, "workId");
+        SPUtils.remove(this, "password");
+        // 返回登录界面
+        AccountActivity.show(this);
     }
 }

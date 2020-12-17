@@ -15,19 +15,25 @@ import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.assist.PermissionsFragment;
+import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 
-import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.compat.UiCompat;
 
 /**
  * 启动页面
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/16 9:59
  */
 public class LaunchActivity extends BaseActivity {
     // Drawable
     private ColorDrawable mBgDrawable;
+    // 登录标志：判断是否存在登录
+    private boolean isLogin = false;
 
+    /**
+     * 绑定视图
+     */
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_launch;
@@ -45,16 +51,15 @@ public class LaunchActivity extends BaseActivity {
         // 设置给背景
         root.setBackground(drawable);
         mBgDrawable = drawable;
-
     }
 
     @Override
     protected void initData() {
         super.initData();
-        // 手机一启动九立马获取DeviceId并保存到手机中
+        // 手机一启动就立马获取DeviceId并保存到手机中
         SPUtils.put(this, "DeviceId", DeviceIdUtil.getDeviceId(this));
         // 开始动画
-        startAnim(0.9f, new Runnable() {
+        startAnim(0.1f, new Runnable() {
             @Override
             public void run() {
                 skip();
@@ -62,12 +67,26 @@ public class LaunchActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        skip();
+    }
+
     private void skip() {
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
-            // 进入注册登录界面
-            AccountActivity.show(this);
-            // MainActivity.show(this);
-            finish();
+            // 判断是否已经登录
+            isLogin =(boolean)SPUtils.get(this,"isLogin",false);
+            if (isLogin){
+                // 已经登录
+                MainActivity.show(this);
+                finish();
+            }else {
+                // 进入注册登录界面
+                AccountActivity.show(this);
+                //MainActivity.show(this);
+                finish();
+            }
         }
     }
 
@@ -79,11 +98,10 @@ public class LaunchActivity extends BaseActivity {
      */
     private void startAnim(float endProgress, final Runnable endCallback) {
         // 获取最终的颜色
-        // int finalColor = Resource.Color.WHITE;
-        int finalColor = UiCompat.getColor(getResources(),R.color.theme);
-        // 运算但钱进度的颜色
+        int finalColor = UiCompat.getColor(getResources(), R.color.theme);
+        // 运算当前进度的颜色
         ArgbEvaluator evaluator = new ArgbEvaluator();
-        int endColor = (int) evaluator.evaluate(endProgress,mBgDrawable.getColor(),finalColor);
+        int endColor = (int) evaluator.evaluate(endProgress, mBgDrawable.getColor(), finalColor);
         // 构建一个属性动画
         ValueAnimator valueAnimator = ObjectAnimator.ofObject(this, property, evaluator, endColor);
         valueAnimator.setDuration(3500); // 设置时间

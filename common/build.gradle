@@ -38,6 +38,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation project(path: ':lang')
+    //implementation project(path: ':factory')
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     // For control over item selection of both touch and mouse driven selection
@@ -55,6 +56,7 @@ dependencies {
     // implementation 'com.irozon.sneaker:sneaker:2.0.0'
     implementation 'com.tapadoo.android:alerter:3.0.0'
     implementation 'com.lxj:xpopup:2.2.1'
+    implementation 'cn.yc:YCDialogLib:3.6.6'
     // 时间日历选择
     implementation 'com.lxj:xpopup-ext:0.0.3'
     // Toast提示

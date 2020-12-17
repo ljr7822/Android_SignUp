@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 
 /**
  * 正方形控件
- * author : Iwen大大怪
+ * 基于宽度的正方形控件
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 9:13
  */
 public class SquareLayout extends FrameLayout {
@@ -29,6 +31,5 @@ public class SquareLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // 给父类传递的测量值都为宽度，那么就是基于宽度的正方形控件了
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
-
     }
 }

@@ -8,7 +8,8 @@ import com.example.iwen.common.factory.presenter.BaseContract;
 
 /**
  * 基础的 presenterFragment
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/16 20:38
  */
 public abstract class PresenterFragment<Presenter extends BaseContract.Presenter>
@@ -25,6 +26,7 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
 
     /**
      * 初始化 Presenter
+     *
      * @return Presenter
      */
     protected abstract Presenter initPresenter();

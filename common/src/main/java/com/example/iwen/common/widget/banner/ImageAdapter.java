@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 轮播图适配器
  *
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 11-19 019 13:34
  */
 public class ImageAdapter extends BannerAdapter<DataBean, ImageAdapter.BannerViewHolder> {

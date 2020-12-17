@@ -10,6 +10,8 @@
     <string name="label_permission_record_audio_desc">用于音频聊天</string>
     <string name="label_permission_access">定位</string>
     <string name="label_permission_access_desc">用于获取位置信息</string>
+    <string name="label_permission_camera">相机</string>
+    <string name="label_permission_camera_desc">用于拍照</string>
     <string name="label_permission_submit">授权</string>
     <string name="label_permission_ok">授权成功！</string>
 
@@ -17,6 +19,7 @@
     <string name="label_login_welcome">登 录</string>
     <string name="label_sign_up_title">打卡</string>
     <string name="label_submit">提     交</string>
+    <string name="label_next">下一步</string>
     <string name="label_quxiao">取     消</string>
     <string name="label_login">登     录</string>
     <string name="label_logout">退出登录</string>
@@ -25,9 +28,13 @@
     <string name="label_register_welcome">欢迎您!</string>
     <string name="label_register">注册</string>
     <string name="label_password">请输入您的密码</string>
+    <string name="label_sign_success">签到成功</string>
     <string name="label_portrait_tips">选择你的专属头像</string>
     <string name="label_name">名字</string>
-    <string name="label_desc_tips">用一句话介绍自己</string>
+    <string name="label_department_tips">您所在的部门</string>
+    <string name="label_name_tips">请输入姓名</string>
+    <string name="label_phone_tips">请输入手机号</string>
+    <string name="label_password_tips">初次登陆，请修改密码</string>
     <string name="label_sex_man">男</string>
     <string name="label_sex_woman">女</string>
     <string name="label_go_register">没有账户？去注册</string>

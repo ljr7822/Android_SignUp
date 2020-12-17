@@ -12,11 +12,10 @@ public class Cements {
     private String time;
     private int imgId;
 
-    public Cements(String title, String desc, String time, int imgId) {
+    public Cements(String title, String desc, String time) {
         this.title = title;
         this.desc = desc;
         this.time = time;
-        this.imgId = imgId;
     }
 
     public String getTitle() {

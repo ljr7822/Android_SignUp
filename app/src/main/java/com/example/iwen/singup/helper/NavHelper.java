@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 /**
  * 解决对fragment的调度与重用问题
- * author : Iwen大大怪
+ *
+ * @author : Iwen大大怪
  * create : 2020/11/15 8:47
  */
 public class NavHelper<T> {
@@ -32,31 +33,34 @@ public class NavHelper<T> {
 
     /**
      * 添加Tab
+     *
      * @param menuId 对应的菜单id
-     * @param tab Tab
+     * @param tab    Tab
      */
-    public NavHelper<T> add(int menuId, Tab<T> tab){
-        tabs.put(menuId,tab);
+    public NavHelper<T> add(int menuId, Tab<T> tab) {
+        tabs.put(menuId, tab);
         return this;
     }
 
     /**
      * 获取当前显示的Tab
+     *
      * @return 当前显示的Tab
      */
-    public Tab<T> getCurrentTab(){
+    public Tab<T> getCurrentTab() {
         return currentTab;
     }
 
     /**
      * 执行点击菜单操作
+     *
      * @param menuId 菜单的id
      * @return 是否能处理这个点击
      */
     public boolean performClickMenu(int menuId) {
         // 集合中寻找点击的菜单对应Tab,如果有则进行处理
         Tab<T> tab = tabs.get(menuId);
-        if (tab!=null){
+        if (tab != null) {
             doSelect(tab);
             return true;
         }
@@ -65,13 +69,14 @@ public class NavHelper<T> {
 
     /**
      * 进行真实的tab选择操作
+     *
      * @param tab Tab
      */
-    private void doSelect(Tab<T> tab){
+    private void doSelect(Tab<T> tab) {
         Tab<T> oldTab = null;
-        if (currentTab!=null){
+        if (currentTab != null) {
             oldTab = currentTab;
-            if (oldTab == tab){
+            if (oldTab == tab) {
                 // 如果当前tab就是点击的Tab，我们不做处理
                 notifyTabReselect(tab);
                 return;
@@ -79,32 +84,33 @@ public class NavHelper<T> {
         }
         // 赋值并调用切换方法
         currentTab = tab;
-        doTabChanged(currentTab,oldTab);
+        doTabChanged(currentTab, oldTab);
 
     }
 
     /**
      * 进行Fragment的真实调度操作
+     *
      * @param newTab 新的
      * @param oldTab 旧的
      */
-    private void doTabChanged(Tab<T> newTab, Tab<T> oldTab){
+    private void doTabChanged(Tab<T> newTab, Tab<T> oldTab) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (oldTab != null){
-            if (oldTab.mFragment != null){
+        if (oldTab != null) {
+            if (oldTab.mFragment != null) {
                 // 从界面移除，但是还在fragment的缓存空间中
                 transaction.detach(oldTab.mFragment);
             }
         }
-        if (newTab != null){
-            if (newTab.mFragment == null){
+        if (newTab != null) {
+            if (newTab.mFragment == null) {
                 // 首次新建
-                Fragment fragment = Fragment.instantiate(mContext,newTab.clx.getName());
+                Fragment fragment = Fragment.instantiate(mContext, newTab.clx.getName());
                 // 缓存起来
                 newTab.mFragment = fragment;
                 // 提交到FragmentManger
-                transaction.add(containerId,fragment,newTab.clx.getName());
-            }else {
+                transaction.add(containerId, fragment, newTab.clx.getName());
+            } else {
                 // 从FragmentManger的缓存空间重新加载到界面中
                 transaction.attach(newTab.mFragment);
             }
@@ -112,25 +118,27 @@ public class NavHelper<T> {
         // 提交事务
         transaction.commit();
         // 通知回调
-        notifyTabSelect(newTab,oldTab);
+        notifyTabSelect(newTab, oldTab);
     }
 
     /**
      * 通知回调的监听器
+     *
      * @param newTab 新的Tab
      * @param oldTab 旧的Tab
      */
-    private void notifyTabSelect(Tab<T> newTab,Tab<T> oldTab){
-        if (listener != null){
-            listener.onTabChanged(newTab,oldTab);
+    private void notifyTabSelect(Tab<T> newTab, Tab<T> oldTab) {
+        if (listener != null) {
+            listener.onTabChanged(newTab, oldTab);
         }
     }
 
     /**
      * 双击刷新
+     *
      * @param tab
      */
-    private void notifyTabReselect(Tab<T> tab){
+    private void notifyTabReselect(Tab<T> tab) {
         // TODO 二次点击
     }
 

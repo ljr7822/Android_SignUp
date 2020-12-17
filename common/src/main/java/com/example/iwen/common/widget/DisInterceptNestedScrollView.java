@@ -10,7 +10,7 @@ import androidx.core.widget.NestedScrollView;
  * 用于子类防止父类拦截子类的事件
  *
  * @author : Iwen大大怪
- * @create : 11-22 022 17:09
+ * create : 11-22 022 17:09
  */
 public class DisInterceptNestedScrollView extends NestedScrollView {
     public DisInterceptNestedScrollView(Context context) {
@@ -27,7 +27,6 @@ public class DisInterceptNestedScrollView extends NestedScrollView {
         super(context, attrs, defStyleAttr);
         requestDisallowInterceptTouchEvent(true);
     }
-
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
         getParent().requestDisallowInterceptTouchEvent(true);
@@ -47,5 +46,4 @@ public class DisInterceptNestedScrollView extends NestedScrollView {
         }
         return super.onTouchEvent(event);
     }
-
 }

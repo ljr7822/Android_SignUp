@@ -40,14 +40,14 @@ public class CementRecyclerViewAdapter extends RecyclerView.Adapter<CementRecycl
         TextView cement_title;
         TextView cement_desc;
         TextView cement_time;
-        ImageView cement_card_bg;
+        //ImageView cement_card_bg;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cement_title = itemView.findViewById(R.id.cement_title);
             cement_desc = itemView.findViewById(R.id.cement_desc);
             cement_time = itemView.findViewById(R.id.cement_time);
-            cement_card_bg = itemView.findViewById(R.id.cement_card_bg);
+            //cement_card_bg = itemView.findViewById(R.id.cement_card_bg);
         }
     }
 
@@ -64,7 +64,7 @@ public class CementRecyclerViewAdapter extends RecyclerView.Adapter<CementRecycl
         holder.cement_title.setText(cementsList.get(cementsList.size()-1-position).getTitle());
         holder.cement_desc.setText(cementsList.get(cementsList.size()-1-position).getDesc());
         holder.cement_time.setText(cementsList.get(cementsList.size()-1-position).getTime());
-        holder.cement_card_bg.setImageBitmap(BitmapUtil.readBitMap(context,cementsList.get(cementsList.size()-1-position).getImgId()));
+        //holder.cement_card_bg.setImageBitmap(BitmapUtil.readBitMap(context,cementsList.get(cementsList.size()-1-position).getImgId()));
     }
 
     @Override

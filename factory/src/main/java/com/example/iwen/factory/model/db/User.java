@@ -2,7 +2,7 @@ package com.example.iwen.factory.model.db;
 
 /**
  * 用户信息
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 2020/11/17 16:45
  */
 public class User {
@@ -13,6 +13,7 @@ public class User {
     private String departmentId; // 部门id
     private String icon; // 头像
     private String phoneNumber; // 手机号
+    private int sex = 0;
 
     public String getName() {
         return name;

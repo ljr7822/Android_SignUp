@@ -4,12 +4,9 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,16 +18,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
+import java.util.Objects;
 
-import es.dmoral.toasty.Toasty;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 动态申请权限
+ *
+ * @author : Iwen大大怪
+ * create : 2020/11/17 9:59
  */
-public class PermissionsFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks{
+public class PermissionsFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks {
     // 权限回调标识
     private static final int RC = 0x0100;
 
@@ -42,7 +42,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         // 返回一个我们复写的
-        return new BottomSheetDialog(getContext());
+        return new BottomSheetDialog(Objects.requireNonNull(getContext()));
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     public void onResume() {
         super.onResume();
         // 界面显示时进行刷新
-        refreshState(getView());
+        refreshState(Objects.requireNonNull(getView()));
     }
 
     /**
@@ -83,6 +83,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         root.findViewById(R.id.im_state_permission_write).setVisibility(haveWritePerm(context) ? View.VISIBLE : View.GONE);
         root.findViewById(R.id.im_state_permission_record_audio).setVisibility(haveRecordAudioPerm(context) ? View.VISIBLE : View.GONE);
         root.findViewById(R.id.im_state_permission_access).setVisibility(haveAccessPerm(context) ? View.VISIBLE : View.GONE);
+        root.findViewById(R.id.im_state_permission_camera).setVisibility(haveCameraPerm(context) ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -158,14 +159,27 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     }
 
     /**
+     * 获取是否有相机权限
+     *
+     * @param context 上下文
+     * @return true代表有
+     */
+    private static boolean haveCameraPerm(Context context) {
+        // 需要检测的权限
+        String[] perms = new String[]{
+                Manifest.permission.CAMERA
+        };
+        return EasyPermissions.hasPermissions(context, perms);
+    }
+
+    /**
      * 私有的show方法
      *
      * @param manager
      */
     private static void show(FragmentManager manager) {
         // 调用 BottomSheetDialogFragment
-        new PermissionsFragment()
-                .show(manager, PermissionsFragment.class.getName());
+        new PermissionsFragment().show(manager, PermissionsFragment.class.getName());
     }
 
     /**
@@ -181,7 +195,8 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 && haveReadPerm(context)
                 && haveWritePerm(context)
                 && haveRecordAudioPerm(context)
-                && haveAccessPerm(context);
+                && haveAccessPerm(context)
+                && haveCameraPerm(context);
         // 没有则显示当前申请权限的界面
         if (!haveAll) {
             show(manager);
@@ -201,14 +216,14 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_FINE_LOCATION
-
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA
         };
-        if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            Toasty.success(getContext(), R.string.label_permission_ok, Toast.LENGTH_SHORT, true).show();
-            // Application.showToast(R.string.label_permission_ok);
+        if (EasyPermissions.hasPermissions(Objects.requireNonNull(getContext()), perms)) {
+            //Toasty.success(getContext(), R.string.label_permission_ok, Toast.LENGTH_SHORT, true).show();
+            Application.showToast(R.string.label_permission_ok);
             // Fragment 中调度getView得到根布局，前提是在onCreateView方法之后
-            refreshState(getView());
+            refreshState(Objects.requireNonNull(getView()));
         } else {
             // 没有权限就进行申请
             EasyPermissions.requestPermissions(this,
@@ -233,6 +248,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
 
     /**
      * 权限申请回调的方法，这个方法中把对应权限申请状态交给EasyPermissions框架
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -241,7 +257,6 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // 传递对应参数，并告知处理接收权限的处理者是我自己
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
-
 }
