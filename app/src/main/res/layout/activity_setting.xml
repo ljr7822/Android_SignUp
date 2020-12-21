@@ -49,7 +49,7 @@
         android:id="@+id/setting_lay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f7f7f7"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -194,17 +194,20 @@
                 android:layout_marginStart="@dimen/len_10"
                 android:layout_weight="1"
                 android:gravity="left|center"
-                android:text="地图设置"
+                android:text="轨迹上传服务"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_18" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical|end"
+            <Switch
+                android:id="@+id/btn_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="20dp"
+                android:textOn="on"
+                android:textOff="off"
                 android:layout_marginEnd="@dimen/len_8"
-                android:background="@mipmap/icon_right"
-                android:contentDescription="@string/app_name" />
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 

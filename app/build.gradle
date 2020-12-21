@@ -22,7 +22,7 @@ android {
     }
     sourceSets{
         main{
-            //说明so的路径为该libs路径
+            // 说明so的路径为该libs路径
             jniLibs.srcDir 'libs'
         }
     }

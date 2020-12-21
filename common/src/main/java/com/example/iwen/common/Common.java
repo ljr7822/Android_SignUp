@@ -14,6 +14,7 @@ public class Common {
         String REGEX_MOBILE = "[1][3,4,5,6,7,8,9][0-9]{9}$";
         String AccessKeyID = "LTAI4G7qeeWttgB6YC2KGXNf";
         String AccessKeySecret = "bCJ9ILXJtevcfLrTy5iY9aBE8R40e5";
+        long serviceId = 225246;
         // 基础的网络请求地址
         //String API_URL = "https://www.easy-mock.com/mock/5fb4acf4bae16b281b2fdc76/";
         //String API_URL = "http://192.168.43.224:8080/api/";
