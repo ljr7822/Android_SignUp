@@ -7,4 +7,8 @@
     <string name="title_activity_personal">PersonalActivity</string>
     <string name="title_activity_group_create">GroupCreateActivity</string>
     <string name="title_activity_group_member">GroupMemberActivity</string>
+    <string name="label_now_date">当前时间:</string>
+    <string name="label_sign_details">签到详情</string>
+    <string name="label_new_date_time">-------</string>
+    <string name="label_name">姓名:</string>
 </resources>

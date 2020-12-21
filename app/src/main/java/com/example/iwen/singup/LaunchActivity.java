@@ -58,8 +58,9 @@ public class LaunchActivity extends BaseActivity {
         super.initData();
         // 手机一启动就立马获取DeviceId并保存到手机中
         SPUtils.put(this, "DeviceId", DeviceIdUtil.getDeviceId(this));
+        SPUtils.put(this, "isInfo", false);
         // 开始动画
-        startAnim(0.1f, new Runnable() {
+        startAnim(0.8f, new Runnable() {
             @Override
             public void run() {
                 skip();
@@ -74,6 +75,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void skip() {
+        // 判断权限
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             // 判断是否已经登录
             isLogin =(boolean)SPUtils.get(this,"isLogin",false);

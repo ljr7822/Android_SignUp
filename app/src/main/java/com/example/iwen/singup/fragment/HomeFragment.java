@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.app.PresenterFragment;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.common.widget.EmptyView;
 import com.example.iwen.common.widget.banner.DataBean;
 import com.example.iwen.common.widget.banner.ImageAdapter;
@@ -21,6 +23,7 @@ import com.example.iwen.factory.model.db.notice.NoticeRspModel;
 import com.example.iwen.factory.presenter.notice.NoticeContract;
 import com.example.iwen.factory.presenter.notice.NoticePresenter;
 import com.example.iwen.singup.R;
+import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -46,6 +49,10 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     @BindView(R.id.banner)
     Banner mBanner;
 
+    // 是否完善信息标志，true为未完善，false为完善
+    private boolean isInfo;
+    private BaseFragment mFragment;
+
     private RecyclerAdapter<NoticeRspModel> mAdapter;
 
     public HomeFragment() {
@@ -68,6 +75,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     @Override
     protected void initWidget(View view) {
         super.initWidget(view);
+        isInfo = (boolean) SPUtils.get(getContext(),"isInfo",false);
         // 轮播图
         mImageAdapter = new ImageAdapter(DataBean.getTestData());
         mBanner.setAdapter(mImageAdapter)
@@ -117,7 +125,9 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         super.onCreate(savedInstanceState);
         //showBanner();
         // TODO 公告
-        mPresenter.getNotice("10010002");
+        mPresenter.getNotice("");
+        // 提示用户完善信息
+        userIsInfo(isInfo);
     }
 
     /**
@@ -152,8 +162,8 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         @BindView(R.id.cement_desc)
         TextView mNoticeDesc;
         // 部门
-        @BindView(R.id.tv_department)
-        TextView mDepartment;
+        @BindView(R.id.tv_department_name)
+        TextView mDepartmentName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -161,10 +171,10 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
 
         @Override
         protected void onBind(NoticeRspModel noticeRspModel) {
-            mNoticeTitle.setText(noticeRspModel.getTitle());
+            mNoticeTitle.setText(noticeRspModel.getType());
             mNoticeTime.setText(noticeRspModel.getDate());
-            mNoticeDesc.setText(noticeRspModel.getContent());
-            mDepartment.setText(noticeRspModel.getDepartmentName());
+            mNoticeDesc.setText(noticeRspModel.getNoticeContents());
+            mDepartmentName.setText(noticeRspModel.getDepartmentName());
         }
     }
 
@@ -206,6 +216,51 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         Uri content_url = Uri.parse(url);//此处填链接
         intent.setData(content_url);
         startActivity(intent);
+    }
+
+    /**
+     * 是否需要完善信息
+     * @param isInfo true不需要
+     */
+    private void userIsInfo(boolean isInfo) {
+        if (isInfo) {
+            // 已经完善信息，不做提示
+            return;
+        } else {
+            showXPopupGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
+        }
+    }
+
+    /**
+     * 完善信息弹窗
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showXPopupGotoInfo(Context context, String title, String content) {
+        new XPopup.Builder(context)
+                .hasBlurBg(true)
+                .asConfirm(title, content,
+                        "退出",
+                        "立即完善",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                // 立即前往完善
+                                mFragment = new UpdateInfoFragment();
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.lay_container,mFragment)
+                                        .commit();
+                            }
+                        },
+                        new OnCancelListener() {
+                            @Override
+                            public void onCancel() {
+                                // 直接退出app
+                            }
+                        }, false)
+                .show();
     }
     /**
      * 顶部广告轮播图

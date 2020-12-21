@@ -26,6 +26,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 public class UpdateInfoPresenter
         extends BasePresenter<UpdateInfoContract.View>
         implements UpdateInfoContract.Presenter, DataSource.Callback<UserRspModel> {
+
     public UpdateInfoPresenter(UpdateInfoContract.View view) {
         super(view);
     }
@@ -36,7 +37,9 @@ public class UpdateInfoPresenter
                        final int isMan) {
         start();
         final UpdateInfoContract.View view = getView();
+        // 工号、mac设备号在内部获取并进行传入，不需要直接外部传入
         final String workId = (String) SPUtils.get(context,"workId","10010001");
+        // mac在登录时已经写入数据库
         final String mac = (String) SPUtils.get(context,"DeviceId","10010001");
         // 校验数据
         if (TextUtils.isEmpty(photoFilePath) ||
@@ -67,7 +70,7 @@ public class UpdateInfoPresenter
 
     @Override
     public void onDataLoaded(UserRspModel userRspModel) {
-        //告知界面更新成功
+        // 告知界面更新成功
         final UpdateInfoContract.View view = getView();
         if (view == null)
             return;
@@ -85,7 +88,7 @@ public class UpdateInfoPresenter
         final UpdateInfoContract.View view = getView();
         if (view == null)
             return;
-        //该方法是从网络回调的，需要回主线程更新UI
+        // 该方法是从网络回调的，需要回主线程更新UI
         Run.onUiAsync(new Action() {
             @Override
             public void call() {

@@ -17,7 +17,7 @@ public class NoticeRspModel {
 
     private String noticeId;
     private String departmentName;
-    private String content;
+    private String noticeContents;
     private String departmentId;
     private String date;
     private String type;
@@ -39,12 +39,12 @@ public class NoticeRspModel {
         this.departmentName = departmentName;
     }
 
-    public String getContent() {
-        return content;
+    public String getNoticeContents() {
+        return noticeContents;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setNoticeContents(String noticeContents) {
+        this.noticeContents = noticeContents;
     }
 
     public String getDepartmentId() {

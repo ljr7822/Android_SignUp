@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -25,6 +26,7 @@ import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.PresenterActivity;
 import com.example.iwen.common.utils.DateTimeUtil;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.model.db.sign.SignRspModel;
 import com.example.iwen.factory.presenter.sign.SignContract;
@@ -109,6 +111,8 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     // 温度信息
     private String info = null;
+    // workId
+    private String workId;
 
     // 定位数据字符串
     private StringBuilder time_sb;
@@ -127,6 +131,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
 
     private String[] list;
     private String Messagetitle =  "晚间体温";
+    private Fragment mFragment;
 
     /**
      * 打卡Activity显示入口
@@ -158,6 +163,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         super.initWidget();
         // 注意，建议加上这个判断
         DialogUtils.requestMsgPermission(this);
+        workId = (String) SPUtils.get(this,"workId","10010001");
         // 初始化背景
         initBgImg();
         // 初始化时间
@@ -544,7 +550,9 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                 // 已经获取定位
                 if (ifIcon.equals("拍照签到")) {
                     // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
-                    showXPopupTakePicture(this, "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？");
+                    showXPopupTakePicture(this,
+                            "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
+                            mLocationTaskList.getWork(), workId,mLocationTaskList.getDepartmentName());
                 } else {
                     // 不是拍照打卡
                     mPresenter.sign(mLocationTaskList.getSignInId(),
@@ -552,7 +560,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                             mLocationTaskList.getWork(),
                             info,
                             formatTimeDay+" "+formatTimeH,
-                            "www.baidu.com",
+                            "null",
                             locationStr);
                 }
             }
@@ -577,7 +585,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      */
     @Override
     public void signSuccess(SignRspModel signRspModel) {
-        // 签到成功的回调
+        // 签到成功的回调，弹窗提示
         showXPopupSuccess(this, "签到成功", Messagetitle +":"+signRspModel.getInfo());
     }
 
@@ -627,19 +635,21 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupTakePicture(Context context, String title, String content) {
+    public void showXPopupTakePicture(Context context, String title, String content,String name,String workId,String department) {
         new XPopup.Builder(context)
                 .hasBlurBg(true)
                 .asConfirm(title, content,
                         "不了",
-                        "开始拍照",
+                        "前往拍照",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
-                                // 跳转拍照页面进行拍照
-                                dispatchTakePictureIntent();
-                                // 将照片上传到阿里云
-
+                                // 跳转拍照的fragment页面进行拍照
+                                Intent intent = new Intent(SignActivity.this,TakePictureActivity.class);
+                                intent.putExtra("name",name);
+                                intent.putExtra("workId",workId);
+                                intent.putExtra("department",department);
+                                startActivity(intent);
                             }
                         },
                         new OnCancelListener() {

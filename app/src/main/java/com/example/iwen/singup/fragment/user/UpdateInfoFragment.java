@@ -20,6 +20,7 @@ import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.factory.presenter.user.UpdateInfoContract;
 import com.example.iwen.factory.presenter.user.UpdateInfoPresenter;
 import com.example.iwen.singup.R;
+import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.media.GalleryFragment;
 import com.yalantis.ucrop.UCrop;
@@ -39,7 +40,9 @@ import static android.app.Activity.RESULT_OK;
  * @author : Iwen大大怪
  * create : 2020/11/15 9:05
  */
-public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Presenter> implements UpdateInfoContract.View {
+public class UpdateInfoFragment
+        extends PresenterFragment<UpdateInfoContract.Presenter>
+        implements UpdateInfoContract.View {
     // 头像
     @BindView(R.id.im_portrait)
     PortraitView mPortraitView;
@@ -79,7 +82,9 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
      * @param context 上下文
      */
     public static void show(Context context) {
-        context.startActivity(new Intent(context, UpdateInfoFragment.class));
+        Intent intent = new Intent(context, UpdateInfoFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override

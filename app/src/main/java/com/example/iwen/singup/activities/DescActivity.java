@@ -2,11 +2,9 @@ package com.example.iwen.singup.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +16,10 @@ import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.singup.R;
+import com.example.iwen.singup.helper.TimeThread;
 import com.google.android.material.appbar.AppBarLayout;
+
+import net.qiujuer.genius.ui.widget.Button;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +55,12 @@ public class DescActivity extends BaseActivity {
     // 附加消息
     @BindView(R.id.tv_t)
     TextView mT;
+    // 实时时间
+    @BindView(R.id.tvDate)
+    TextView mNowDate;
+    // 返回首页按钮
+    @BindView(R.id.btn_back_home)
+    Button mButtonBackHome;
 
     private LocationTaskList mLocationTaskList;
 
@@ -88,11 +95,14 @@ public class DescActivity extends BaseActivity {
         Intent intent = getIntent();
         mName.setText(SPUtils.get(this,"name","iwen").toString());
         mWorkId.setText(SPUtils.get(this,"workId","10010001").toString());
-        mDepartment.setText(intent.getStringExtra("departmentId"));
+        mDepartment.setText(intent.getStringExtra("department"));
         mDate.setText(intent.getStringExtra("date"));
         mAdder.setText(intent.getStringExtra("adder"));
         mTitle.setText(intent.getStringExtra("title"));
         mT.setText(intent.getStringExtra("info"));
+        // 显示实时时间
+        TimeThread timeThread = new TimeThread(mNowDate);
+        timeThread.start();
     }
 
     /**
@@ -100,6 +110,16 @@ public class DescActivity extends BaseActivity {
      */
     @OnClick(R.id.im_back)
     void onBackClick() {
+        finish();
+    }
+
+    /**
+     * 返回首页按钮
+     */
+    @OnClick(R.id.btn_back_home)
+    void onBackHomeClick() {
+        Intent intentHome = new Intent(DescActivity.this,MainActivity.class);
+        startActivity(intentHome);
         finish();
     }
 }

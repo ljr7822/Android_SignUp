@@ -24,7 +24,7 @@ import java.util.Objects;
 /**
  * 图片选择fragment
  */
-public class GalleryFragment extends BottomSheetDialogFragment implements GalleryView.SelectedChangeListener{
+public class GalleryFragment extends BottomSheetDialogFragment implements GalleryView.SelectedChangeListener {
     private GalleryView mGalleryView;
     private OnSelectedListener mOnSelectedListener;
 
@@ -43,7 +43,7 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // 获取GalleryView
-        View root = inflater.inflate(R.layout.fragment_gallery,container,false);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         mGalleryView = root.findViewById(R.id.galleryView);
         return root;
     }
@@ -51,16 +51,16 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
     @Override
     public void onStart() {
         super.onStart();
-        mGalleryView.setup(getLoaderManager(),this);
+        mGalleryView.setup(getLoaderManager(), this);
     }
 
     @Override
     public void onSelectedCountChanged(int count) {
         // 如果选择一张图片
-        if (count>0){
+        if (count > 0) {
             // 隐藏自己
             dismiss();
-            if (mOnSelectedListener != null){
+            if (mOnSelectedListener != null) {
                 // 得到所有的选中的图片的路径
                 String[] paths = mGalleryView.getSelectedPath();
                 // 返回第一张
@@ -73,10 +73,11 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
 
     /**
      * 设置事件监听并返回自己
+     *
      * @param listener OnSelectedListener
      * @return GalleryFragment
      */
-    public GalleryFragment setListener(OnSelectedListener listener){
+    public GalleryFragment setListener(OnSelectedListener listener) {
         mOnSelectedListener = listener;
         return this;
     }
@@ -84,7 +85,7 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
     /**
      * 选中图片的监听器
      */
-    public interface OnSelectedListener{
+    public interface OnSelectedListener {
         void onSelectedImage(String path);
     }
 }

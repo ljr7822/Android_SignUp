@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.app.PresenterFragment;
 import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.common.utils.SPUtils;
@@ -39,6 +40,10 @@ public class LoginFragment
     private String workId;
     private String passwordMd5;
     private String mac;
+    // 是否完善信息的标志 true表示已经完善，false表示需要完善
+    private boolean isInfo;
+
+    private BaseFragment mFragment;
 
     // 工号
     @BindView(R.id.edt_workid)
@@ -166,7 +171,9 @@ public class LoginFragment
 
     @Override
     public void loginSuccess(LoginRspModel loginRspModel) {
-        // 注册成功，这时账户已经登录，进行跳转到MainActivity界面
+        // 注册成功，这时账户已经登录，判断是否已经完善用户信息，没有完成就跳转完成用户信息界面
+        // 否则进行跳转到MainActivity界面
+        //isInfo = (boolean) SPUtils.get(getContext(),"isInfo",false);
         MainActivity.show(getContext());
         // 进行数据持久化，将数据保存到Xml文件中
         SPUtils.put(Objects.requireNonNull(getContext()), "workId", workId);

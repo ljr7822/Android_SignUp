@@ -14,7 +14,7 @@ import java.util.UUID;
  * 使用imei + android_id + serial + 硬件UUID（使用Build属性生成，如果硬件信息不变，则UUID值不变）
  * 我们先拼接好DeviceId数据，取其SHA1值，再转16进制即可（统一40位长度）
  *
- * author : Iwen大大怪
+ * @author : Iwen大大怪
  * create : 11-21 021 14:43
  */
 public class DeviceIdUtil {

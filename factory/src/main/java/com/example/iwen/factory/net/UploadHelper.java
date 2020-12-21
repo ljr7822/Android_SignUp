@@ -27,7 +27,7 @@ public class UploadHelper {
     // 与存储区域有关系
     private static final String ENDPOINT = "http://oss-cn-chengdu.aliyuncs.com";
     // oss存储桶名字
-    private static final String BUCKET_NAME = "iwen-signup";
+    private static final String BUCKET_NAME = "signupiwen";
 
     private static OSS getClient() {
         // 在移动端建议使用STS的方式初始化OSSClient。

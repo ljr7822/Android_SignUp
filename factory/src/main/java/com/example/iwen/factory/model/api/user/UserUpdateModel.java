@@ -8,7 +8,7 @@ public class UserUpdateModel {
      * workId   String//必传
      * name String // 姓名
      * phoneNumber   String // 手机号
-     * avatar   String // 头像url
+     * avatar   String // 头像url 可空
      * department  String  // 部门
      * password  String  // 密码
      * mac   String  // 设备唯一识别码
@@ -31,6 +31,25 @@ public class UserUpdateModel {
         this.department = department;
         this.password = password;
         this.mac = mac;
+        this.sex = sex;
+    }
+
+    public UserUpdateModel(String workId, String name, String phoneNumber, String department, String password, String mac, int sex) {
+        this.workId = workId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.department = department;
+        this.password = password;
+        this.mac = mac;
+        this.sex = sex;
+    }
+
+    public UserUpdateModel(String workId, String name, String phoneNumber, String department, String password, int sex) {
+        this.workId = workId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.department = department;
+        this.password = password;
         this.sex = sex;
     }
 

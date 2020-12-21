@@ -1,5 +1,6 @@
 package com.example.iwen.singup.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.presenter.location.GetLocationTaskListContract;
 import com.example.iwen.factory.presenter.location.GetLocationTaskListPresenter;
 import com.example.iwen.singup.R;
+import com.example.iwen.singup.activities.DescActivity;
 import com.example.iwen.singup.activities.SignActivity;
 
 import java.util.List;
@@ -90,7 +92,18 @@ public class ContactFragment
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<LocationTaskList>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, LocationTaskList locationTaskList) {
-                SignActivity.show(getContext(), locationTaskList);
+                // 先判断是否已经签到，如果已经签到，就直接跳转到签到详情
+                if (locationTaskList.getIfSign().equals("已签到")){
+                    Intent intent = new Intent(getContext(), DescActivity.class);
+                    intent.putExtra("department",locationTaskList.getDepartmentName());
+                    intent.putExtra("date",locationTaskList.getDate()+" "+locationTaskList.getTime());
+                    intent.putExtra("adder",locationTaskList.getLocationName());
+                    intent.putExtra("info",locationTaskList.getInfo());
+                    startActivity(intent);
+                }else {
+                    // 未签到就前往签到
+                    SignActivity.show(getContext(), locationTaskList);
+                }
             }
         });
         // 初始化占位布局

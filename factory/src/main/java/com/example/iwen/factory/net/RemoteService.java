@@ -23,7 +23,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 
 /**
  * 网络请求的所有接口
@@ -106,6 +105,7 @@ public interface RemoteService {
 
     /**
      * 用户更新的接口
+     *
      * @param model UserUpdateModel
      * @return User
      */

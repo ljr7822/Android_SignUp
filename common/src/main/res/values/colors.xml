@@ -125,7 +125,8 @@
     <color name="lightskyblue">#87cefa</color><!--亮天蓝色 -->
     <color name="skyblue">#87ceeb</color><!--天蓝色 -->
     <color name="gray">#808080</color><!--灰色 -->
-    <color name="grey">#808080</color><!--灰色 -->
+    <color name="grey">#868686</color><!--灰色 -->
+    <color name="bg">#43BFBEBE</color><!--灰色 -->
     <color name="olive">#808000</color><!--橄榄色 -->
     <color name="purple">#800080</color><!--紫色 -->
     <color name="maroon">#800000</color><!--粟色 -->
@@ -182,5 +183,6 @@
     <color name="qianlans">#2d8cf0</color><!--浅蓝色 -->
     <color name="theme">#28d47e</color><!--浅蓝色 -->
     <color name="play">#28d37b</color><!--浅蓝色 -->
+    <color name="fuzhu">#45EF9A</color>
     <color name="playbg">#eaf1fb</color><!--浅蓝色 -->
 </resources>

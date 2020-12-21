@@ -1,12 +1,10 @@
 package com.example.iwen.singup.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,16 +13,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.app.BaseFragment;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
+import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.example.iwen.singup.helper.NavHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnCancelListener;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
@@ -41,11 +48,9 @@ public class MainActivity
     private FrameLayout mContainer;
     private BottomNavigationView mNavigation;
     private FloatActionButton mAction;
-
-    boolean isFirst = true;
+    private BaseFragment mFragment;
 
     private NavHelper<Integer> mNavHelper;
-
 
     /**
      * 绑定视图
@@ -121,7 +126,8 @@ public class MainActivity
         mAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SignActivity.class);
+                // 跳转到打卡界面
+                Intent intent = new Intent(MainActivity.this, SignActivity.class);
                 startActivity(intent);
                 // SignActivity.show(getApplicationContext(),null);
             }
@@ -130,7 +136,7 @@ public class MainActivity
         mSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(MainActivity.this,SettingActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(intent1);
                 //SettingActivity.show(getApplicationContext());
             }
