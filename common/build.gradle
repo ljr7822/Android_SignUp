@@ -12,6 +12,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        renderscriptTargetApi 14
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -49,6 +51,8 @@ dependencies {
     implementation 'com.youth.banner:banner:2.1.0'
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+    // MD弹窗
+    implementation 'com.kongzue.dialog_v3x:dialog:3.2.4'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

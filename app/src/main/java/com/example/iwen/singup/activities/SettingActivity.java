@@ -1,8 +1,17 @@
 package com.example.iwen.singup.activities;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -55,6 +64,8 @@ public class SettingActivity extends BaseActivity {
     private LBSTraceClient mTraceClient;
     private OnTraceListener mTraceListener;
     private int isStatus;
+
+
 
     /**
      * 打卡Activity显示入口

@@ -89,6 +89,7 @@ public class ContactFragment
                 return new ContactFragment.ViewHolder(root);
             }
         });
+        // 设置点击监听事件
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<LocationTaskList>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, LocationTaskList locationTaskList) {

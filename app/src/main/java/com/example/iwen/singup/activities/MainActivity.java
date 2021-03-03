@@ -1,8 +1,16 @@
 package com.example.iwen.singup.activities;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
@@ -49,6 +57,8 @@ public class MainActivity
     private BottomNavigationView mNavigation;
     private FloatActionButton mAction;
     private BaseFragment mFragment;
+    private Notification notification = null;
+    private NotificationManager notificationManager = null;
 
     private NavHelper<Integer> mNavHelper;
 
@@ -122,6 +132,7 @@ public class MainActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initNotification();
         // 打卡按钮，跳转到打卡界面
         mAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +152,8 @@ public class MainActivity
                 //SettingActivity.show(getApplicationContext());
             }
         });
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -203,5 +216,35 @@ public class MainActivity
                 .setInterpolator(new AnticipateOvershootInterpolator(1))
                 .setDuration(480)
                 .start();
+    }
+
+    @TargetApi(16)
+    private void initNotification(){
+        Notification.Builder builder = new Notification.Builder(this);
+        Intent notificationIntent = new Intent(this, SettingActivity.class);
+
+        Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+                R.mipmap.icon_sign_up);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // 设置PendingIntent
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
+                .setLargeIcon(icon)  // 设置下拉列表中的图标(大图标)
+                .setContentTitle("打了么") // 设置下拉列表里的标题
+                .setSmallIcon(R.mipmap.icon_sign_up) // 设置状态栏内的小图标
+                .setContentText("服务正在运行...") // 设置上下文内容
+                .setWhen(System.currentTimeMillis());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && null != notificationManager) {
+            NotificationChannel notificationChannel =
+                    new NotificationChannel("trace", "trace_channel",
+                            NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            builder.setChannelId("trace"); // Android O版本之后需要设置该通知的channelId
+        }
+
+        notification = builder.build(); // 获取构建好的Notification
+        notification.defaults = Notification.DEFAULT_SOUND; // 设置为默认的声音
     }
 }

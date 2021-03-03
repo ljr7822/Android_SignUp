@@ -23,6 +23,7 @@ public class LocationTaskList {
      * "departmentName": "销售部",
      * "collectName": "1",
      * "collectType": "拍照打卡"，"普通签到"
+     * "collectInfo"
      */
     private String signInId;
     private String collectId;
@@ -38,6 +39,15 @@ public class LocationTaskList {
     private String locationName;
     private String departmentName;
     private String collectType;
+    private String collectInfo;
+
+    public String getCollectInfo() {
+        return collectInfo;
+    }
+
+    public void setCollectInfo(String collectInfo) {
+        this.collectInfo = collectInfo;
+    }
 
     public String getSignInId() {
         return signInId;

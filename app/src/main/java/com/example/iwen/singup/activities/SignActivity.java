@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.PresenterActivity;
 import com.example.iwen.common.utils.DateTimeUtil;
+import com.example.iwen.common.utils.MDSettingUtils;
 import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.model.db.sign.SignRspModel;
@@ -33,6 +35,9 @@ import com.example.iwen.factory.presenter.sign.SignContract;
 import com.example.iwen.factory.presenter.sign.SignPresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.helper.LocationService;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -42,9 +47,13 @@ import com.pedaily.yc.ycdialoglib.utils.DialogUtils;
 
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
+
 
 /**
  * 打卡界面Activity
@@ -130,8 +139,9 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     private StringBuilder addr;
 
     private String[] list;
-    private String Messagetitle =  "晚间体温";
+    private String Messagetitle = "晚间体温";
     private Fragment mFragment;
+    private String ifIcon = "普通签到";
 
     /**
      * 打卡Activity显示入口
@@ -150,6 +160,12 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         context.startActivity(intent);
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MDSettingUtils.initDialogSetting();
+    }
+
     /**
      * 绑定layout
      */
@@ -163,7 +179,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         super.initWidget();
         // 注意，建议加上这个判断
         DialogUtils.requestMsgPermission(this);
-        workId = (String) SPUtils.get(this,"workId","10010001");
+        workId = (String) SPUtils.get(this, "workId", "10010001");
         // 初始化背景
         initBgImg();
         // 初始化时间
@@ -171,6 +187,17 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         // 修改签到信息框显示
         if (isContact) {
             // 有LocationTaskList传入
+            // 获取收集信息列表
+            List<String> infoStrs = Arrays.asList(mLocationTaskList.getCollectInfo().split(";"));
+            list = new String[infoStrs.size() - 1];
+            for (int i = 0; i < infoStrs.size(); i++) {
+                if (i == 0) {
+                    Messagetitle = infoStrs.get(i).trim();
+                } else {
+                    list[i - 1] = infoStrs.get(i).trim();
+                }
+            }
+            //list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"}
             mSignUserContent.setText(mLocationTaskList.getWork());
             mSignTimeContent.setText(mLocationTaskList.getDate());
             mSignDataContent.setText(formatTimeH);
@@ -183,8 +210,6 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         locationService = new LocationService(this);
         locationService.registerListener(mListener);
         locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-
-        list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"};
     }
 
     /**
@@ -205,9 +230,9 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     void onSignInClick() {
         if (isClickAction) {
             locationService.stop();
-            showXPopupRightLocation(this, "重新定位", "是否重新获取当前位置?");
+            showMessageDialogRightLocation(this, "重新定位", "是否重新获取当前位置?");
         } else {
-            showXPopupRightLocation(this, "确认", "是否获取当前位置?");
+            showMessageDialogRightLocation(this, "确认", "是否获取当前位置?");
         }
     }
 
@@ -330,7 +355,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                 addr = new StringBuilder(256);
                 //sb.append("\naddr : ");// 地址信息
                 addr.append(location.getAddrStr());
-                locationStr = lontitude + "," + latitude + ";";
+                locationStr = lontitude + "," + latitude;
                 //sb.append("\nUserIndoorState: ");// *****返回用户室内外判断结果*****
                 //sb.append(location.getUserIndoorState());
                 //sb.append("\nDirection(not all devices have value): ");
@@ -419,31 +444,33 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupRightLocation(Context context, String title, String content) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "取消",
-                        "确定",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                locationService.start();
-                                isClickAction = true;
-                                mSignDataContent.setText(formatTimeH);
-                                mTextViewLocation.setText("定位获取成功");
-                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
-                                builder.setLayout(R.layout.view_layout_toast_get_location_done)
-                                        .setGravity(Gravity.CENTER)
-                                        .build()
-                                        .show();
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                            }
-                        }, false)
+    public void showMessageDialogRightLocation(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("确定", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 立即跳转
+                        locationService.start();
+                        isClickAction = true;
+                        mSignDataContent.setText(formatTimeH);
+                        mTextViewLocation.setText("定位获取成功");
+                        ToastUtils.Builder builder = new ToastUtils.Builder(context);
+                        builder.setLayout(R.layout.view_layout_toast_get_location_done)
+                                .setGravity(Gravity.CENTER)
+                                .build()
+                                .show();
+                        return false;
+                    }
+                })
+                .setCancelButton("取消", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 不进行任何操作
+                        return false;
+                    }
+                })
                 .show();
     }
 
@@ -454,24 +481,24 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupRightBack(Context context, String title, String content) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "取消",
-                        "确定",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                finish();
-                                locationService.stop();
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                            }
-                        }, false)
+    public void showMessageDialogRightBack(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("去意已决",new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        finish();
+                        locationService.stop();
+                        return false;
+                    }
+                })
+                .setCancelButton("再看看", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        return false;
+                    }
+                })
                 .show();
     }
 
@@ -482,32 +509,43 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
+//    public void showXPopupGetLocation(Context context, String title, String content) {
+//        new XPopup.Builder(context)
+//                .hasBlurBg(true)
+//                .asConfirm(title, content,
+//                        "我再看看",
+//                        "去获取",
+//                        new OnConfirmListener() {
+//                            @Override
+//                            public void onConfirm() {
+////                                locationService.start();
+////                                isClickAction = true;
+////                                mSignDataContent.setText(formatTimeH);
+////                                mTextViewLocation.setText("定位获取成功");
+////                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
+////                                builder.setLayout(R.layout.view_layout_toast_get_location_done)
+////                                        .setGravity(Gravity.CENTER)
+////                                        .build()
+////                                        .show();
+//                            }
+//                        },
+//                        new OnCancelListener() {
+//                            @Override
+//                            public void onCancel() {
+//                            }
+//                        }, false)
+//                .show();
+//    }
+
+    /**
+     * 用户未获取定位
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
     public void showXPopupGetLocation(Context context, String title, String content) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "我再看看",
-                        "去获取",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-//                                locationService.start();
-//                                isClickAction = true;
-//                                mSignDataContent.setText(formatTimeH);
-//                                mTextViewLocation.setText("定位获取成功");
-//                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
-//                                builder.setLayout(R.layout.view_layout_toast_get_location_done)
-//                                        .setGravity(Gravity.CENTER)
-//                                        .build()
-//                                        .show();
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                            }
-                        }, false)
-                .show();
+        MessageDialog.show((AppCompatActivity) context, "提示", "这是一条消息", "确定");
     }
 
     /**
@@ -515,7 +553,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      */
     @OnClick(R.id.im_sign_back)
     void onSignBackClick() {
-        showXPopupRightBack(this, "确认", "是否退出签到页面？退出后将自动关闭定位！");
+        showMessageDialogRightBack(this, "确认", "是否退出签到页面？退出后将自动关闭定位！");
     }
 
     /**
@@ -523,7 +561,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      */
     @OnClick(R.id.btn_cancel_sign)
     void onCancelSignBackClick() {
-        showXPopupRightBack(this, "确认", "是否退出签到页面？退出后将自动关闭定位！");
+        showMessageDialogRightBack(this, "确认", "是否退出签到页面？退出后将自动关闭定位！");
     }
 
     /**
@@ -542,24 +580,24 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     @OnClick(R.id.btn_next)
     void onSubmitClick() {
         // 获取当前是否为拍照打卡
-        String ifIcon = mLocationTaskList.getCollectType();
+        ifIcon = mLocationTaskList.getCollectType();
         if (isClickAction) {
-            if (info==null){
-                showXPopupSelectList(this,Messagetitle,list);
-            }else {
+            if (info == null) {
+                showXPopupSelectList(this, Messagetitle, list);
+            } else {
                 // 已经获取定位
                 if (ifIcon.equals("拍照签到")) {
                     // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
-                    showXPopupTakePicture(this,
+                    showMessageDialogTakePicture(this,
                             "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
-                            mLocationTaskList.getWork(), workId,mLocationTaskList.getDepartmentName());
+                            mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
                 } else {
                     // 不是拍照打卡
                     mPresenter.sign(mLocationTaskList.getSignInId(),
                             mLocationTaskList.getCollectId(),
                             mLocationTaskList.getWork(),
                             info,
-                            formatTimeDay+" "+formatTimeH,
+                            formatTimeDay + " " + formatTimeH,
                             "null",
                             locationStr);
                 }
@@ -586,7 +624,18 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     @Override
     public void signSuccess(SignRspModel signRspModel) {
         // 签到成功的回调，弹窗提示
-        showXPopupSuccess(this, "签到成功", Messagetitle +":"+signRspModel.getInfo());
+        showMessageDialogSuccess(this, "签到成功", Messagetitle + ":" + signRspModel.getInfo());
+    }
+
+    /**
+     * 签到失败的回调
+     *
+     * @param failureMsg 失败的书籍
+     */
+    @Override
+    public void signFailure(int failureMsg) {
+        // 签到成功的回调，弹窗提示
+        showMessageDialogFailure(this, "签到失败", "不在范围内，签到失败");
     }
 
     /**
@@ -596,35 +645,74 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupSuccess(Context context, String title, String content) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "我知道了",
-                        "查看详情",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                // 跳转签到详情fragment
-                                Intent intent = new Intent(SignActivity.this, DescActivity.class);
-                                intent.putExtra("department",mLocationTaskList.getDepartmentName());
-                                intent.putExtra("date",formatTimeDay+" "+formatTimeH);
-                                intent.putExtra("adder",addr.toString());
-                                intent.putExtra("title",Messagetitle);
-                                intent.putExtra("info",info);
-                                startActivity(intent);
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
-                                builder.setLayout(R.layout.view_layout_toast_done)
-                                        .setGravity(Gravity.CENTER)
-                                        .build()
-                                        .show();
-                            }
-                        }, false)
+    public void showMessageDialogSuccess(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("查看详情", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 跳转签到详情fragment
+                        Intent intent = new Intent(SignActivity.this, DescActivity.class);
+                        intent.putExtra("department", mLocationTaskList.getDepartmentName());
+                        intent.putExtra("date", formatTimeDay + " " + formatTimeH);
+                        intent.putExtra("adder", addr.toString());
+                        intent.putExtra("title", Messagetitle);
+                        intent.putExtra("info", info);
+                        startActivity(intent);
+                        return false;
+                    }
+                })
+                .setCancelButton("我知道了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        ToastUtils.Builder builder = new ToastUtils.Builder(context);
+                        builder.setLayout(R.layout.view_layout_toast_done)
+                                .setGravity(Gravity.CENTER)
+                                .build()
+                                .show();
+                        return false;
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 签到失败弹窗
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showMessageDialogFailure(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("查看详情", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 跳转签到详情fragment
+//                        Intent intent = new Intent(SignActivity.this, DescActivity.class);
+//                        intent.putExtra("department", mLocationTaskList.getDepartmentName());
+//                        intent.putExtra("date", formatTimeDay + " " + formatTimeH);
+//                        intent.putExtra("adder", addr.toString());
+//                        intent.putExtra("title", Messagetitle);
+//                        intent.putExtra("info", info);
+//                        startActivity(intent);
+                        return false;
+                    }
+                })
+                .setCancelButton("我知道了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        ToastUtils.Builder builder = new ToastUtils.Builder(context);
+                        builder.setLayout(R.layout.view_layout_toast_done)
+                                .setGravity(Gravity.CENTER)
+                                .build()
+                                .show();
+                        return false;
+                    }
+                })
                 .show();
     }
 
@@ -635,34 +723,58 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupTakePicture(Context context, String title, String content,String name,String workId,String department) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "不了",
-                        "前往拍照",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                // 跳转拍照的fragment页面进行拍照
-                                Intent intent = new Intent(SignActivity.this,TakePictureActivity.class);
-                                intent.putExtra("name",name);
-                                intent.putExtra("workId",workId);
-                                intent.putExtra("department",department);
-                                startActivity(intent);
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-//                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
-//                                builder.setLayout(R.layout.view_layout_toast_done)
-//                                        .setGravity(Gravity.CENTER)
-//                                        .build()
-//                                        .show();
-                            }
-                        }, false)
+    public void showMessageDialogTakePicture(Context context, String title, String content, String name, String workId, String department) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("前往拍照", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 跳转拍照的fragment页面进行拍照
+                        Intent intent = new Intent(SignActivity.this, TakePictureActivity.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("workId", workId);
+                        intent.putExtra("department", department);
+                        startActivity(intent);
+                        return false;
+                    }
+                })
+                .setCancelButton("不了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+
+                        return false;
+                    }
+                })
                 .show();
+
+//        new XPopup.Builder(context)
+//                .hasBlurBg(true)
+//                .asConfirm(title, content,
+//                        "不了",
+//                        "前往拍照",
+//                        new OnConfirmListener() {
+//                            @Override
+//                            public void onConfirm() {
+//                                // 跳转拍照的fragment页面进行拍照
+//                                Intent intent = new Intent(SignActivity.this, TakePictureActivity.class);
+//                                intent.putExtra("name", name);
+//                                intent.putExtra("workId", workId);
+//                                intent.putExtra("department", department);
+//                                startActivity(intent);
+//                            }
+//                        },
+//                        new OnCancelListener() {
+//                            @Override
+//                            public void onCancel() {
+////                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
+////                                builder.setLayout(R.layout.view_layout_toast_done)
+////                                        .setGravity(Gravity.CENTER)
+////                                        .build()
+////                                        .show();
+//                            }
+//                        }, false)
+//                .show();
     }
 
     /**
@@ -679,8 +791,8 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * 获取拍照的获取缩略图
      *
      * @param requestCode int
-     * @param resultCode int
-     * @param data Intent
+     * @param resultCode  int
+     * @param data        Intent
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -693,7 +805,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     }
 
     /**
-     * 弹出选择列表
+     * 弹出单项选择列表
      *
      * @param context 上下文
      * @param title   收集的标题
@@ -706,10 +818,21 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                Toasty.success(getApplicationContext(),text,Toasty.LENGTH_SHORT).show();
+                                Toasty.success(getApplicationContext(), text, Toasty.LENGTH_SHORT).show();
                                 info = text;
                             }
                         })
                 .show();
+    }
+
+    /**
+     * 弹出多项选择列表
+     *
+     * @param context 上下文
+     * @param title   收集信息的标题
+     * @param list    收集的信息内容
+     */
+    public void showMaterialDialogAllSelect(Context context, String title, String[] list) {
+
     }
 }

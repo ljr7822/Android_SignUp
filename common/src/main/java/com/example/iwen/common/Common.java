@@ -18,6 +18,6 @@ public class Common {
         // 基础的网络请求地址
         //String API_URL = "https://www.easy-mock.com/mock/5fb4acf4bae16b281b2fdc76/";
         //String API_URL = "http://192.168.43.224:8080/api/";
-        String API_URL = "http://10.128.129.183:8081/api/";
+        String API_URL = "http://10.129.5.5:8081/api/";
     }
 }

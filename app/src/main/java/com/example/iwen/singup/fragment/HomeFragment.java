@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.app.PresenterFragment;
+import com.example.iwen.common.utils.MDSettingUtils;
 import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.common.widget.EmptyView;
 import com.example.iwen.common.widget.banner.DataBean;
@@ -23,18 +27,26 @@ import com.example.iwen.factory.model.db.notice.NoticeRspModel;
 import com.example.iwen.factory.presenter.notice.NoticeContract;
 import com.example.iwen.factory.presenter.notice.NoticePresenter;
 import com.example.iwen.singup.R;
+import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.v3.CustomDialog;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.Notification;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
-import com.youth.banner.transformer.RotateYTransformer;
+import com.youth.banner.transformer.AlphaPageTransformer;
 
 import java.util.List;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
+import com.kongzue.dialog.util.DialogSettings;
 
 public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         implements NoticeContract.View {
@@ -81,26 +93,13 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         mBanner.setAdapter(mImageAdapter)
                 .addBannerLifecycleObserver(this)// 添加生命周期观察者
                 .setIndicator(new CircleIndicator(getContext()))// 设置指示器
-                .setPageTransformer(new RotateYTransformer()) // 切换效果
+                .setPageTransformer(new AlphaPageTransformer()) // 切换效果
                 .setOnBannerListener((data, position) -> { // 点击事件
                     // 显示广告详情并且提供跳转
-                    //showXPopupAD(getContext(), ((DataBean) data).title.toString(), ((DataBean) data).content.toString(),((DataBean) data).url.toString());
-                    final MaterialDialog skipDialog = new MaterialDialog(getContext());
-                    skipDialog.setTitle(((DataBean) data).title.toString())
-                            .setMessage(((DataBean) data).content.toString())
-                            .setPositiveButton("去看看", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    skipWY(((DataBean) data).url.toString());
-                                }
-                            })
-                            .setNegativeButton("取消", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    skipDialog.dismiss();
-                                }
-                            });
-                    skipDialog.show();
+                    showMessageDialogAD(getContext(),
+                            ((DataBean) data).title.toString(),
+                            ((DataBean) data).content.toString(),
+                            ((DataBean) data).url.toString());
                 });
         // 初始化适配器
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -117,17 +116,26 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                 return new HomeFragment.ViewHolder(root);
             }
         });
+        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<NoticeRspModel>() {
+            @Override
+            public void onItemClick(RecyclerAdapter.ViewHolder holder, NoticeRspModel noticeRspModel) {
+                super.onItemClick(holder, noticeRspModel);
+                Toast.makeText(getContext(),"点击了公告",Toast.LENGTH_SHORT).show();
+            }
+        });
         mEmptyView.bind(mRecycler);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //showBanner();
-        // TODO 公告
+        // 初始化弹窗配置参数
+        MDSettingUtils.initDialogSetting();
+        // showBanner();
+        // 获取公告
         mPresenter.getNotice("");
-        // 提示用户完善信息
-        userIsInfo(isInfo);
+        // TODO 提示用户完善信息
+        userIsInfo(true);
     }
 
     /**
@@ -185,23 +193,44 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupAD(Context context, String title, String content, String url) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "取消",
-                        "去看看",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                skipWY(url);
-                            }
-                        }, new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                            }
-                        }, false)
+    public void showMessageDialogAD(Context context, String title, String content, String url) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("好，去看看", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 立即跳转
+                        skipWY(url);
+                        return false;
+                    }
+                })
+                .setCancelButton("不了，取消", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 不进行任何操作
+                        //showCustomDialog(getContext());
+                        return false;
+                    }
+                })
                 .show();
+    }
+    // TODO 自定义布局
+    public void showCustomDialog(Context context){
+        //对于未实例化的布局：
+        CustomDialog.show((AppCompatActivity) context, R.layout.layout_custom_dialog, new CustomDialog.OnBindView() {
+            @Override
+            public void onBind(final CustomDialog dialog, View v) {
+                ImageView btnOk = v.findViewById(R.id.btn_ok);
+
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.doDismiss();
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -227,7 +256,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
             // 已经完善信息，不做提示
             return;
         } else {
-            showXPopupGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
+            showMessageDialogGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
         }
     }
 
@@ -238,101 +267,28 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
      * @param title   标题
      * @param content 内容
      */
-    public void showXPopupGotoInfo(Context context, String title, String content) {
-        new XPopup.Builder(context)
-                .hasBlurBg(true)
-                .asConfirm(title, content,
-                        "退出",
-                        "立即完善",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                // 立即前往完善
-                                mFragment = new UpdateInfoFragment();
-                                getFragmentManager().beginTransaction()
-                                        .replace(R.id.lay_container,mFragment)
-                                        .commit();
-                            }
-                        },
-                        new OnCancelListener() {
-                            @Override
-                            public void onCancel() {
-                                // 直接退出app
-                            }
-                        }, false)
+    public void showMessageDialogGotoInfo(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("去完善", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 立即前往完善
+                        mFragment = new UpdateInfoFragment();
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.lay_container,mFragment)
+                                .commit();
+                        return false;
+                    }
+                })
+                .setCancelButton("退出", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 直接退出app
+                        return false;
+                    }
+                })
                 .show();
     }
-    /**
-     * 顶部广告轮播图
-     */
-//    public void showBanner() {
-//        // 自定义的图片适配器，也可以使用默认的BannerImageAdapter
-//        mImageAdapter = new ImageAdapter(DataBean.getTestData());
-//        mBanner.setAdapter(mImageAdapter)
-//                .addBannerLifecycleObserver(this)// 添加生命周期观察者
-//                .setIndicator(new CircleIndicator(getContext()))// 设置指示器
-//                .setPageTransformer(new RotateYTransformer()) // 切换效果
-//                .setOnBannerListener((data, position) -> { // 点击事件
-//                    //showXPopupSelect(getContext(), "公告", "打了么App，欢迎您！\n " + ((DataBean) data).title.toString());
-//                });
-//    }
-
-//    // 模拟数据
-//    private List<Cements> generateDummyList(int size) {
-//        mCementsList = new ArrayList<Cements>();
-//        for (int i = 0; i < size; i++) {
-//            Cements cements = new Cements("公告",
-//                    "打了么隆重推出定位服务", "2020.11.23");
-//            mCementsList.add(cements);
-//        }
-//        return mCementsList;
-//    }
-
-    /**
-     * 显示确认和取消对话框
-     * 公告栏
-     *
-     * @param context 上下文
-     * @param title   标题
-     * @param content 内容
-     */
-//    public static void showXPopupSelect(Context context, String title, String content) {
-//        new XPopup.Builder(context)
-//                .hasBlurBg(true)
-//                .asConfirm(title, content,
-//                        "我知道了",
-//                        "查看详情",
-//                        new OnConfirmListener() {
-//                            @Override
-//                            public void onConfirm() {
-//                                // TODO 跳转公告
-//                            }
-//                        },
-//                        new OnCancelListener() {
-//                            @Override
-//                            public void onCancel() {
-//                            }
-//                        }, false)
-//                .show();
-//    }
-
-    /*
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        LinearLayoutManager layout = new LinearLayoutManager(getContext());
-        recyclerView = rootView.findViewById(R.id.home_recycler);
-        mBanner = rootView.findViewById(R.id.banner);
-        mCementRecyclerViewAdapter = new CementRecyclerViewAdapter(mCementsList, getActivity());
-        recyclerView.setLayoutManager(layout);
-        mCementsList = generateDummyList(10);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(0));
-        ItemTouchHelper.Callback callback = new MessageItemTouchHelperCallback(mCementRecyclerViewAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        recyclerView.setAdapter(mCementRecyclerViewAdapter);
-        showBanner();
-        return rootView;
-    }
-     */
 }

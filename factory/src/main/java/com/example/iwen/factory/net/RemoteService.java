@@ -8,6 +8,7 @@ import com.example.iwen.factory.model.api.account.RegisterModel;
 import com.example.iwen.factory.model.api.account.UserModel;
 import com.example.iwen.factory.model.api.department.DepartmentModel;
 import com.example.iwen.factory.model.api.notice.NoticeModel;
+import com.example.iwen.factory.model.api.sign.InSignUpModel;
 import com.example.iwen.factory.model.api.sign.SignModel;
 import com.example.iwen.factory.model.api.user.UserUpdateModel;
 import com.example.iwen.factory.model.db.account.LoginRspModel;
@@ -16,6 +17,7 @@ import com.example.iwen.factory.model.db.account.UserRspModel;
 import com.example.iwen.factory.model.db.department.DepartmentRspModel;
 import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.model.db.notice.NoticeRspModel;
+import com.example.iwen.factory.model.db.sign.InSignRspModel;
 import com.example.iwen.factory.model.db.sign.SignRspModel;
 
 import java.util.List;
@@ -66,6 +68,15 @@ public interface RemoteService {
      */
     @POST("sign")
     Call<RspModel<SignRspModel>> sign(@Body SignModel signModel);
+
+    /**
+     * 进入签到打卡
+     *
+     * @param inSignUpModel 进入签到打卡传入的请求参数
+     * @return 请求成功后返回的数据
+     */
+    @POST("task/get1")
+    Call<RspModel<InSignRspModel>> InSign(@Body InSignUpModel inSignUpModel);
 
     /**
      * 获取公告列表

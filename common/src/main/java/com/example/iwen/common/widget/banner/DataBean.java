@@ -37,11 +37,13 @@ public class DataBean {
     public static List<DataBean> getTestData() {
         List<DataBean> list = new ArrayList<>();
         list.add(new DataBean(R.drawable.img_0,"广告一","相信自己,你努力的样子真的很美", "https://www.baidu.com/",1));
-        list.add(new DataBean(R.drawable.img_1,"广告二","极致简约,梦幻小屋","https://www.baidu.com/", 3));
-        list.add(new DataBean(R.drawable.img_2, "广告三","超级卖梦人","https://www.baidu.com/", 3));
+        list.add(new DataBean(R.drawable.c_img3,"广告二","极致简约,梦幻小屋","https://www.baidu.com/", 3));
+        list.add(new DataBean(R.drawable.c_img2, "广告三","超级卖梦人","https://www.baidu.com/", 3));
         list.add(new DataBean(R.drawable.img_3, "广告四","夏季新搭配", "https://www.baidu.com/",1));
         list.add(new DataBean(R.drawable.img_4, "广告五","绝美风格搭配", "https://www.baidu.com/",1));
         list.add(new DataBean(R.drawable.img_5, "广告六","微微一笑 很倾城", "https://www.baidu.com/",3));
+        list.add(new DataBean(R.drawable.c_img5, "广告七","微微一笑 很倾城", "https://www.baidu.com/",3));
+        list.add(new DataBean(R.drawable.c_img6, "广告八","微微一笑 很倾城", "https://www.baidu.com/",3));
         return list;
     }
 

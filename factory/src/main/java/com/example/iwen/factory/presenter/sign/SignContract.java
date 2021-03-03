@@ -13,6 +13,9 @@ public interface SignContract {
     interface View extends BaseContract.View<SignContract.Presenter> {
         // 获取成功,返回一个SignRspModel
         void signSuccess(SignRspModel signRspModel);
+
+        // 签到失败，返回一个
+        void signFailure(int failureMsg);
     }
 
     interface Presenter extends BaseContract.Presenter {

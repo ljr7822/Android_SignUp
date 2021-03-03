@@ -1,11 +1,13 @@
 package com.example.iwen.singup;
 
+import android.accounts.Account;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
 
@@ -30,6 +32,8 @@ public class LaunchActivity extends BaseActivity {
     private ColorDrawable mBgDrawable;
     // 登录标志：判断是否存在登录
     private boolean isLogin = false;
+    // 是否已经得到PushId
+    private boolean mAlreadyGotPushReceiverId = false;
 
     /**
      * 绑定视图
@@ -60,30 +64,66 @@ public class LaunchActivity extends BaseActivity {
         SPUtils.put(this, "DeviceId", DeviceIdUtil.getDeviceId(this));
         SPUtils.put(this, "isInfo", false);
         // 开始动画
-        startAnim(0.8f, new Runnable() {
-            @Override
-            public void run() {
-                skip();
-            }
-        });
+        startAnim(0.5f, this::waitPushReceiverId);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        skip();
+        // 判断是否已经得到推送Id，如果已经得到则进行跳转操作，
+        // 在操作中检测权限状态
+        if (mAlreadyGotPushReceiverId) {
+            realSkip();
+        }
     }
 
+    /**
+     * 等待个推框架对我们的pushId设置好值
+     */
+    private void waitPushReceiverId() {
+        if (isLogin) {
+            // 已经登录，判断是否绑定
+            // 如果没有绑定则等待广播接收器进行绑定
+            if (mAlreadyGotPushReceiverId) {
+                // 已经绑定
+                skip();
+                return;
+            }
+        } else {
+            waitPushReceiverIdDone();
+            return;
+        }
+
+        // 循环等待
+        getWindow().getDecorView().postDelayed(this::waitPushReceiverId, 500);
+    }
+
+    /**
+     * 跳转之前需要将剩下的50%进行完成
+     */
     private void skip() {
-        // 判断权限
+        startAnim(1f, this::realSkip);
+    }
+
+    /**
+     * 在跳转之前需要把剩下的50%进行完成
+     */
+    private void waitPushReceiverIdDone() {
+        // 标志已经得到PushId
+        mAlreadyGotPushReceiverId = true;
+        startAnim(1f, this::realSkip);
+    }
+
+    private void realSkip() {
+        // 权限检查，跳转
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             // 判断是否已经登录
-            isLogin =(boolean)SPUtils.get(this,"isLogin",false);
-            if (isLogin){
+            isLogin = (boolean) SPUtils.get(this, "isLogin", false);
+            if (isLogin) {
                 // 已经登录
                 MainActivity.show(this);
                 finish();
-            }else {
+            } else {
                 // 进入注册登录界面
                 AccountActivity.show(this);
                 //MainActivity.show(this);

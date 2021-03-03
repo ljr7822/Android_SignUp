@@ -12,6 +12,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        renderscriptTargetApi 14
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -71,6 +74,9 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:1.0.0-beta12"
     // CameraX View class
     implementation "androidx.camera:camera-view:1.0.0-alpha19"
+    // dialog_v3:dialog https://github.com/kongzue/DialogV3
+    //implementation 'com.kongzue.dialog_v3:dialog:3.2.4'
+    implementation 'com.kongzue.dialog_v3x:dialog:3.2.4'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
