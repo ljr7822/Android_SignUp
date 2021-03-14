@@ -81,15 +81,15 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintHorizontal_bias="0.187"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65999997">
+        app:layout_constraintVertical_bias="0.655">
 
         <com.example.iwen.common.widget.PortraitView
             android:id="@+id/im_portrait"
-            android:layout_width="@dimen/len_72"
-            android:layout_height="@dimen/len_72"
+            android:layout_width="@dimen/len_80"
+            android:layout_height="@dimen/len_80"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@mipmap/img_7" />

@@ -73,6 +73,5 @@ public class UserActivity extends PresenterActivity<UserContract.Presenter> impl
 
     @Override
     public void userCardSuccess(UserRspModel userRspModel) {
-
     }
 }

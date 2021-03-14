@@ -10,7 +10,7 @@ public class LoginModel {
 
     private String workId; // 工号
     private String password; // 密码
-    private String deviceId; // 手机序列码
+    private String mac; // 手机序列码
 
     public LoginModel(String workId, String password) {
         this.workId = workId;
@@ -20,7 +20,7 @@ public class LoginModel {
     public LoginModel(String workId, String password, String deviceId) {
         this.workId = workId;
         this.password = password;
-        this.deviceId = deviceId;
+        this.mac = deviceId;
     }
 
     public String getWorkId() {
@@ -40,10 +40,10 @@ public class LoginModel {
     }
 
     public String getDeviceId() {
-        return deviceId;
+        return mac;
     }
 
     public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+        this.mac = deviceId;
     }
 }

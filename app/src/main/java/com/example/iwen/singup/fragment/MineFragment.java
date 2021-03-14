@@ -217,6 +217,11 @@ public class MineFragment
 
     @Override
     public void userCardSuccess(UserRspModel userRspModel) {
+        String resultUri = (String) SPUtils.get(getContext(),"resultUri","111");
+        Glide.with(this)
+                .load(resultUri)
+                .centerCrop()
+                .into(mPortraitViewMine);
         mUserName.setText(userRspModel.getName());
         mDepartment.setText(userRspModel.getDepartmentName());
     }

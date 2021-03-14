@@ -119,6 +119,8 @@ public class UpdateInfoActivity
             final Uri resultUri = UCrop.getOutput(data);
             if (resultUri != null) {
                 loadAvatar(resultUri);
+                // 将头像写入持久化
+                SPUtils.put(this,"resultUri",resultUri);
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             Application.showToast(R.string.data_rsp_error_unknown);

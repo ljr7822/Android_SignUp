@@ -2,6 +2,7 @@ package com.example.iwen.factory.presenter.account;
 
 import com.example.iwen.common.factory.data.DataSource;
 import com.example.iwen.common.factory.presenter.BasePresenter;
+import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.factory.R;
 import com.example.iwen.factory.data.helper.AccountHelper;
 import com.example.iwen.factory.model.api.account.LoginModel;
@@ -46,9 +47,9 @@ public class LoginPresenter
             view.showError(R.string.data_account_register_invalid_parameter_password);
         } else {
             // 进行网络请求
-
             // 构造model进行请求调用
-            LoginModel model = new LoginModel(workId, password, deviceId);
+            String passwordMd5 = HashUtil.getMD5String(password);
+            LoginModel model = new LoginModel(workId, passwordMd5, deviceId);
             // 进行网络请求，并设置回送接口为自己
             AccountHelper.login(model, this);
         }
