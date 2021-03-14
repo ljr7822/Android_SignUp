@@ -62,6 +62,7 @@ public class UserActivity extends PresenterActivity<UserContract.Presenter> impl
     @SuppressLint("MissingSuperCall")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         mFragment.onActivityResult(requestCode,resultCode,data);
     }
 

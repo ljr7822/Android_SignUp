@@ -75,7 +75,7 @@ public class UpdateInfoPresenter
                     } else {
                         // 构建model
                         UserUpdateModel model =
-                                new UserUpdateModel(workId, name, phone, photoFilePath, department, password, mac, isMan);
+                                new UserUpdateModel(workId, name, password, photoFilePath, department, phone, mac, isMan);
                         UserHelper.update(model, UpdateInfoPresenter.this);
                     }
                 }

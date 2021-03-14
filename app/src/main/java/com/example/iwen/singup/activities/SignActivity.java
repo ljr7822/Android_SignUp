@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -25,12 +28,15 @@ import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.PresenterActivity;
 import com.example.iwen.common.utils.DateTimeUtil;
 import com.example.iwen.common.utils.MDSettingUtils;
 import com.example.iwen.common.utils.SPUtils;
+import com.example.iwen.factory.Factory;
 import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.model.db.sign.SignRspModel;
+import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.factory.presenter.sign.SignContract;
 import com.example.iwen.factory.presenter.sign.SignPresenter;
 import com.example.iwen.singup.R;
@@ -44,9 +50,11 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pedaily.yc.ycdialoglib.utils.DialogUtils;
+import com.yalantis.ucrop.UCrop;
 
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -143,6 +151,14 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     private Fragment mFragment;
     private String ifIcon = "普通签到";
 
+    private String inOssUrl;
+
+    private boolean hasOssUrl;
+
+    // oss的url
+    private String ossUrl;
+    private static final String SAVE_AVATORNAME = "head.png";// 保存的图片名
+
     /**
      * 打卡Activity显示入口
      * intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -172,6 +188,14 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_sign;
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        Intent intent = getIntent();
+        inOssUrl = intent.getStringExtra("ossUrl");
+        hasOssUrl = intent.getBooleanExtra("hasOssUrl", false);
+        return super.initArgs(bundle);
     }
 
     @Override
@@ -587,10 +611,22 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
             } else {
                 // 已经获取定位
                 if (ifIcon.equals("拍照签到")) {
-                    // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
-                    showMessageDialogTakePicture(this,
-                            "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
-                            mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
+                    // 再次判断是否已经拍好照片
+                    if (hasOssUrl){
+                        // 已经拍好,调用p层发送
+                        mPresenter.sign(mLocationTaskList.getSignInId(),
+                                mLocationTaskList.getCollectId(),
+                                mLocationTaskList.getWork(),
+                                info,
+                                formatTimeDay + " " + formatTimeH,
+                                inOssUrl,
+                                locationStr);
+                    }else {
+                        // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
+                        showMessageDialogTakePicture(this,
+                                "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
+                                mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
+                    }
                 } else {
                     // 不是拍照打卡
                     mPresenter.sign(mLocationTaskList.getSignInId(),
@@ -606,6 +642,51 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
             // 提示用户获取定位
             showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
         }
+    }
+
+    /**
+     * 获取拍照的获取缩略图
+     * 收到从Activity传过来的回调，取出其中的值进行图片加载
+     *
+     * @param requestCode int
+     * @param resultCode  int
+     * @param data        Intent
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // TODO 获取uri进行加载
+            final Uri resultUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), SAVE_AVATORNAME));
+            if (resultUri != null) {
+                // 调用上传方法
+                loadAvatar(resultUri);
+            }
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            Application.showToast(R.string.data_rsp_error_unknown);
+            final Throwable cropError = UCrop.getError(data);
+        }
+    }
+
+    /**
+     * 提交到oss
+     *
+     * @param uri 图片uri
+     */
+    private void loadAvatar(Uri uri) {
+
+        // 拿到本地文件地址
+        final String localPath = uri.getPath();
+        Log.e("TAG", "localPath" + localPath);
+
+        // 使用线程池，将图片上传到oss文件夹
+        Factory.runOnAsync(new Runnable() {
+            @Override
+            public void run() {
+                ossUrl = UploadHelper.uploadImage(localPath);
+                Log.e("TAG", "url" + ossUrl);
+            }
+        });
     }
 
     /**
@@ -781,28 +862,34 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * 打开相机拍照
      */
     private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+
+        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentFromCapture.putExtra(
+                MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(new File(Environment.getExternalStorageDirectory(),SAVE_AVATORNAME)));
+        startActivityForResult(intentFromCapture, REQUEST_IMAGE_CAPTURE);
     }
 
-    /**
-     * 获取拍照的获取缩略图
-     *
-     * @param requestCode int
-     * @param resultCode  int
-     * @param data        Intent
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            // imageView.setImageBitmap(imageBitmap);
-        }
-    }
+//    /**
+//     * 获取拍照的获取缩略图
+//     *
+//     * @param requestCode int
+//     * @param resultCode  int
+//     * @param data        Intent
+//     */
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            // imageView.setImageBitmap(imageBitmap);
+//        }
+//    }
 
     /**
      * 弹出单项选择列表

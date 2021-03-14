@@ -113,7 +113,6 @@ public class UpdateInfoActivity
     // 收到从Activity传过来的回调，取出其中的值进行图片加载
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 是当前fragment能够处理的类型
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             // 获取uri进行加载
@@ -149,7 +148,7 @@ public class UpdateInfoActivity
         Factory.runOnAsync(new Runnable() {
             @Override
             public void run() {
-                String url = UploadHelper.uploadImage(localPath);
+                String url = UploadHelper.uploadAvatar(localPath);
                 Log.e("TAG", "url" + url);
             }
         });
@@ -189,9 +188,9 @@ public class UpdateInfoActivity
 
     @Override
     public void UpdateSuccess() {
-        MainActivity.show(this);
         // 将完善信息的标志设置为false,下次进入就不要再去更新信息了
         SPUtils.put(this, "isInfo", false);
+        MainActivity.show(this);
         this.finish();
     }
 }

@@ -7,6 +7,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.View;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.utils.DeviceIdUtil;
 import com.example.iwen.common.utils.SPUtils;
+import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.assist.PermissionsFragment;
 
@@ -32,6 +34,8 @@ public class LaunchActivity extends BaseActivity {
     private boolean isLogin = false;
     // 是否已经得到PushId
     private boolean mAlreadyGotPushReceiverId = false;
+    // 完善信息标志：判断是否需要完善
+    private boolean isInfo;
 
     /**
      * 绑定视图
@@ -60,7 +64,10 @@ public class LaunchActivity extends BaseActivity {
         super.initData();
         // 手机一启动就立马获取DeviceId并保存到手机中
         SPUtils.put(this, "DeviceId", DeviceIdUtil.getDeviceId(this));
-        SPUtils.put(this, "isInfo", true);
+        isInfo = (boolean) SPUtils.get(this,"isInfo",false);
+        if (isInfo){
+            SPUtils.put(this, "isInfo", true);
+        }
         // 开始动画
         startAnim(0.5f, this::waitPushReceiverId);
     }
@@ -123,8 +130,8 @@ public class LaunchActivity extends BaseActivity {
                 finish();
             } else {
                 // 进入注册登录界面
-                //AccountActivity.show(this);
-                MainActivity.show(this);
+                AccountActivity.show(this);
+                //MainActivity.show(this);
                 finish();
             }
         }

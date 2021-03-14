@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/len_4"
-                android:text="V 1.0.0"
+                android:text="@string/data_src_version"
                 android:textColor="@color/grey" />
 
         </LinearLayout>
@@ -174,7 +174,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/designer4"
+                android:background="@mipmap/img_4"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -193,17 +193,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@color/white"
-
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/designer5"
-                android:contentDescription="@string/app_name" />
+                android:background="@mipmap/img_0"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -230,7 +228,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/designer3"
+                android:background="@mipmap/img_5"
                 android:contentDescription="@string/app_name" />
 
             <TextView
@@ -257,7 +255,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/designer2"
+                android:background="@mipmap/img_6"
                 android:contentDescription="@string/app_name" />
 
             <TextView
@@ -284,7 +282,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/designer1"
+                android:background="@mipmap/img_8"
                 android:contentDescription="@string/app_name" />
 
             <TextView
@@ -342,7 +340,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/len_2"
                 android:layout_marginStart="@dimen/len_10"
-                android:background="@mipmap/github"
+                android:background="@mipmap/ic_img2"
                 android:contentDescription="@string/app_name" />
 
             <TextView
@@ -351,9 +349,9 @@
                 android:layout_marginStart="@dimen/len_20"
                 android:layout_weight="1"
                 android:gravity="left|center"
-                android:text="GITHUB项目地址："
+                android:text="https://github.com/ljr7822/Android_SignUp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/font_18" />
+                android:textSize="@dimen/font_14" />
         </LinearLayout>
 
     </LinearLayout>

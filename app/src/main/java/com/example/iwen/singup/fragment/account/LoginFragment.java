@@ -181,9 +181,9 @@ public class LoginFragment
         SPUtils.put(Objects.requireNonNull(getContext()), "isLogin", true);
         SPUtils.put(Objects.requireNonNull(getContext()), "name", loginRspModel.getName());
         //SPUtils.put(Objects.requireNonNull(getContext()), "departmentName", loginRspModel.getDepartmentName());
-        SPUtils.put(Objects.requireNonNull(getContext()), "departmentId", loginRspModel.getDepartmentId());
+        //SPUtils.put(Objects.requireNonNull(getContext()), "departmentId", loginRspModel.getDepartmentId());
         //SPUtils.put(Objects.requireNonNull(getContext()), "icon", loginRspModel.getIcon());
-        SPUtils.put(Objects.requireNonNull(getContext()), "phoneNumber", loginRspModel.getPhoneNumber());
+        //SPUtils.put(Objects.requireNonNull(getContext()), "phoneNumber", loginRspModel.getPhoneNumber());
         // 关闭当前界面
         getActivity().finish();
     }
