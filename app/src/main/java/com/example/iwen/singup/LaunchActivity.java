@@ -14,10 +14,8 @@ import android.view.View;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.utils.DeviceIdUtil;
 import com.example.iwen.common.utils.SPUtils;
-import com.example.iwen.singup.activities.AccountActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.assist.PermissionsFragment;
-import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 
 import net.qiujuer.genius.ui.compat.UiCompat;
 
@@ -62,7 +60,7 @@ public class LaunchActivity extends BaseActivity {
         super.initData();
         // 手机一启动就立马获取DeviceId并保存到手机中
         SPUtils.put(this, "DeviceId", DeviceIdUtil.getDeviceId(this));
-        SPUtils.put(this, "isInfo", false);
+        SPUtils.put(this, "isInfo", true);
         // 开始动画
         startAnim(0.5f, this::waitPushReceiverId);
     }
@@ -125,8 +123,8 @@ public class LaunchActivity extends BaseActivity {
                 finish();
             } else {
                 // 进入注册登录界面
-                AccountActivity.show(this);
-                //MainActivity.show(this);
+                //AccountActivity.show(this);
+                MainActivity.show(this);
                 finish();
             }
         }

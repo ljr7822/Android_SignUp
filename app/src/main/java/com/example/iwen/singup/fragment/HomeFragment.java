@@ -28,6 +28,7 @@ import com.example.iwen.factory.presenter.notice.NoticeContract;
 import com.example.iwen.factory.presenter.notice.NoticePresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.MainActivity;
+import com.example.iwen.singup.activities.UpdateInfoActivity;
 import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
@@ -61,7 +62,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     @BindView(R.id.banner)
     Banner mBanner;
 
-    // 是否完善信息标志，true为未完善，false为完善
+    // 是否完善信息标志，true为未完善，false为完善,默认为true
     private boolean isInfo;
     private BaseFragment mFragment;
 
@@ -79,6 +80,12 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         return R.layout.fragment_home;
     }
 
+    @Override
+    protected void initArgs(Bundle bundle) {
+        super.initArgs(bundle);
+        isInfo = (boolean) SPUtils.get(getContext(),"isInfo",true);
+    }
+
     /**
      * 初始化控件
      *
@@ -87,7 +94,6 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     @Override
     protected void initWidget(View view) {
         super.initWidget(view);
-        isInfo = (boolean) SPUtils.get(getContext(),"isInfo",false);
         // 轮播图
         mImageAdapter = new ImageAdapter(DataBean.getTestData());
         mBanner.setAdapter(mImageAdapter)
@@ -135,7 +141,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         // 获取公告
         mPresenter.getNotice("");
         // TODO 提示用户完善信息
-        userIsInfo(true);
+        userIsInfo(isInfo);
     }
 
     /**
@@ -253,15 +259,16 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
      */
     private void userIsInfo(boolean isInfo) {
         if (isInfo) {
+            // 没有完善信息，提示完善
+            showMessageDialogGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
+        } else {
             // 已经完善信息，不做提示
             return;
-        } else {
-            showMessageDialogGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
         }
     }
 
     /**
-     * 完善信息弹窗
+     * 完善信息的弹窗
      *
      * @param context 上下文
      * @param title   标题
@@ -274,11 +281,15 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                 .setOkButton("去完善", new OnDialogButtonClickListener() {
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View view) {
+//                        // 立即前往完善
+//                        mFragment = new UpdateInfoFragment();
+//                        // 跳转到完善信息的fragment
+//                        getFragmentManager().beginTransaction()
+//                                .replace(R.id.lay_container,mFragment)
+//                                .commit();
+//                        SPUtils.put(getContext(),"isInfo",false);
                         // 立即前往完善
-                        mFragment = new UpdateInfoFragment();
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.lay_container,mFragment)
-                                .commit();
+                        UpdateInfoActivity.show(getContext());
                         return false;
                     }
                 })
@@ -286,6 +297,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View view) {
                         // 直接退出app
+                        System.exit(0);
                         return false;
                     }
                 })

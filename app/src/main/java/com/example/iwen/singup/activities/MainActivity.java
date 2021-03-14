@@ -12,7 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +20,7 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,16 +31,16 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.BaseActivity;
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.utils.SPUtils;
+import com.example.iwen.factory.model.db.User;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.fragment.ContactFragment;
 import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
-import com.example.iwen.singup.fragment.user.UpdateInfoFragment;
 import com.example.iwen.singup.helper.NavHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnCancelListener;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
+//import com.lxj.xpopup.XPopup;
+//import com.lxj.xpopup.interfaces.OnCancelListener;
+//import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
@@ -48,7 +49,8 @@ import java.util.Objects;
 
 public class MainActivity
         extends BaseActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener, NavHelper.OnTabChangedListener<Integer> {
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+        NavHelper.OnTabChangedListener<Integer> {
 
     private View mLayAppbar;
     private TextView mTitle;
@@ -219,7 +221,7 @@ public class MainActivity
     }
 
     @TargetApi(16)
-    private void initNotification(){
+    private void initNotification() {
         Notification.Builder builder = new Notification.Builder(this);
         Intent notificationIntent = new Intent(this, SettingActivity.class);
 

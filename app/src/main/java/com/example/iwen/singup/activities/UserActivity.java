@@ -56,7 +56,6 @@ public class UserActivity extends PresenterActivity<UserContract.Presenter> impl
     @Override
     protected void initWidget() {
         super.initWidget();
-
     }
 
     // 收到从Activity传过来的回调，取出其中的值进行图片加载

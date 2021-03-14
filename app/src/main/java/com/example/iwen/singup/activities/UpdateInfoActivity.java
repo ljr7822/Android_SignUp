@@ -1,27 +1,31 @@
-package com.example.iwen.singup.fragment.user;
+package com.example.iwen.singup.activities;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideContext;
 import com.example.iwen.common.app.Application;
-import com.example.iwen.common.app.PresenterFragment;
+import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.app.PresenterActivity;
 import com.example.iwen.common.utils.HashUtil;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.common.widget.PortraitView;
 import com.example.iwen.factory.Factory;
 import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.factory.presenter.user.UpdateInfoContract;
 import com.example.iwen.factory.presenter.user.UpdateInfoPresenter;
 import com.example.iwen.singup.R;
-import com.example.iwen.singup.activities.AccountActivity;
-import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.fragment.media.GalleryFragment;
 import com.yalantis.ucrop.UCrop;
 
@@ -32,16 +36,8 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static android.app.Activity.RESULT_OK;
-
-/**
- * 修改用户信息的fragment
- *
- * @author : Iwen大大怪
- * create : 2020/11/15 9:05
- */
-public class UpdateInfoFragment
-        extends PresenterFragment<UpdateInfoContract.Presenter>
+public class UpdateInfoActivity
+        extends PresenterActivity<UpdateInfoContract.Presenter>
         implements UpdateInfoContract.View {
     // 头像
     @BindView(R.id.im_portrait)
@@ -72,28 +68,25 @@ public class UpdateInfoFragment
     // 默认为男生
     private boolean isMan = true;
 
-    public UpdateInfoFragment() {
-        // Required empty public constructor
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_update_info;
     }
 
     /**
-     * UpdateInfoFragment的显示入口
+     * UpdateInfoActivity显示入口
+     * intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
      *
      * @param context 上下文
      */
     public static void show(Context context) {
-        Intent intent = new Intent(context, UpdateInfoFragment.class);
+        Intent intent = new Intent(context, UpdateInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.fragment_update_info;
-    }
-
     /**
-     * 头像点击事件
+     * 头像点击事件:弹出选择图片列表
      */
     @OnClick(R.id.im_portrait)
     void onPortraitViewClick() {
@@ -112,15 +105,16 @@ public class UpdateInfoFragment
                         .withAspectRatio(1, 1) // 1:1比例
                         .withMaxResultSize(520, 520) // 最大尺寸
                         .withOptions(options)
-                        .start(getActivity());
+                        .start(UpdateInfoActivity.this);
             }
-        }).show(getChildFragmentManager(), GalleryFragment.class.getName());
+        }).show(getSupportFragmentManager(), GalleryFragment.class.getName());
     }
 
     // 收到从Activity传过来的回调，取出其中的值进行图片加载
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 是当前fragment能够处理的类型
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             // 获取uri进行加载
             final Uri resultUri = UCrop.getOutput(data);
@@ -142,7 +136,7 @@ public class UpdateInfoFragment
         // 得到头像地址
         mPortraitPath = uri.getPath();
         // 拿到本地地址
-        Glide.with(getContext())
+        Glide.with(this)
                 .load(uri)
                 .centerCrop()
                 .into(mPortraitView);
@@ -161,30 +155,6 @@ public class UpdateInfoFragment
         });
     }
 
-    @Override
-    protected UpdateInfoContract.Presenter initPresenter() {
-        return new UpdateInfoPresenter(this);
-    }
-
-    @Override
-    public void UpdateSuccess() {
-        MainActivity.show(getContext());
-        getActivity().finish();
-    }
-
-    /**
-     * 提交按钮点击触发
-     */
-    @OnClick(R.id.btn_submit)
-    void onSubmitClick() {
-        String department = mDepartment.getText().toString();
-        String name = mName.getText().toString();
-        String phone = mPhone.getText().toString();
-        String passwordMd5 = HashUtil.getMD5String(mPassword.getText().toString());
-        // 调用p层进行更新
-        mPresenter.update(getContext(), mPortraitPath, department, name, passwordMd5, phone, 1);
-    }
-
     /**
      * 性别图标点击触发
      */
@@ -197,23 +167,31 @@ public class UpdateInfoFragment
         mSex.getBackground().setLevel(isMan ? 0 : 1);
     }
 
+    /**
+     * 提交按钮点击触发
+     */
+    @OnClick(R.id.btn_submit)
+    void onSubmitClick() {
+        // 保存相关信息
+        String department = mDepartment.getText().toString();
+        String name = mName.getText().toString();
+        String phone = mPhone.getText().toString();
+        String passwordMd5 = HashUtil.getMD5String(mPassword.getText().toString());
+        // TODO 调用p层进行更新
+        mPresenter.update(this, mPortraitPath, department, name, passwordMd5, phone, isMan ? 1 : 0);
+    }
+
+    // 初始化Presenter
     @Override
-    public void showError(int str) {
-        super.showError(str);
-        // 停止loading
-        mLoading.stop();
-        mDepartment.setEnabled(true);
-        mPortraitView.setEnabled(true);
-        mSex.setEnabled(true);
-        mSubmit.setEnabled(true);
+    protected UpdateInfoContract.Presenter initPresenter() {
+        return new UpdateInfoPresenter(this);
     }
 
     @Override
-    public void showLoading() {
-        super.showLoading();
-        mDepartment.setEnabled(false);
-        mPortraitView.setEnabled(false);
-        mSex.setEnabled(false);
-        mSubmit.setEnabled(false);
+    public void UpdateSuccess() {
+        MainActivity.show(this);
+        // 将完善信息的标志设置为false,下次进入就不要再去更新信息了
+        SPUtils.put(this, "isInfo", false);
+        this.finish();
     }
 }

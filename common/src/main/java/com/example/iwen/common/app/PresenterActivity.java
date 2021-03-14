@@ -8,6 +8,7 @@ import com.example.iwen.common.factory.presenter.BaseContract;
 
 /**
  * Presenter基类
+ *
  * @author : iwen大大怪
  * create : 11-29 029 22:01
  */

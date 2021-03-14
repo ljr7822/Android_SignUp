@@ -197,7 +197,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                     list[i - 1] = infoStrs.get(i).trim();
                 }
             }
-            //list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"}
+            // list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"}
             mSignUserContent.setText(mLocationTaskList.getWork());
             mSignTimeContent.setText(mLocationTaskList.getDate());
             mSignDataContent.setText(formatTimeH);
@@ -545,7 +545,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      * @param content 内容
      */
     public void showXPopupGetLocation(Context context, String title, String content) {
-        MessageDialog.show((AppCompatActivity) context, "提示", "这是一条消息", "确定");
+        MessageDialog.show((AppCompatActivity) context, title, content, "确定");
     }
 
     /**

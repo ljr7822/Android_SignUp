@@ -26,6 +26,9 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 拍照的Activity
+ */
 public class TakePictureActivity extends BaseActivity {
     // 标题
     @BindView(R.id.appbar)

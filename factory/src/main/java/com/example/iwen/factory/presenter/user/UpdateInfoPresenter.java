@@ -31,23 +31,38 @@ public class UpdateInfoPresenter
         super(view);
     }
 
+    /**
+     * 更新用户信息方法
+     *
+     * @param context       上下文
+     * @param photoFilePath 头像地址
+     * @param department    部门
+     * @param name          姓名
+     * @param phone         电话
+     * @param password      密码
+     * @param isMan         性别
+     */
     @Override
-    public void update(Context context,final String photoFilePath, final String department,
-                       final String name, final String phone, final String password,
+    public void update(Context context,
+                       final String photoFilePath,
+                       final String department,
+                       final String name,
+                       final String phone,
+                       final String password,
                        final int isMan) {
         start();
         final UpdateInfoContract.View view = getView();
         // 工号、mac设备号在内部获取并进行传入，不需要直接外部传入
-        final String workId = (String) SPUtils.get(context,"workId","10010001");
+        final String workId = (String) SPUtils.get(context, "workId", "10010001");
         // mac在登录时已经写入数据库
-        final String mac = (String) SPUtils.get(context,"DeviceId","10010001");
+        final String mac = (String) SPUtils.get(context, "DeviceId", "10010001");
         // 校验数据
         if (TextUtils.isEmpty(photoFilePath) ||
-                TextUtils.isEmpty(department)||
-                TextUtils.isEmpty(name)||
-                TextUtils.isEmpty(phone)||
+                TextUtils.isEmpty(department) ||
+                TextUtils.isEmpty(name) ||
+                TextUtils.isEmpty(phone) ||
                 TextUtils.isEmpty(password)) {
-            view.showError(R.string.data_account_update_invalid_parameter);
+            view.showError(R.string.data_account_update_parameter);
         } else {
             // 头像上传
             Factory.runOnAsync(new Runnable() {
@@ -60,8 +75,8 @@ public class UpdateInfoPresenter
                     } else {
                         // 构建model
                         UserUpdateModel model =
-                                new UserUpdateModel(workId,name,phone,photoFilePath,department,password,mac,isMan);
-                        UserHelper.update(model,UpdateInfoPresenter.this);
+                                new UserUpdateModel(workId, name, phone, photoFilePath, department, password, mac, isMan);
+                        UserHelper.update(model, UpdateInfoPresenter.this);
                     }
                 }
             });
