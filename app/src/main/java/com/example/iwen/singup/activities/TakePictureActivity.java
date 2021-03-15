@@ -101,6 +101,7 @@ public class TakePictureActivity extends BaseActivity {
 
                     }
                 });
+        // 获取传过来的个人数据
         Intent intent = getIntent();
         mName.setText(intent.getStringExtra("name"));
         mWorkId.setText(intent.getStringExtra("workId"));

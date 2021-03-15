@@ -157,7 +157,8 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
 
     // oss的url
     private String ossUrl;
-    private static final String SAVE_AVATORNAME = "head.png";// 保存的图片名
+    // 保存的图片名
+    private static final String SAVE_AVATORNAME = "head.png";
 
     /**
      * 打卡Activity显示入口
@@ -190,11 +191,14 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         return R.layout.activity_sign;
     }
 
+    /**
+     * 初始化参数
+     *
+     * @param bundle 参数bundle
+     * @return boolean
+     */
     @Override
     protected boolean initArgs(Bundle bundle) {
-        Intent intent = getIntent();
-        inOssUrl = intent.getStringExtra("ossUrl");
-        hasOssUrl = intent.getBooleanExtra("hasOssUrl", false);
         return super.initArgs(bundle);
     }
 
@@ -247,6 +251,14 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         formatTimeH = systemTime.split(" ")[1].trim();
     }
 
+    /**
+     * 获取传递进来的url
+     */
+    private void getIntoIntentArg(){
+        Intent intent = getIntent();
+        inOssUrl = intent.getStringExtra("ossUrl");
+        hasOssUrl = intent.getBooleanExtra("hasOssUrl", false);
+    }
     /**
      * 获取定位点击事件
      */
@@ -509,7 +521,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         MessageDialog.build((AppCompatActivity) context)
                 .setTitle(title)
                 .setMessage(content)
-                .setOkButton("去意已决",new OnDialogButtonClickListener() {
+                .setOkButton("去意已决", new OnDialogButtonClickListener() {
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View view) {
                         finish();
@@ -605,43 +617,75 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     void onSubmitClick() {
         // 获取当前是否为拍照打卡
         ifIcon = mLocationTaskList.getCollectType();
-        if (isClickAction) {
-            if (info == null) {
-                showXPopupSelectList(this, Messagetitle, list);
-            } else {
-                // 已经获取定位
-                if (ifIcon.equals("拍照签到")) {
-                    // 再次判断是否已经拍好照片
-                    if (hasOssUrl){
-                        // 已经拍好,调用p层发送
-                        mPresenter.sign(mLocationTaskList.getSignInId(),
-                                mLocationTaskList.getCollectId(),
-                                mLocationTaskList.getWork(),
-                                info,
-                                formatTimeDay + " " + formatTimeH,
-                                inOssUrl,
-                                locationStr);
-                    }else {
-                        // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
-                        showMessageDialogTakePicture(this,
-                                "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
-                                mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
-                    }
-                } else {
-                    // 不是拍照打卡
+        // 先判断是否是拍照打卡
+        if (ifIcon.equals("拍照签到")) {
+            getIntoIntentArg();
+            // 再次判断是否已经拍好照片
+            if (hasOssUrl) {
+                // 已经拍好,进行下一步，判断是否有收集信息
+                // 判断是否有收集信息
+                if (info == null) {
+                    showXPopupSelectList(this, Messagetitle, list);
+                    // 判断是否已经获取定位
+                }else if (!isClickAction) {
+                    // 提示用户获取定位
+                    showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
+                }else {
+                    getIntoIntentArg();
                     mPresenter.sign(mLocationTaskList.getSignInId(),
                             mLocationTaskList.getCollectId(),
                             mLocationTaskList.getWork(),
                             info,
                             formatTimeDay + " " + formatTimeH,
-                            "null",
+                            inOssUrl,
                             locationStr);
                 }
+            } else {
+                // 是拍照打卡，但是并没有拍好，需要跳转到拍照界面进行拍照，并将照片url进行返回
+                // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
+                showMessageDialogTakePicture(this,
+                        "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
+                        mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
             }
-        } else {
-            // 提示用户获取定位
-            showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
         }
+
+//        if (isClickAction) {
+//            if (info == null) {
+//                showXPopupSelectList(this, Messagetitle, list);
+//            } else {
+//                // 已经获取定位
+//                if (ifIcon.equals("拍照签到")) {
+//                    // 再次判断是否已经拍好照片
+//                    if (hasOssUrl) {
+//                        // 已经拍好,调用p层发送
+//                        mPresenter.sign(mLocationTaskList.getSignInId(),
+//                                mLocationTaskList.getCollectId(),
+//                                mLocationTaskList.getWork(),
+//                                info,
+//                                formatTimeDay + " " + formatTimeH,
+//                                inOssUrl,
+//                                locationStr);
+//                    } else {
+//                        // TODO 是拍照打卡，弹出收集信息窗口，弹出拍照选项
+//                        showMessageDialogTakePicture(this,
+//                                "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
+//                                mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
+//                    }
+//                } else {
+//                    // 不是拍照打卡
+//                    mPresenter.sign(mLocationTaskList.getSignInId(),
+//                            mLocationTaskList.getCollectId(),
+//                            mLocationTaskList.getWork(),
+//                            info,
+//                            formatTimeDay + " " + formatTimeH,
+//                            "null",
+//                            locationStr);
+//                }
+//            }
+//        } else {
+//            // 提示用户获取定位
+//            showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
+//        }
     }
 
     /**
@@ -823,7 +867,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                 .setCancelButton("不了", new OnDialogButtonClickListener() {
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View view) {
-
+                        // TODO 提示用户，没有拍照不能打卡
                         return false;
                     }
                 })
@@ -870,7 +914,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intentFromCapture.putExtra(
                 MediaStore.EXTRA_OUTPUT,
-                Uri.fromFile(new File(Environment.getExternalStorageDirectory(),SAVE_AVATORNAME)));
+                Uri.fromFile(new File(Environment.getExternalStorageDirectory(), SAVE_AVATORNAME)));
         startActivityForResult(intentFromCapture, REQUEST_IMAGE_CAPTURE);
     }
 
