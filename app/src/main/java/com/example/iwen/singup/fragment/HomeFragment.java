@@ -49,6 +49,8 @@ import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 import com.kongzue.dialog.util.DialogSettings;
 
+import net.qiujuer.genius.res.Resource;
+
 public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         implements NoticeContract.View {
     private ImageAdapter mImageAdapter;
@@ -186,6 +188,12 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         @Override
         protected void onBind(NoticeRspModel noticeRspModel) {
             mNoticeTitle.setText(noticeRspModel.getType());
+            // 设置字体颜色
+            if (noticeRspModel.getType().equals("普通公告")) {
+                mNoticeTitle.setTextColor(Resource.Color.GREEN);
+            } else {
+                mNoticeTitle.setTextColor(Resource.Color.RED);
+            }
             mNoticeTime.setText(noticeRspModel.getDate());
             mNoticeDesc.setText(noticeRspModel.getNoticeContents());
             mDepartmentName.setText(noticeRspModel.getDepartmentName());

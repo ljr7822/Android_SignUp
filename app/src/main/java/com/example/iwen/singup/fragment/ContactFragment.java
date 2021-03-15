@@ -1,6 +1,8 @@
 package com.example.iwen.singup.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import com.example.iwen.factory.presenter.location.GetLocationTaskListPresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.DescActivity;
 import com.example.iwen.singup.activities.SignActivity;
+
+import net.qiujuer.genius.res.Resource;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +58,8 @@ public class ContactFragment
     private String formatTimeH;
     // 全局workId
     private String workId;
+    //记录当前item位置
+    private int currentPosition = 0;
 
     public ContactFragment() {
     }
@@ -94,14 +100,14 @@ public class ContactFragment
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, LocationTaskList locationTaskList) {
                 // 先判断是否已经签到，如果已经签到，就直接跳转到签到详情
-                if (locationTaskList.getIfSign().equals("已签到")){
+                if (locationTaskList.getIfSign().equals("已签到")) {
                     Intent intent = new Intent(getContext(), DescActivity.class);
-                    intent.putExtra("department",locationTaskList.getDepartmentName());
-                    intent.putExtra("date",locationTaskList.getDate()+" "+locationTaskList.getTime());
-                    intent.putExtra("adder",locationTaskList.getLocationName());
-                    intent.putExtra("info",locationTaskList.getInfo());
+                    intent.putExtra("department", locationTaskList.getDepartmentName());
+                    intent.putExtra("date", locationTaskList.getDate() + " " + locationTaskList.getTime());
+                    intent.putExtra("adder", locationTaskList.getLocationName());
+                    intent.putExtra("info", locationTaskList.getInfo());
                     startActivity(intent);
-                }else {
+                } else {
                     // 未签到就前往签到
                     SignActivity.show(getContext(), locationTaskList);
                 }
@@ -118,7 +124,7 @@ public class ContactFragment
         systemTime = dateTimeUtil.getTime();
         formatTimeDay = systemTime.split(" ")[0].trim();
         formatTimeH = systemTime.split(" ")[1].trim();
-        workId = (String) SPUtils.get(Objects.requireNonNull(getContext()),"workId","10010002");
+        workId = (String) SPUtils.get(Objects.requireNonNull(getContext()), "workId", "10010002");
         // 调用p层进行获取
         mPresenter.getLocationTaskList(workId, formatTimeDay);
     }
@@ -175,6 +181,12 @@ public class ContactFragment
             mMessageDesc.setText(locationTaskList.getLocationName());
             // 绑定是否签到
             mIsTag.setText(locationTaskList.getIfSign());
+            // 设置字体颜色
+            if (locationTaskList.getIfSign().equals("已签到")) {
+                mIsTag.setTextColor(Resource.Color.GREEN);
+            } else {
+                mIsTag.setTextColor(Resource.Color.RED);
+            }
         }
     }
 //    @Override
