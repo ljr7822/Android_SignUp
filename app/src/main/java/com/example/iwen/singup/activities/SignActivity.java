@@ -647,6 +647,24 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                         "确认", "该任务为拍照打卡任务，是否启用相机进行拍照？",
                         mLocationTaskList.getWork(), workId, mLocationTaskList.getDepartmentName());
             }
+        }else {
+            // 不是拍照签到，判断选项
+            // 判断是否有收集信息
+            if (info == null) {
+                showXPopupSelectList(this, Messagetitle, list);
+            // 判断是否已经获取定位
+            }else if (!isClickAction) {
+                // 提示用户获取定位
+                showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
+            }else {
+                mPresenter.sign(mLocationTaskList.getSignInId(),
+                        mLocationTaskList.getCollectId(),
+                        mLocationTaskList.getWork(),
+                        null,
+                        formatTimeDay + " " + formatTimeH,
+                        inOssUrl,
+                        locationStr);
+            }
         }
 
 //        if (isClickAction) {
