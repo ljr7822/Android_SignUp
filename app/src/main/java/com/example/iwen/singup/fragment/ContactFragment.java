@@ -9,10 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,9 @@ import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.DescActivity;
 import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.activities.SignActivity;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 
 import net.qiujuer.genius.res.Resource;
 
@@ -109,19 +114,69 @@ public class ContactFragment
                 // 先判断是否已经签到，如果已经签到，就直接跳转到签到详情
                 if (locationTaskList.getIfSign().equals("已签到")) {
                     Intent intent = new Intent(getActivity(), DescActivity.class);
-                    intent.putExtra("department", locationTaskList.getDepartmentName()+"  "+locationTaskList.getCollectName());
+                    intent.putExtra("department", locationTaskList.getDepartmentName() + "  " + locationTaskList.getCollectName());
                     intent.putExtra("date", locationTaskList.getDate() + " " + locationTaskList.getTime());
                     intent.putExtra("adder", locationTaskList.getAddress());
-                    intent.putExtra("info", locationTaskList.getCollectInfo()+locationTaskList.getInfo());
+                    intent.putExtra("info", locationTaskList.getCollectInfo() + locationTaskList.getInfo());
                     startActivity(intent);
                 } else {
-                    // 未签到就前往签到
-                    SignActivity.show(getActivity(), locationTaskList);
+                    // 未签到：先判断日期是否在签到时间内，过期就不能签到
+                    if (isCanSign(locationTaskList)){
+                        // 可以签到
+                        SignActivity.show(getActivity(), locationTaskList);
+                    }else {
+                        // 不可以签到了
+                        showMessageDialogIsCanSign(getActivity(),"提示","对不起，签到已过期，下次记得早点来哦！");
+                    }
                 }
             }
         });
         // 初始化占位布局
         mEmptyView.bind(mRecycler);
+    }
+
+    /**
+     * 判断当前该任务还可不可以签到
+     *
+     * @param locationTaskList 每个任务
+     * @return 是否可以签到，True为可以签到
+     */
+    private boolean isCanSign(LocationTaskList locationTaskList) {
+        DateTimeUtil dateTimeUtil = new DateTimeUtil();
+        Long dateLongList = 0L;
+        Long dateLongNew = 0L;
+        try {
+            // 任务时间
+            dateLongList = dateTimeUtil.getDateLong(locationTaskList.getDate());
+            // 当前时间
+            dateLongNew = dateTimeUtil.getDateLong(formatTimeDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dateLongList == dateLongNew) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 不能签到弹窗跳转
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showMessageDialogIsCanSign(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("知道了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        return false;
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -150,7 +205,7 @@ public class ContactFragment
             public int compare(LocationTaskList o1, LocationTaskList o2) {
                 DateTimeUtil dateTimeUtil = new DateTimeUtil();
                 try {
-                    return (int)(dateTimeUtil.getDateLong(o2.getDate())-dateTimeUtil.getDateLong(o1.getDate()));
+                    return (int) (dateTimeUtil.getDateLong(o2.getDate()) - dateTimeUtil.getDateLong(o1.getDate()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -197,7 +252,7 @@ public class ContactFragment
             // 绑定时间
             mMessageDate.setText(locationTaskList.getDate() + " " + locationTaskList.getTime());
             // 绑定标题
-            mMessageTitle.setText(locationTaskList.getDepartmentName()+"  "+locationTaskList.getCollectName());
+            mMessageTitle.setText(locationTaskList.getDepartmentName() + "  " + locationTaskList.getCollectName());
             // 绑定详情
             mMessageDesc.setText(locationTaskList.getAddress());
             // 绑定是否签到
