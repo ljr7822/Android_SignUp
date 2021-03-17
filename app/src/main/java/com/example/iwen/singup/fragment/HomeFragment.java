@@ -3,6 +3,7 @@ package com.example.iwen.singup.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,18 +12,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.app.PresenterFragment;
+import com.example.iwen.common.utils.DateTimeUtil;
 import com.example.iwen.common.utils.MDSettingUtils;
 import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.common.widget.EmptyView;
 import com.example.iwen.common.widget.banner.DataBean;
 import com.example.iwen.common.widget.banner.ImageAdapter;
 import com.example.iwen.common.widget.recycler.RecyclerAdapter;
+import com.example.iwen.factory.model.db.location.LocationTaskList;
 import com.example.iwen.factory.model.db.notice.NoticeRspModel;
 import com.example.iwen.factory.presenter.notice.NoticeContract;
 import com.example.iwen.factory.presenter.notice.NoticePresenter;
@@ -43,6 +47,8 @@ import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.transformer.AlphaPageTransformer;
 
+import java.text.ParseException;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -159,8 +165,22 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
      *
      * @param noticeRspModel List<NoticeRspModel>
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void getNoticeSuccess(List<NoticeRspModel> noticeRspModel) {
+        // 将传递进来的数据进行排序
+        noticeRspModel.sort(new Comparator<NoticeRspModel>() {
+            @Override
+            public int compare(NoticeRspModel o1, NoticeRspModel o2) {
+                DateTimeUtil dateTimeUtil = new DateTimeUtil();
+                try {
+                    return (int) (dateTimeUtil.getDateLong(o2.getDate()) - dateTimeUtil.getDateLong(o1.getDate()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
         mAdapter.replace(noticeRspModel);
     }
 

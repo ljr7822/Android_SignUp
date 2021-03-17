@@ -160,7 +160,7 @@ public class ContactFragment
     }
 
     /**
-     * 不能签到弹窗跳转
+     * 不能签到弹窗
      *
      * @param context 上下文
      * @param title   标题
