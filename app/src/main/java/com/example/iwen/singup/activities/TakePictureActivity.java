@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.iwen.common.app.Application;
 import com.example.iwen.common.app.BaseActivity;
+import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.factory.Factory;
 import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.singup.R;
@@ -193,6 +194,7 @@ public class TakePictureActivity extends BaseActivity {
             public void run() {
                 ossUrl = UploadHelper.uploadImage(localPath);
                 Log.e("TAG", "url" + ossUrl);
+                SPUtils.put(getApplicationContext(),"ossUrl",ossUrl);
             }
         });
     }

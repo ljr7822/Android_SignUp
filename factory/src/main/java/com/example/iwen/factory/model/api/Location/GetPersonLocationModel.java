@@ -8,11 +8,11 @@ package com.example.iwen.factory.model.api.Location;
  */
 public class GetPersonLocationModel {
     private String workId;
-    private String date;
+    // private String date;
 
-    public GetPersonLocationModel(String workId, String date) {
+    public GetPersonLocationModel(String workId) {
         this.workId = workId;
-        this.date = date;
+        // this.date = date;
     }
 
     public String getWorkId() {
@@ -23,11 +23,11 @@ public class GetPersonLocationModel {
         this.workId = workId;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
+//    public String getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(String date) {
+//        this.date = date;
+//    }
 }

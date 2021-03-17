@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomViewTarget;
@@ -38,6 +40,9 @@ import com.example.iwen.singup.fragment.HomeFragment;
 import com.example.iwen.singup.fragment.MineFragment;
 import com.example.iwen.singup.helper.NavHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 //import com.lxj.xpopup.XPopup;
 //import com.lxj.xpopup.interfaces.OnCancelListener;
 //import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -139,9 +144,13 @@ public class MainActivity
         mAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 跳转到打卡界面
-                Intent intent = new Intent(MainActivity.this, SignActivity.class);
-                startActivity(intent);
+                // 跳转到指示界面
+                // Intent intent = new Intent(MainActivity.this, SignActivity.class);
+                // startActivity(intent);
+                showMessageDialogSteps(MainActivity.this,"使用步骤",
+                        "1.点击消息列表查看签到信息\n" +
+                                "2.进入某个签到信息页，进行签到\n" +
+                                "3.初次登陆请完善个人信息");
                 // SignActivity.show(getApplicationContext(),null);
             }
         });
@@ -157,6 +166,55 @@ public class MainActivity
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
+
+    /**
+     * 操作流程弹窗
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showMessageDialogSteps(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("知道了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        return false;
+                    }
+                })
+                .show();
+
+//        new XPopup.Builder(context)
+//                .hasBlurBg(true)
+//                .asConfirm(title, content,
+//                        "不了",
+//                        "前往拍照",
+//                        new OnConfirmListener() {
+//                            @Override
+//                            public void onConfirm() {
+//                                // 跳转拍照的fragment页面进行拍照
+//                                Intent intent = new Intent(SignActivity.this, TakePictureActivity.class);
+//                                intent.putExtra("name", name);
+//                                intent.putExtra("workId", workId);
+//                                intent.putExtra("department", department);
+//                                startActivity(intent);
+//                            }
+//                        },
+//                        new OnCancelListener() {
+//                            @Override
+//                            public void onCancel() {
+////                                ToastUtils.Builder builder = new ToastUtils.Builder(context);
+////                                builder.setLayout(R.layout.view_layout_toast_done)
+////                                        .setGravity(Gravity.CENTER)
+////                                        .build()
+////                                        .show();
+//                            }
+//                        }, false)
+//                .show();
+    }
+
 
     @Override
     protected void initData() {
@@ -197,12 +255,12 @@ public class MainActivity
         if (Objects.equals(newTab.extra, R.string.title_home)) {
 
             // transY = Ui.dipToPx(getResources(),86);
-            mAction.setImageResource(R.drawable.ic_sign_in);
+            mAction.setImageResource(R.drawable.ic_tip);
             rotation = -360;
         } else {
             // 消息
             if (Objects.equals(newTab.extra, R.string.title_content)) {
-                mAction.setImageResource(R.drawable.ic_sign_in);
+                mAction.setImageResource(R.drawable.ic_tip);
                 rotation = 360;
             } else {
                 // 我的界面时隐藏

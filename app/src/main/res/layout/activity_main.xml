@@ -59,12 +59,12 @@
         android:id="@+id/btn_action"
         android:layout_width="@dimen/len_60"
         android:layout_height="@dimen/len_60"
-        android:layout_marginEnd="@dimen/len_16"
-        android:layout_marginBottom="@dimen/len_64"
+        android:layout_marginEnd="@dimen/len_10"
+        android:layout_marginBottom="@dimen/len_60"
         android:padding="@dimen/len_20"
-        android:src="@drawable/ic_sign_in"
+        android:src="@drawable/ic_tip"
         android:tint="@color/white"
-        app:gBackgroundColor="@color/theme"
+        app:gBackgroundColor="@color/tip"
         app:layout_anchor="@id/lay_container"
         app:layout_anchorGravity="bottom|center" />
 

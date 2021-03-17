@@ -33,7 +33,7 @@ public class GetLocationTaskListPresenter
         // 得到View接口
         GetLocationTaskListContract.View view = getView();
         // 构造Model，进行请求调用
-        GetPersonLocationModel getPersonLocationModel = new GetPersonLocationModel(workId, date);
+        GetPersonLocationModel getPersonLocationModel = new GetPersonLocationModel(workId);
         // 进行网络请求，并设置回调接口为自己
         LocationHelper.getTaskList(getPersonLocationModel, this);
     }

@@ -3,7 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
-
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "com.example.iwen.singup"
         minSdkVersion 21
@@ -15,6 +16,13 @@ android {
 
         renderscriptTargetApi 14
         renderscriptSupportModeEnabled true
+    }
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                // 此处指定生成的apk文件名
+                outputFileName = "SignUp.apk"
+            }
     }
 
     buildTypes {

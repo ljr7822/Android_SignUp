@@ -24,6 +24,7 @@ public class LocationTaskList {
      * "collectName": "1",
      * "collectType": "拍照打卡"，"普通签到"
      * "collectInfo"
+     * "address":地址信息
      */
     private String signInId;
     private String collectId;
@@ -40,6 +41,8 @@ public class LocationTaskList {
     private String departmentName;
     private String collectType;
     private String collectInfo;
+    private String address;
+    private String collectName;
 
     public String getCollectInfo() {
         return collectInfo;
@@ -159,5 +162,21 @@ public class LocationTaskList {
 
     public void setCollectType(String collectType) {
         this.collectType = collectType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCollectName() {
+        return collectName;
+    }
+
+    public void setCollectName(String collectName) {
+        this.collectName = collectName;
     }
 }

@@ -13,7 +13,9 @@
     <string name="data_upload_error">上传失败！</string>
     <string name="bulletin_board">公告栏</string>
 
-    <string name="data_src_version">1.3.1</string>
+    <string name="data_str_re_location">重新定位</string>
+
+    <string name="data_src_version">1.3.3</string>
 
     <string name="data_rsp_error_unknown">未知错误(ρ_・).。</string>
     <string name="data_rsp_error_service">服务器错误(ρ_・).。</string>

@@ -1,14 +1,18 @@
 package com.example.iwen.singup.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,10 +27,13 @@ import com.example.iwen.factory.presenter.location.GetLocationTaskListContract;
 import com.example.iwen.factory.presenter.location.GetLocationTaskListPresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.DescActivity;
+import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.activities.SignActivity;
 
 import net.qiujuer.genius.res.Resource;
 
+import java.text.ParseException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +88,7 @@ public class ContactFragment
     protected void initWidget(View view) {
         super.initWidget(view);
         // 初始化适配器
-        mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 设置Adapter
         mRecycler.setAdapter(mAdapter = new RecyclerAdapter<LocationTaskList>() {
             @Override
@@ -101,15 +108,15 @@ public class ContactFragment
             public void onItemClick(RecyclerAdapter.ViewHolder holder, LocationTaskList locationTaskList) {
                 // 先判断是否已经签到，如果已经签到，就直接跳转到签到详情
                 if (locationTaskList.getIfSign().equals("已签到")) {
-                    Intent intent = new Intent(getContext(), DescActivity.class);
-                    intent.putExtra("department", locationTaskList.getDepartmentName());
+                    Intent intent = new Intent(getActivity(), DescActivity.class);
+                    intent.putExtra("department", locationTaskList.getDepartmentName()+"  "+locationTaskList.getCollectName());
                     intent.putExtra("date", locationTaskList.getDate() + " " + locationTaskList.getTime());
-                    intent.putExtra("adder", locationTaskList.getLocationName());
-                    intent.putExtra("info", locationTaskList.getInfo());
+                    intent.putExtra("adder", locationTaskList.getAddress());
+                    intent.putExtra("info", locationTaskList.getCollectInfo()+locationTaskList.getInfo());
                     startActivity(intent);
                 } else {
                     // 未签到就前往签到
-                    SignActivity.show(getContext(), locationTaskList);
+                    SignActivity.show(getActivity(), locationTaskList);
                 }
             }
         });
@@ -124,7 +131,7 @@ public class ContactFragment
         systemTime = dateTimeUtil.getTime();
         formatTimeDay = systemTime.split(" ")[0].trim();
         formatTimeH = systemTime.split(" ")[1].trim();
-        workId = (String) SPUtils.get(Objects.requireNonNull(getContext()), "workId", "10010002");
+        workId = (String) SPUtils.get(Objects.requireNonNull(getActivity()), "workId", "10010002");
         // 调用p层进行获取
         mPresenter.getLocationTaskList(workId, formatTimeDay);
     }
@@ -134,8 +141,22 @@ public class ContactFragment
      *
      * @param locationTaskLists 返回的数据列表
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void getLocationTaskListSuccess(List<LocationTaskList> locationTaskLists) {
+        // 将传递进来的数据进行排序
+        locationTaskLists.sort(new Comparator<LocationTaskList>() {
+            @Override
+            public int compare(LocationTaskList o1, LocationTaskList o2) {
+                DateTimeUtil dateTimeUtil = new DateTimeUtil();
+                try {
+                    return (int)(dateTimeUtil.getDateLong(o2.getDate())-dateTimeUtil.getDateLong(o1.getDate()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
         mAdapter.replace(locationTaskLists);
     }
 
@@ -176,9 +197,9 @@ public class ContactFragment
             // 绑定时间
             mMessageDate.setText(locationTaskList.getDate() + " " + locationTaskList.getTime());
             // 绑定标题
-            mMessageTitle.setText(locationTaskList.getDepartmentName());
+            mMessageTitle.setText(locationTaskList.getDepartmentName()+"  "+locationTaskList.getCollectName());
             // 绑定详情
-            mMessageDesc.setText(locationTaskList.getLocationName());
+            mMessageDesc.setText(locationTaskList.getAddress());
             // 绑定是否签到
             mIsTag.setText(locationTaskList.getIfSign());
             // 设置字体颜色

@@ -207,7 +207,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
         super.initWidget();
         // 注意，建议加上这个判断
         DialogUtils.requestMsgPermission(this);
-        workId = (String) SPUtils.get(this, "workId", "10010001");
+        workId = (String) SPUtils.get(this, "workId", "10010002");
         // 初始化背景
         initBgImg();
         // 初始化时间
@@ -217,20 +217,28 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
             // 有LocationTaskList传入
             // 获取收集信息列表
             List<String> infoStrs = Arrays.asList(mLocationTaskList.getCollectInfo().split(";"));
-            list = new String[infoStrs.size() - 1];
-            for (int i = 0; i < infoStrs.size(); i++) {
-                if (i == 0) {
-                    Messagetitle = infoStrs.get(i).trim();
-                } else {
-                    list[i - 1] = infoStrs.get(i).trim();
+            if (infoStrs.size()>0){
+                list = new String[infoStrs.size() - 1];
+                for (int i = 0; i < infoStrs.size(); i++) {
+                    if (i == 0) {
+                        Messagetitle = infoStrs.get(i).trim();
+                    } else {
+                        list[i - 1] = infoStrs.get(i).trim();
+                    }
                 }
+                // list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"}
+                mSignUserContent.setText(mLocationTaskList.getWork());
+                mSignTimeContent.setText(mLocationTaskList.getDate());
+                mSignDataContent.setText(formatTimeH);
             }
-            // list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"}
-            mSignUserContent.setText(mLocationTaskList.getWork());
-            mSignTimeContent.setText(mLocationTaskList.getDate());
-            mSignDataContent.setText(formatTimeH);
+//            // 无LocationTaskList传入
+//            //list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"};
+//            mSignUserContent.setText("李俊然");
+//            mSignTimeContent.setText(formatTimeDay);
+//            mSignDataContent.setText(formatTimeH);
         } else {
             // 无LocationTaskList传入
+            //list = new String[]{"正常", "37.1", "37.9", "38.1", "39.1"};
             mSignUserContent.setText("李俊然");
             mSignTimeContent.setText(formatTimeDay);
             mSignDataContent.setText(formatTimeH);
@@ -256,7 +264,8 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
      */
     private void getIntoIntentArg(){
         Intent intent = getIntent();
-        inOssUrl = intent.getStringExtra("ossUrl");
+        //inOssUrl = intent.getStringExtra("ossUrl");
+        inOssUrl = (String) SPUtils.get(getApplicationContext(),"ossUrl","http://signupiwen.oss-cn-chengdu.aliyuncs.com/image/202103/logo.png");
         hasOssUrl = intent.getBooleanExtra("hasOssUrl", false);
     }
     /**
@@ -617,6 +626,7 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
     void onSubmitClick() {
         // 获取当前是否为拍照打卡
         ifIcon = mLocationTaskList.getCollectType();
+        getIntoIntentArg();
         // 先判断是否是拍照打卡
         if (ifIcon.equals("拍照签到")) {
             getIntoIntentArg();
@@ -657,10 +667,11 @@ public class SignActivity extends PresenterActivity<SignContract.Presenter> impl
                 // 提示用户获取定位
                 showXPopupGetLocation(this, "抱歉>_<", "未获取定位，是否获取定位信息！");
             }else {
+                getIntoIntentArg();
                 mPresenter.sign(mLocationTaskList.getSignInId(),
                         mLocationTaskList.getCollectId(),
                         mLocationTaskList.getWork(),
-                        null,
+                        info,
                         formatTimeDay + " " + formatTimeH,
                         inOssUrl,
                         locationStr);

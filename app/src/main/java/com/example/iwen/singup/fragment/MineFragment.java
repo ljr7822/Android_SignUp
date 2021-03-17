@@ -21,6 +21,7 @@ import com.example.iwen.factory.presenter.account.UserContract;
 import com.example.iwen.factory.presenter.account.UserPresenter;
 import com.example.iwen.singup.R;
 import com.example.iwen.singup.activities.DescActivity;
+import com.example.iwen.singup.activities.MainActivity;
 import com.example.iwen.singup.activities.RecordActivity;
 import com.example.iwen.singup.activities.SettingActivity;
 import com.example.iwen.singup.activities.SignActivity;
@@ -175,7 +176,7 @@ public class MineFragment
      */
     @OnClick(R.id.statistical)
     void onStatisticalLayClick() {
-        Toasty.warning(Objects.requireNonNull(getContext()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+        Toasty.warning(Objects.requireNonNull(getActivity()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
 
     /**
@@ -183,7 +184,7 @@ public class MineFragment
      */
     @OnClick(R.id.task)
     void onTaskLayClick() {
-        Toasty.warning(Objects.requireNonNull(getContext()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
+        Toasty.warning(Objects.requireNonNull(getActivity()), "程序员小哥哥正在秃头开发中...", Toast.LENGTH_SHORT, true).show();
     }
 
     /**
