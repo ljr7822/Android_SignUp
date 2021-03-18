@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.iwen.common.factory.data.DataSource;
 import com.example.iwen.factory.R;
+import com.example.iwen.factory.data.database.userDataBase.UserDao;
+import com.example.iwen.factory.data.database.userDataBase.UserDataBase;
 import com.example.iwen.factory.model.api.RspModel;
 import com.example.iwen.factory.model.api.account.RegisterModel;
 import com.example.iwen.factory.model.api.account.LoginModel;

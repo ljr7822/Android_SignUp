@@ -218,7 +218,9 @@ public class MineFragment
 
     @Override
     public void userCardSuccess(UserRspModel userRspModel) {
-        String resultUri = (String) SPUtils.get(getContext(),"resultUri","111");
+
+        // String resultUri = (String) SPUtils.get(getContext(),"resultUri","111");
+        String resultUri = userRspModel.getIcon();
         Glide.with(this)
                 .load(resultUri)
                 .centerCrop()

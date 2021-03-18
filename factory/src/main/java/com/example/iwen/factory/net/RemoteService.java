@@ -10,6 +10,7 @@ import com.example.iwen.factory.model.api.department.DepartmentModel;
 import com.example.iwen.factory.model.api.notice.NoticeModel;
 import com.example.iwen.factory.model.api.sign.InSignUpModel;
 import com.example.iwen.factory.model.api.sign.SignModel;
+import com.example.iwen.factory.model.api.user.UserUpdateIconModel;
 import com.example.iwen.factory.model.api.user.UserUpdateModel;
 import com.example.iwen.factory.model.db.account.LoginRspModel;
 import com.example.iwen.factory.model.db.account.PersonalRecordRspModel;
@@ -122,4 +123,14 @@ public interface RemoteService {
      */
     @POST("user/update")
     Call<RspModel<UserRspModel>> userUpdate(@Body UserUpdateModel model);
+
+    // TODO 更新头像
+    /**
+     * 用户更新头像的接口
+     *
+     * @param model UserUpdateModel
+     * @return User
+     */
+    @POST("icon/update")
+    Call<RspModel<UserRspModel>> userUpdateIcon(@Body UserUpdateIconModel model);
 }

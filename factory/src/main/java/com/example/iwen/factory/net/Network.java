@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 网络请求的封装
+ *
  * @author : Iwen大大怪
  * create : 2020/11/17 19:22
  */
@@ -19,7 +20,7 @@ public class Network {
     /**
      * 构建一个Retrofit
      */
-    public static Retrofit getRetrofit(){
+    public static Retrofit getRetrofit() {
         // 得到一个OkHttpClient
         OkHttpClient client = new OkHttpClient.Builder()
                 // 跳过ssh检查

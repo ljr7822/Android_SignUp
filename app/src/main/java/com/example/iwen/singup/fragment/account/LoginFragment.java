@@ -1,19 +1,26 @@
 package com.example.iwen.singup.fragment.account;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.room.Room;
 
 import com.example.iwen.common.app.BaseFragment;
 import com.example.iwen.common.app.PresenterFragment;
 import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.common.utils.SPUtils;
+import com.example.iwen.factory.data.database.userDataBase.UserDao;
+import com.example.iwen.factory.data.database.userDataBase.UserDataBase;
+import com.example.iwen.factory.data.database.userDataBase.UserDataModel;
 import com.example.iwen.factory.model.db.account.LoginRspModel;
 import com.example.iwen.factory.presenter.account.LoginContract;
 import com.example.iwen.factory.presenter.account.LoginPresenter;
@@ -34,6 +41,10 @@ import es.dmoral.toasty.Toasty;
 public class LoginFragment
         extends PresenterFragment<LoginContract.Presenter>
         implements LoginContract.View {
+
+    // 全局数据库
+//    public UserDataBase userDataBase;
+//    public UserDao userDao;
 
     private AccountTrigger mAccountTrigger;
     // 用户信息
@@ -73,6 +84,17 @@ public class LoginFragment
         super.onAttach(context);
         // 拿到我们的Activity的引用
         mAccountTrigger = (AccountTrigger) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 初始化userDataBase
+//        userDataBase = Room.databaseBuilder(Objects.requireNonNull(getContext()), UserDataBase.class,"user_database")
+//                .allowMainThreadQueries()
+//                .build();
+//        // 初始化userDao
+//        userDao = userDataBase.getUserDao();
     }
 
     @Override
@@ -171,6 +193,18 @@ public class LoginFragment
 
     @Override
     public void loginSuccess(LoginRspModel loginRspModel) {
+//        UserDataModel userDataModel = new UserDataModel(
+//                loginRspModel.getName(),
+//                loginRspModel.getWorkId(),
+//                loginRspModel.getDepartmentName(),
+//                loginRspModel.getDepartmentId(),
+//                loginRspModel.getIcon(),
+//                loginRspModel.getPhoneNumber(),
+//                loginRspModel.getRoleName(),
+//                loginRspModel.isMessageFinish(),
+//                loginRspModel.isOldPassword());
+//        userDao.insertUser(userDataModel);
+        //new InsertAsyncTask(userDao).execute(userDataModel);
         // 注册成功，这时账户已经登录，判断是否已经完善用户信息，没有完成就跳转完成用户信息界面
         // 否则进行跳转到MainActivity界面
         //isInfo = (boolean) SPUtils.get(getContext(),"isInfo",false);
@@ -179,7 +213,9 @@ public class LoginFragment
         SPUtils.put(Objects.requireNonNull(getContext()), "workId", workId);
         SPUtils.put(Objects.requireNonNull(getContext()), "password", passwordMd5);
         SPUtils.put(Objects.requireNonNull(getContext()), "isLogin", true);
-        SPUtils.put(Objects.requireNonNull(getContext()), "name", loginRspModel.getName());
+        SPUtils.put(Objects.requireNonNull(getContext()), "messageFinish", loginRspModel.isMessageFinish());
+        SPUtils.put(Objects.requireNonNull(getContext()), "oldPassword", loginRspModel.isOldPassword());
+        //SPUtils.put(Objects.requireNonNull(getContext()), "name", loginRspModel.getName());
         //SPUtils.put(Objects.requireNonNull(getContext()), "departmentName", loginRspModel.getDepartmentName());
         //SPUtils.put(Objects.requireNonNull(getContext()), "departmentId", loginRspModel.getDepartmentId());
         //SPUtils.put(Objects.requireNonNull(getContext()), "icon", loginRspModel.getIcon());
@@ -187,4 +223,61 @@ public class LoginFragment
         // 关闭当前界面
         getActivity().finish();
     }
+
+
+//    static class InsertAsyncTask extends AsyncTask<UserDataModel,Void,Void>{
+//        private UserDao userDao;
+//
+//        public InsertAsyncTask(UserDao userDao) {
+//            this.userDao = userDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(UserDataModel userDataModels) {
+//            userDao.insertUser(userDataModels);
+//            return null;
+//        }
+//    }
+//
+//    static class UpdateAsyncTask extends AsyncTask<UserDataModel,Void,Void>{
+//        private UserDao userDao;
+//
+//        public UpdateAsyncTask(UserDao userDao) {
+//            this.userDao = userDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(UserDataModel... userDataModels) {
+//            userDao.updateUser(userDataModels);
+//            return null;
+//        }
+//    }
+//
+//    static class DeleteAsyncTask extends AsyncTask<UserDataModel,Void,Void>{
+//        private UserDao userDao;
+//
+//        public DeleteAsyncTask(UserDao userDao) {
+//            this.userDao = userDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(UserDataModel... userDataModels) {
+//            userDao.deleteUser(userDataModels);
+//            return null;
+//        }
+//    }
+//
+//    static class DeleteAllAsyncTask extends AsyncTask<Void,Void,Void> {
+//        private UserDao userDao;
+//
+//        public DeleteAllAsyncTask(UserDao userDao) {
+//            this.userDao = userDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            userDao.deleteAllUser();
+//            return null;
+//        }
+//    }
 }

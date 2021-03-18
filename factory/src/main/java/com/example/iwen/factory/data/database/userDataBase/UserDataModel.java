@@ -1,39 +1,57 @@
-package com.example.iwen.factory.model.db.account;
+package com.example.iwen.factory.data.database.userDataBase;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
- * 登录返回的数据模型
+ * 用户数据的实体
  *
- * @author : iwen大大怪
- * create : 11-26 026 9:52
+ * @author iwen大大怪
+ * Create to 2021/03/18 20:17
  */
-public class LoginRspModel {
-    /**
-     * {
-     *     "code": 0,
-     *     "msg":"登录成功",
-     *     "data": {
-     *         "name":"iwen",
-     * 		"workId ":"666666",
-     * 		"departmentName":"技术部",
-     * 		"departmentId":"0001",
-     * 		"icon":"icon",
-     * 		"phoneNumber":"18289816889",
-     * 		"roleName":"角色"
-     * 	    "messageFinish":是否完善信息,
-     * 	    "oldPassword":是否修改密码,
-     *     }
-     * }
-     */
+@Entity
+public class UserDataModel {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo
     private String name;
+    @ColumnInfo
     private String workId;
+    @ColumnInfo
     private String departmentName;
+    @ColumnInfo
     private String departmentId;
+    @ColumnInfo
     private String icon;
+    @ColumnInfo
     private String phoneNumber;
+    @ColumnInfo
     private String roleName;
+    @ColumnInfo
     private boolean messageFinish;
+    @ColumnInfo
     private boolean oldPassword;
 
+    public UserDataModel(String name, String workId, String departmentName, String departmentId, String icon, String phoneNumber, String roleName, boolean messageFinish, boolean oldPassword) {
+        this.name = name;
+        this.workId = workId;
+        this.departmentName = departmentName;
+        this.departmentId = departmentId;
+        this.icon = icon;
+        this.phoneNumber = phoneNumber;
+        this.roleName = roleName;
+        this.messageFinish = messageFinish;
+        this.oldPassword = oldPassword;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -104,8 +122,6 @@ public class LoginRspModel {
     }
 
     public void setOldPassword(boolean oldPassword) {
-        oldPassword = oldPassword;
+        this.oldPassword = oldPassword;
     }
-
-
 }

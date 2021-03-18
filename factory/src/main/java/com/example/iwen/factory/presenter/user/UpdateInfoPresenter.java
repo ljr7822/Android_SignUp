@@ -75,7 +75,7 @@ public class UpdateInfoPresenter
                     } else {
                         // 构建model
                         UserUpdateModel model =
-                                new UserUpdateModel(workId, name, password, photoFilePath, department, phone, mac, isMan);
+                                new UserUpdateModel(workId, name, password, url, department, phone, mac, isMan);
                         UserHelper.update(model, UpdateInfoPresenter.this);
                     }
                 }
@@ -84,7 +84,7 @@ public class UpdateInfoPresenter
     }
 
     @Override
-    public void onDataLoaded(UserRspModel userRspModel) {
+    public void onDataLoaded(final UserRspModel userRspModel) {
         // 告知界面更新成功
         final UpdateInfoContract.View view = getView();
         if (view == null)
@@ -93,7 +93,7 @@ public class UpdateInfoPresenter
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                view.UpdateSuccess();
+                view.UpdateSuccess(userRspModel);
             }
         });
     }

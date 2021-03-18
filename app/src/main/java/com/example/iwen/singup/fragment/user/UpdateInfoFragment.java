@@ -16,6 +16,7 @@ import com.example.iwen.common.app.PresenterFragment;
 import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.common.widget.PortraitView;
 import com.example.iwen.factory.Factory;
+import com.example.iwen.factory.model.db.account.UserRspModel;
 import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.factory.presenter.user.UpdateInfoContract;
 import com.example.iwen.factory.presenter.user.UpdateInfoPresenter;
@@ -166,11 +167,11 @@ public class UpdateInfoFragment
         return new UpdateInfoPresenter(this);
     }
 
-    @Override
-    public void UpdateSuccess() {
-        MainActivity.show(getContext());
-        getActivity().finish();
-    }
+//    @Override
+//    public void UpdateSuccess() {
+//        MainActivity.show(getContext());
+//        getActivity().finish();
+//    }
 
     /**
      * 提交按钮点击触发
@@ -215,5 +216,11 @@ public class UpdateInfoFragment
         mPortraitView.setEnabled(false);
         mSex.setEnabled(false);
         mSubmit.setEnabled(false);
+    }
+
+    @Override
+    public void UpdateSuccess(UserRspModel userRspModel) {
+        MainActivity.show(getContext());
+        getActivity().finish();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.iwen.singup.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,13 @@ import com.example.iwen.common.utils.HashUtil;
 import com.example.iwen.common.utils.SPUtils;
 import com.example.iwen.common.widget.PortraitView;
 import com.example.iwen.factory.Factory;
+import com.example.iwen.factory.data.database.userDataBase.UserDao;
+import com.example.iwen.factory.data.database.userDataBase.UserDataBase;
+import com.example.iwen.factory.data.database.userUpdateDataBase.UserUpdateDao;
+import com.example.iwen.factory.data.database.userUpdateDataBase.UserUpdateDataBase;
+import com.example.iwen.factory.data.database.userUpdateDataBase.UserUpdateDateModel;
+import com.example.iwen.factory.model.api.user.UserUpdateModel;
+import com.example.iwen.factory.model.db.account.UserRspModel;
 import com.example.iwen.factory.net.UploadHelper;
 import com.example.iwen.factory.presenter.user.UpdateInfoContract;
 import com.example.iwen.factory.presenter.user.UpdateInfoPresenter;
@@ -32,6 +41,7 @@ import com.yalantis.ucrop.UCrop;
 import net.qiujuer.genius.ui.widget.Loading;
 
 import java.io.File;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,6 +49,9 @@ import butterknife.OnClick;
 public class UpdateInfoActivity
         extends PresenterActivity<UpdateInfoContract.Presenter>
         implements UpdateInfoContract.View {
+    // 全局数据库
+    public UserUpdateDataBase userUpdateDataBase;
+    public UserUpdateDao userUpdateDao;
     // 头像
     @BindView(R.id.im_portrait)
     PortraitView mPortraitView;
@@ -85,6 +98,16 @@ public class UpdateInfoActivity
         context.startActivity(intent);
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 初始化userUpdateDataBase
+        userUpdateDataBase = Room.databaseBuilder(getApplicationContext(), UserUpdateDataBase.class, "user_update_database")
+                .build();
+        // 初始化userUpdateDao
+        userUpdateDao = userUpdateDataBase.getUserUpdateDao();
+    }
+
     /**
      * 头像点击事件:弹出选择图片列表
      */
@@ -120,7 +143,7 @@ public class UpdateInfoActivity
             if (resultUri != null) {
                 loadAvatar(resultUri);
                 // 将头像写入持久化
-                SPUtils.put(this,"resultUri",resultUri);
+                SPUtils.put(this, "resultUri", resultUri);
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             Application.showToast(R.string.data_rsp_error_unknown);
@@ -189,9 +212,14 @@ public class UpdateInfoActivity
     }
 
     @Override
-    public void UpdateSuccess() {
+    public void UpdateSuccess(UserRspModel userRspModel) {
+        // 将回调的数据写入数据库
+//        UserUpdateDateModel userUpdateDateModel = new UserUpdateDateModel(
+//                userRspModel.getName(), userRspModel.getWorkId(), userRspModel.getDepartmentName()
+//                , userRspModel.getIcon(), userRspModel.getPhoneNumber());
+//        userUpdateDao.insertUserUpdate(userUpdateDateModel);
         // 将完善信息的标志设置为false,下次进入就不要再去更新信息了
-        SPUtils.put(this, "isInfo", false);
+        //SPUtils.put(this, "isInfo", false);
         MainActivity.show(this);
         this.finish();
     }

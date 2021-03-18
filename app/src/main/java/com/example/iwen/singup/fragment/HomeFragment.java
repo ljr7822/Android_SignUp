@@ -53,6 +53,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
+
 import com.kongzue.dialog.util.DialogSettings;
 import com.youth.banner.transformer.DepthPageTransformer;
 
@@ -73,6 +74,9 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
 
     // 是否完善信息标志，true为未完善，false为完善,默认为true
     private boolean isInfo;
+    // 是否是初始密码
+    private boolean oldPassword;
+
     private BaseFragment mFragment;
 
     private RecyclerAdapter<NoticeRspModel> mAdapter;
@@ -92,7 +96,8 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     @Override
     protected void initArgs(Bundle bundle) {
         super.initArgs(bundle);
-        isInfo = (boolean) SPUtils.get(getContext(),"isInfo",true);
+        isInfo = (boolean) SPUtils.get(getContext(), "messageFinish", true);
+        oldPassword = (boolean) SPUtils.get(getContext(), "oldPassword", true);
     }
 
     /**
@@ -135,7 +140,8 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, NoticeRspModel noticeRspModel) {
                 super.onItemClick(holder, noticeRspModel);
-                Toast.makeText(getContext(),"点击了公告",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(),"点击了公告",Toast.LENGTH_SHORT).show();
+                showMessageDialogNotice(getContext(), noticeRspModel.getTitle(), noticeRspModel.getNoticeContents());
             }
         });
         mEmptyView.bind(mRecycler);
@@ -151,6 +157,8 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         mPresenter.getNotice("");
         // TODO 提示用户完善信息
         userIsInfo(isInfo);
+        // 提示修改密码
+        changePassword(oldPassword);
     }
 
     /**
@@ -250,8 +258,29 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                 })
                 .show();
     }
+
+    /**
+     * 公告弹窗
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showMessageDialogNotice(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("好，知道了", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        return false;
+                    }
+                })
+                .show();
+    }
+
     // TODO 自定义布局
-    public void showCustomDialog(Context context){
+    public void showCustomDialog(Context context) {
         //对于未实例化的布局：
         CustomDialog.show((AppCompatActivity) context, R.layout.layout_custom_dialog, new CustomDialog.OnBindView() {
             @Override
@@ -283,15 +312,31 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     }
 
     /**
-     * 是否需要完善信息
+     * 是否需要完善个人信息
+     *
      * @param isInfo true不需要
      */
     private void userIsInfo(boolean isInfo) {
-        if (isInfo) {
+        if (!isInfo) {
             // 没有完善信息，提示完善
-            showMessageDialogGotoInfo(getContext(),"提示","初次登陆，请先完善您的个人信息，否则将无法使用此软件，是否前往完善？");
+            showMessageDialogGotoInfo(getContext(), "提示", "初次登陆，系统检测您未完善个人信息，请先完善您的个人信息，否则将无法正常使用此软件，是否前往完善？");
         } else {
             // 已经完善信息，不做提示
+            return;
+        }
+    }
+
+    /**
+     * 是否需要修改密码
+     *
+     * @param oldPassword
+     */
+    private void changePassword(boolean oldPassword) {
+        if (oldPassword){
+            // 需要修改
+            showMessageDialogGotoChangePassword(getContext(),"警告","系统检测您未修改密码,为了个人信息安全，请前往修改密码。");
+        }else {
+            // 不存在修改密码
             return;
         }
     }
@@ -322,11 +367,49 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                         return false;
                     }
                 })
-                .setCancelButton("退出", new OnDialogButtonClickListener() {
+                .setCancelButton("稍后", new OnDialogButtonClickListener() {
                     @Override
                     public boolean onClick(BaseDialog baseDialog, View view) {
                         // 直接退出app
-                        System.exit(0);
+                        // System.exit(0);
+                        return false;
+                    }
+                })
+                .show();
+    }
+
+
+    /**
+     * 修改密码提示框
+     *
+     * @param context 上下文
+     * @param title   标题
+     * @param content 内容
+     */
+    public void showMessageDialogGotoChangePassword(Context context, String title, String content) {
+        MessageDialog.build((AppCompatActivity) context)
+                .setTitle(title)
+                .setMessage(content)
+                .setOkButton("修改密码", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+//                        // 立即前往完善
+//                        mFragment = new UpdateInfoFragment();
+//                        // 跳转到完善信息的fragment
+//                        getFragmentManager().beginTransaction()
+//                                .replace(R.id.lay_container,mFragment)
+//                                .commit();
+//                        SPUtils.put(getContext(),"isInfo",false);
+                        // 立即前往完善
+                        UpdateInfoActivity.show(getContext());
+                        return false;
+                    }
+                })
+                .setCancelButton("稍后", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View view) {
+                        // 直接退出app
+                        // System.exit(0);
                         return false;
                     }
                 })
