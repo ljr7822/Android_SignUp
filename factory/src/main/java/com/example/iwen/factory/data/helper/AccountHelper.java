@@ -63,15 +63,16 @@ public class AccountHelper {
             public void onResponse(Call<RspModel<LoginRspModel>> call, Response<RspModel<LoginRspModel>> response) {
                 // 先取出第一层数据
                 RspModel<LoginRspModel> rspModel = response.body();
+                LoginRspModel userRspModel;
                 if (rspModel.success()) {
                     // 判断状态码，再取出第二层数据
-                    LoginRspModel userRspModel = rspModel.getData();
+                    userRspModel = rspModel.getData();
                     Log.e("ljr", "第二层" + rspModel.getData());
                     // 回调一个用户数据
                     callback.onDataLoaded(userRspModel);
                 } else {
-                    // TODO 对返回的RspModel中的失败的code进行解析，解析到对应的String资源中
-                    // callback.onDataNotAvailable();
+                    // 解决登陆异常问题
+                    callback.onDataNotAvailable(R.string.data_login_error);
                 }
             }
 

@@ -9,6 +9,7 @@
     <string name="data_account_update_invalid_parameter">头像和描述不能为空!</string>
     <string name="data_account_update_parameter">更新未填写完整!</string>
     <string name="data_network_error">网络错误！</string>
+    <string name="data_login_error">登陆失败,请检查账号密码！</string>
     <string name="data_sign_error">不在范围内，签到失败</string>
     <string name="data_upload_error">上传失败！</string>
     <string name="bulletin_board">公告栏</string>

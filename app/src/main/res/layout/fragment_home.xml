@@ -22,7 +22,7 @@
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recycler"
@@ -31,11 +31,13 @@
             android:background="#23E2E2E2"
             tools:listitem="@layout/item_home" />
 
-        <com.example.iwen.common.widget.EmptyView
-            android:id="@+id/empty"
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <com.example.iwen.common.widget.EmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </LinearLayout>

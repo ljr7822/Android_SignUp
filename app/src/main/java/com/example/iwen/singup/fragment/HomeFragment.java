@@ -54,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.drakeet.materialdialog.MaterialDialog;
 import com.kongzue.dialog.util.DialogSettings;
+import com.youth.banner.transformer.DepthPageTransformer;
 
 import net.qiujuer.genius.res.Resource;
 
@@ -107,7 +108,7 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
         mBanner.setAdapter(mImageAdapter)
                 .addBannerLifecycleObserver(this)// 添加生命周期观察者
                 .setIndicator(new CircleIndicator(getContext()))// 设置指示器
-                .setPageTransformer(new AlphaPageTransformer()) // 切换效果
+                .setPageTransformer(new DepthPageTransformer()) // 切换效果
                 .setOnBannerListener((data, position) -> { // 点击事件
                     // 显示广告详情并且提供跳转
                     showMessageDialogAD(getContext(),
