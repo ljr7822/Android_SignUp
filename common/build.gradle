@@ -83,4 +83,9 @@ dependencies {
     //关于页面
     implementation 'me.drakeet.support:about:2.1.1'
     implementation 'me.drakeet.multitype:multitype:3.4.4'
+    // 下拉刷新
+    // 下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-11'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-11'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

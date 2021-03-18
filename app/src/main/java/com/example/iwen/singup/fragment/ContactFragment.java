@@ -143,8 +143,8 @@ public class ContactFragment
      */
     private boolean isCanSign(LocationTaskList locationTaskList) {
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
-        Long dateLongList = 0L;
-        Long dateLongNew = 0L;
+        long dateLongList = 0L;
+        long dateLongNew = 0L;
         try {
             // 任务时间
             dateLongList = dateTimeUtil.getDateLong(locationTaskList.getDate());
