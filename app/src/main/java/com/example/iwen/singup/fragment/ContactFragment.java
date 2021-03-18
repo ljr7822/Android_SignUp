@@ -34,6 +34,8 @@ import com.example.iwen.singup.activities.SignActivity;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import net.qiujuer.genius.res.Resource;
 
@@ -59,6 +61,10 @@ public class ContactFragment
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecycler;
+
+    // 刷新控件
+    @BindView(R.id.refreshLayout)
+    RefreshLayout mRefreshLayout;
 
     private RecyclerAdapter<LocationTaskList> mAdapter;
 
@@ -131,6 +137,17 @@ public class ContactFragment
                 }
             }
         });
+
+        // 下拉刷新回调
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                // 调用p层进行获取
+                mPresenter.getLocationTaskList(workId, formatTimeDay);
+                mRefreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+
         // 初始化占位布局
         mEmptyView.bind(mRecycler);
     }

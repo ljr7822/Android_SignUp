@@ -26,10 +26,11 @@ public class NoticeHelper {
 
     /**
      * 获取公告列表
-     * @param model 请求的model
+     *
+     * @param model    请求的model
      * @param callback 回调
      */
-    public static void getNoticeList(NoticeModel model,final DataSource.Callback<List<NoticeRspModel>> callback){
+    public static void getNoticeList(NoticeModel model, final DataSource.Callback<List<NoticeRspModel>> callback) {
         // 获得Retrofit
         RemoteService service = Network.getRetrofit().create(RemoteService.class);
         // 创建call

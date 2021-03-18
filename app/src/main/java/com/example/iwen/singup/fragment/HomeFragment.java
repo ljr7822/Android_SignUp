@@ -43,6 +43,8 @@ import com.kongzue.dialog.v3.Notification;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.transformer.AlphaPageTransformer;
@@ -71,6 +73,9 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
     // 轮播图
     @BindView(R.id.banner)
     Banner mBanner;
+    // 刷新控件
+    @BindView(R.id.refreshLayout)
+    RefreshLayout mRefreshLayout;
 
     // 是否完善信息标志，true为未完善，false为完善,默认为true
     private boolean isInfo;
@@ -142,6 +147,16 @@ public class HomeFragment extends PresenterFragment<NoticeContract.Presenter>
                 super.onItemClick(holder, noticeRspModel);
                 // Toast.makeText(getContext(),"点击了公告",Toast.LENGTH_SHORT).show();
                 showMessageDialogNotice(getContext(), noticeRspModel.getTitle(), noticeRspModel.getNoticeContents());
+            }
+        });
+
+        // 下拉刷新回调
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                // 获取公告
+                mPresenter.getNotice("");
+                mRefreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
         mEmptyView.bind(mRecycler);
